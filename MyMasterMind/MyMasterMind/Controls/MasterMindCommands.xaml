@@ -7,10 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" MinWidth="150">
     <Border Name="BoardBorder" BorderThickness="3,3,3,3" BorderBrush="Black">
-        <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center"  >
-            <Label >
-                MaterMindCommands
-            </Label>
+        <StackPanel  HorizontalAlignment="Stretch"  >
+            <Button Name="ButtonCommandComputer" Height="50"  
+                Margin="10,10,10,10">
+                Computer
+            </Button>
+            <Button Name="ButtonCommandUser"  Height="50" Margin="10,10,10,10">
+                User
+            </Button>
         </StackPanel>
     </Border>
 </UserControl>
