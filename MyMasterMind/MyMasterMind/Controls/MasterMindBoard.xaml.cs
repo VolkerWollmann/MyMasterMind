@@ -20,9 +20,27 @@ namespace MyMasterMind.Controls
 	/// </summary>
 	public partial class MasterMindBoard : UserControl
 	{
+		private GuessCell code;
+		private GuessCell[] guessCells = new GuessCell[10];
 		public MasterMindBoard()
 		{
 			InitializeComponent();
+
+			code = new GuessCell();
+			BoardGrid.Children.Add(code);
+			Grid.SetColumn(code, 0);
+			Grid.SetRow(code, 0);
+
+			for(int i =0; i< 10; i++)
+			{
+				guessCells[i] = new GuessCell();
+				BoardGrid.Children.Add(guessCells[i]);
+				Grid.SetColumn(guessCells[i], 0);
+				Grid.SetRow(guessCells[i], i+2);
+
+			}
+
+
 		}
 	}
 }

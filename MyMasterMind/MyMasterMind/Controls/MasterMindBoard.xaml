@@ -26,18 +26,8 @@
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" >
-                Code
-            </Label>
             <Line Grid.Row="1" Grid.Column="0" Stroke="Black" StrokeThickness="3" 
                   X1 ="0" Y1="0" X2="{Binding ElementName=BoardGrid, Path=ActualWidth}" Y2="0"/>
-
-            <mmc:GuessCell VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="2">
-            </mmc:GuessCell>
-            <mmc:GuessCell  HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3">
-            </mmc:GuessCell>
-            <mmc:GuessCell  HorizontalAlignment="Center" Grid.Column="0" Grid.Row="12">
-            </mmc:GuessCell>
 
         </Grid>
     </Border>
