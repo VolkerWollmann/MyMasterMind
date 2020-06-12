@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyMasterMind.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="50">
+             d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -15,15 +15,49 @@
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Name="EvaluationBorder" BorderThickness="1,1,1,1" Grid.Column="0" BorderBrush="Black">
-            <Label HorizontalAlignment="Stretch" Background="AntiqueWhite">
-                Evaluation
-            </Label>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="15" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="15" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                </StackPanel>
+                <StackPanel>
+                    <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="15" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                    <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="15" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                </StackPanel>
+            </StackPanel>
         </Border>
         <Border Name="GuessBorder" BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="Black">
-            <Label HorizontalAlignment="Stretch" Background="AntiqueWhite">
-                Guess
-            </Label>
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Fill="Beige" HorizontalAlignment="Left" 
+                   Height="30" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Center" Width="30" ></Rectangle>
+                <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="30" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Center" Width="30" ></Rectangle>
+                <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="30" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Center" Width="30" ></Rectangle>
+                <Rectangle Fill="Beige" HorizontalAlignment="Left"
+                   Height="30" Margin="1,1,0,0"
+                   Stroke="DarkMagenta" StrokeThickness="2"
+                   VerticalAlignment="Center" Width="30" ></Rectangle>
+            </StackPanel>
+
         </Border>
- 
     </Grid>
 </UserControl>
