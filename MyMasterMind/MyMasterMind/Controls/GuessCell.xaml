@@ -6,9 +6,24 @@
              xmlns:local="clr-namespace:MyMasterMind.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="50">
-    <StackPanel>
-        <Label  HorizontalAlignment="Center">
-            Guess
-        </Label>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Name="EvaluationBorder" BorderThickness="1,1,1,1" Grid.Column="0" BorderBrush="Black">
+            <Label HorizontalAlignment="Stretch" Background="AntiqueWhite">
+                Evaluation
+            </Label>
+        </Border>
+        <Border Name="GuessBorder" BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="Black">
+            <Label HorizontalAlignment="Stretch" Background="AntiqueWhite">
+                Guess
+            </Label>
+        </Border>
+ 
+    </Grid>
 </UserControl>
