@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Controls
 {
@@ -20,9 +21,29 @@ namespace MyMasterMind.Controls
 	/// </summary>
 	public partial class GuessCell : UserControl
 	{
+		private Rectangle[] Evaluation;
+		private Rectangle[] Field;
 		public GuessCell()
 		{
 			InitializeComponent();
+			Evaluation = new Rectangle[4];
+			Field = new Rectangle[4];
+
+			Evaluation[0] = Evaluation0;
+			Evaluation[1] = Evaluation1;
+			Evaluation[2] = Evaluation2;
+			Evaluation[3] = Evaluation3;
+
+			Field[0] = Field0;
+			Field[1] = Field1;
+			Field[2] = Field2;
+			Field[3] = Field3;
+
+			for(int i=0; i<4; i++)
+			{
+				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
+				Field[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
+			}
 		}
 	}
 }

@@ -84,6 +84,7 @@
     <Compile Include="Controls\MasterMindCommands.xaml.cs">
       <DependentUpon>MasterMindCommands.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\MasterMindColors.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -116,7 +117,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
