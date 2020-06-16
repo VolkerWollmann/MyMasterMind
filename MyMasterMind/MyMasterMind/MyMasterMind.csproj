@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\MysterMindViewModel.cs" />
+    <Compile Include="ViewModel\MyMasterMindViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInitialize.cs" />
     <Page Include="Controls\GuessCell.xaml">
       <SubType>Designer</SubType>
