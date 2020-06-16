@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\MysterMindViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelInitialize.cs" />
     <Page Include="Controls\GuessCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +86,8 @@
     <Compile Include="Controls\MasterMindCommands.xaml.cs">
       <DependentUpon>MasterMindCommands.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IMasterMindBoardView.cs" />
+    <Compile Include="Interfaces\IMasterMindCommandView.cs" />
     <Compile Include="Interfaces\MasterMindColors.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -118,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
