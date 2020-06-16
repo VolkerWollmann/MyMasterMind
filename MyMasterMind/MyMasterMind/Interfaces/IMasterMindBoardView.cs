@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyMasterMind.Interfaces
 {
-	class IMasterMindBoardView
+	interface IMasterMindBoardView
 	{
 	}
 }
