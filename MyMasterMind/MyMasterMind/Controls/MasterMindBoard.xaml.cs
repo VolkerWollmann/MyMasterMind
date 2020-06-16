@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyMasterMind.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for MasterMindBoard.xaml
 	/// </summary>
-	public partial class MasterMindBoard : UserControl
+	public partial class MasterMindBoard : UserControl, IMasterMindBoardView
 	{
 		private GuessCell code;
 		private GuessCell[] guessCells = new GuessCell[10];
@@ -31,16 +32,25 @@ namespace MyMasterMind.Controls
 			Grid.SetColumn(code, 0);
 			Grid.SetRow(code, 0);
 
-			for(int i =0; i< 10; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				guessCells[i] = new GuessCell();
 				BoardGrid.Children.Add(guessCells[i]);
 				Grid.SetColumn(guessCells[i], 0);
-				Grid.SetRow(guessCells[i], i+2);
-
+				Grid.SetRow(guessCells[i], 2 + (9-i ));
 			}
 
 
+		}
+
+		public void SetColor(int row, int column, MyMasterMindColors color)
+		{
+			guessCells[row].SetColor(column, color);
+		}
+
+		public void SetEvaluation(int row, int black, int white)
+		{
+			guessCells[row].SetEvaluation(black, white);
 		}
 	}
 }

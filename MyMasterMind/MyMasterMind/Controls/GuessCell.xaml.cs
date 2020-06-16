@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Controls
@@ -44,6 +45,24 @@ namespace MyMasterMind.Controls
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
 				Field[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
 			}
+		}
+
+		internal void SetColor( int column, MyMasterMindColors color )
+		{
+			Field[column].Fill = DisplayColors.GetBrush(color);
+		}
+
+		internal void SetEvaluation( int black, int white)
+		{
+			for (int i = 0; i < black; i++)
+			{
+				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Black);
+			}
+			for(int i= black; i<black+white; i++)
+			{
+				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.White);
+			}
+
 		}
 	}
 }
