@@ -64,5 +64,11 @@ namespace MyMasterMind.Controls
 			}
 
 		}
+
+		internal void HideEvaluation()
+		{
+			for (int i = 0; i < 4; i++)
+				Evaluation[i].Visibility = Visibility.Hidden;
+		}
 	}
 }

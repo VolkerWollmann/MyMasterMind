@@ -40,7 +40,7 @@ namespace MyMasterMind.Controls
 				Grid.SetRow(guessCells[i], 2 + (9-i ));
 			}
 
-
+			code.HideEvaluation();
 		}
 
 		public void SetColor(int row, int column, MyMasterMindColors color)

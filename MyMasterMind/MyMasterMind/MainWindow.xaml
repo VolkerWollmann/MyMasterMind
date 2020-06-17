@@ -6,7 +6,7 @@
         xmlns:mmc="clr-namespace:MyMasterMind.Controls"
         xmlns:local="clr-namespace:MyMasterMind"
         mc:Ignorable="d"
-        Title="WoMasterMind" Height="450" Width="400" MinHeight="500" MinWidth="350">
+        Title="MyMasterMind" Height="450" Width="400" MinHeight="500" MinWidth="350">
     <Grid Name="MyMasterMindGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"   />
