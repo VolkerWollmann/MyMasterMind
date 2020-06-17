@@ -12,10 +12,14 @@
                 Margin="10,10,10,10">
                 Computer
             </Button>
-            <Button Name="ButtonCommandUser"  Height="50" Margin="10,10,10,10">
+            <Button Name="ButtonCommandCancel" Height="50"  
+                Margin="10,10,10,10">
+                Cancel
+            </Button>
+            <Button Name="ButtonCommandUser" IsEnabled="False" Height="50" Margin="10,10,10,10">
                 User
             </Button>
-            <Button Name="ButtonCommandCheck"  Height="50" Margin="10,10,10,10">
+            <Button Name="ButtonCommandCheck"  IsEnabled="False" Height="50" Margin="10,10,10,10">
                 Check
             </Button>
         </StackPanel>
