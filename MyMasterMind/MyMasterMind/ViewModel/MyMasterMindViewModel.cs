@@ -38,6 +38,19 @@ namespace MyMasterMind.ViewModel
 			MasterMindBoard.SetEvaluation(9, 3, 1);
 		}
 
+		private void ClearBoard()
+		{
+			for(int i=0; i< 10; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					MasterMindBoard.SetColor(i, j, MyMasterMindColors.Gray);
+				}
+
+				MasterMindBoard.SetEvaluation(i, 0, 0);
+			}
+		}
+
 		#region Construcotr
 		public MyMasterMindViewModel(MasterMindBoard masterMindBoard, MasterMindCommands masterMindCommands)
 		{
@@ -54,7 +67,7 @@ namespace MyMasterMind.ViewModel
 		#region Commands
 		private void ClearCommand(object sender, EventArgs e)
 		{
-
+			ClearBoard();
 		}
 
 		private void ComputerCommand(object sender, EventArgs e)

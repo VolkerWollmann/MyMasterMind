@@ -62,7 +62,10 @@ namespace MyMasterMind.Controls
 			{
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.White);
 			}
-
+			for (int i = black+white ; i < 4; i++)
+			{
+				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
+			}
 		}
 
 		internal void HideEvaluation()
