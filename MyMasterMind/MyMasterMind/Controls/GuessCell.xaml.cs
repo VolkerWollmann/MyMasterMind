@@ -40,11 +40,8 @@ namespace MyMasterMind.Controls
 			Field[2] = Field2;
 			Field[3] = Field3;
 
-			for(int i=0; i<4; i++)
-			{
-				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
-				Field[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
-			}
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
+			Field.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
 		}
 
 		internal void SetColor( int column, MyMasterMindColors color )
@@ -54,6 +51,7 @@ namespace MyMasterMind.Controls
 
 		internal void SetEvaluation( int black, int white)
 		{
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
 			for (int i = 0; i < black; i++)
 			{
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Black);
@@ -62,16 +60,11 @@ namespace MyMasterMind.Controls
 			{
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.White);
 			}
-			for (int i = black+white ; i < 4; i++)
-			{
-				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray);
-			}
 		}
 
 		internal void HideEvaluation()
 		{
-			for (int i = 0; i < 4; i++)
-				Evaluation[i].Visibility = Visibility.Hidden;
+			Evaluation.Cast<Rectangle>().ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
 		}
 	}
 }
