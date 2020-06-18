@@ -51,12 +51,13 @@ namespace MyMasterMind.Controls
 
 		internal void SetEvaluation( int black, int white)
 		{
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
-			for (int i = 0; i < black; i++)
+			int i;
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); }); 
+			for (i = 0; i < black; i++)
 			{
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Black);
 			}
-			for(int i= black; i<black+white; i++)
+			for(i= black; i<black+white; i++)
 			{
 				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.White);
 			}
