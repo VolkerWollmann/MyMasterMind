@@ -8,6 +8,7 @@ namespace MyMasterMind.Interfaces
 {
 	interface IMasterMindCommandView
 	{
-
+		void SetClearCommandEventHandler(EventHandler eventHandler);
+		void SetComputerCommandEventHandler(EventHandler eventHandler);
 	}
 }
