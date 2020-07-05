@@ -1,11 +1,14 @@
 ﻿using MyMasterMind.Controls;
 using MyMasterMind.Interfaces;
+using MyMasterMind.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace MyMasterMind.ViewModel
 {
@@ -14,33 +17,7 @@ namespace MyMasterMind.ViewModel
 	{
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
-
-		private void TestBoard()
-		{
-			Random random = new Random();
-
-			for (int i = 0; i < 10; i++)
-			{
-				for (int j = 0; j < 4; j++)
-					MasterMindBoard.SetColor(i, j, (MyMasterMindColors)random.Next(3, 9));
-			}
-
-			List<DataTriple> testEvaluations = new List<DataTriple>() {
-				new DataTriple(0,0,0),
-				new DataTriple(1,0,1),
-				new DataTriple(2,0,2),
-				new DataTriple(3,0,3),
-				new DataTriple(4,0,4),
-				new DataTriple(5,1,0),
-				new DataTriple(6,2,0),
-				new DataTriple(7,3,0),
-				new DataTriple(8,4,0),
-				new DataTriple(9,3,1),
-			};
-
-			testEvaluations.ForEach(e => { MasterMindBoard.SetEvaluation(e.Item1, e.Item2, e.Item3); });
-
-		}
+		MyMasterMindGame Game = new MyMasterMindGame();
 
 		private void ClearBoard()
 		{
@@ -72,9 +49,49 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 		}
 
+		BackgroundWorker backgroundWorker;
+		Guess guess;
+		int c;
+
+		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (guess != null)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					MasterMindBoard.SetColor(c, j, guess.Colors[j]);
+				}
+				MasterMindBoard.SetEvaluation(c, guess.Black, guess.White);
+			}
+		}
+
+		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
+		{
+			guess = null;
+			c = 0;
+			for (int i = 0; i < 10; i++)
+			{
+				guess = Game.GetGuess();
+				c = i;
+				backgroundWorker.ReportProgress((c + 1) * 10);
+				System.Threading.Thread.Sleep(100);
+			}
+		}
+
+		void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			//
+		}
+
+
 		private void ComputerCommand(object sender, EventArgs e)
 		{
-			TestBoard();
+			backgroundWorker = new BackgroundWorker();
+			backgroundWorker.WorkerReportsProgress = true;
+			backgroundWorker.DoWork += BackGroundComputerDoWork;
+			backgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
+			backgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
+			backgroundWorker.RunWorkerAsync(this);
 		}
 
 		#endregion

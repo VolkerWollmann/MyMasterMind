@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\MyMasterMind.cs" />
     <Compile Include="ViewModel\MyMasterMindViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInitialize.cs" />
     <Page Include="Controls\GuessCell.xaml">
@@ -120,8 +121,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
