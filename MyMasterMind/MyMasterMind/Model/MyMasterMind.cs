@@ -13,6 +13,18 @@ namespace MyMasterMind.Model
 	{
 		public MyMasterMindCodeColors[] Colors { get; private set; }
 
+		public static Code GetRandomCode()
+		{
+			Code code = new Code();
+
+			Random random = new Random();
+			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+			{
+				code.Colors[j] = (MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length);
+			}
+
+			return code;
+		}
 		public Code()
 		{
 			Colors = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
@@ -28,11 +40,9 @@ namespace MyMasterMind.Model
 		public static Guess GetRandomGuess()
 		{
 			Guess guess = new Guess();
+			guess.Code = Code.GetRandomCode();
+
 			Random random = new Random();
-			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
-			{
-				guess.Code.Colors[j] = (MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length);
-			}
 			guess.Black = random.Next(0, MyMasterMindConstants.CLOUMNS+1);
 			guess.White = random.Next(0, 5 - guess.Black);
 
@@ -46,12 +56,22 @@ namespace MyMasterMind.Model
 	}
 	public class MyMasterMindGame
 	{
+		public Code Code { get; private set; }
+		private Guess[] Guesses;
+		int currentGuess;
+
 		public MyMasterMindGame()
 		{
+			Code = Code.GetRandomCode();
+			Guesses = new Guess[MyMasterMindConstants.ROWS];
+			currentGuess = -1;
+
 		}
 		public Guess GetGuess()
 		{
-			return Guess.GetRandomGuess();
+			currentGuess++;
+			Guesses[currentGuess] = Guess.GetRandomGuess();
+			return Guesses[currentGuess];
 		}
 	}
 }

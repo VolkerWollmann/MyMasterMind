@@ -8,8 +8,10 @@ namespace MyMasterMind.Interfaces
 {
 	interface IMasterMindBoardView
 	{
-		void SetColor(int row, int column, MyMasterMindCodeColors color);
+		void SetCodeColor(int column, MyMasterMindCodeColors color);
 
-		void SetEvaluation(int row, int black, int white);
+		void SetGuessColor(int row, int column, MyMasterMindCodeColors color);
+
+		void SetGuessEvaluation(int row, int black, int white);
 	}
 }

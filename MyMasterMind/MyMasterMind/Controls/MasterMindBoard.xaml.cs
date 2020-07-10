@@ -21,36 +21,40 @@ namespace MyMasterMind.Controls
 	/// </summary>
 	public partial class MasterMindBoard : UserControl, IMasterMindBoardView
 	{
-		private GuessCell code;
-		private GuessCell[] guessCells = new GuessCell[MyMasterMindConstants.ROWS];
+		private GuessCell Code;
+		private GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.ROWS];
 		public MasterMindBoard()
 		{
 			InitializeComponent();
 
-			code = new GuessCell();
-			BoardGrid.Children.Add(code);
-			Grid.SetColumn(code, 0);
-			Grid.SetRow(code, 0);
+			Code = new GuessCell();
+			BoardGrid.Children.Add(Code);
+			Grid.SetColumn(Code, 0);
+			Grid.SetRow(Code, 0);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
-				guessCells[i] = new GuessCell();
-				BoardGrid.Children.Add(guessCells[i]);
-				Grid.SetColumn(guessCells[i], 0);
-				Grid.SetRow(guessCells[i], 2 + (9-i));
+				GuessCells[i] = new GuessCell();
+				BoardGrid.Children.Add(GuessCells[i]);
+				Grid.SetColumn(GuessCells[i], 0);
+				Grid.SetRow(GuessCells[i], 2 + (9-i));
 			}
 
-			code.HideEvaluation();
+			Code.HideEvaluation();
 		}
 
-		public void SetColor(int row, int column, MyMasterMindCodeColors color)
+		public void SetCodeColor(int column, MyMasterMindCodeColors color)
 		{
-			guessCells[row].SetColor(column, color);
+			Code.SetColor(column, color);
+		}
+		public void SetGuessColor(int row, int column, MyMasterMindCodeColors color)
+		{
+			GuessCells[row].SetColor(column, color);
 		}
 
-		public void SetEvaluation(int row, int black, int white)
+		public void SetGuessEvaluation(int row, int black, int white)
 		{
-			guessCells[row].SetEvaluation(black, white);
+			GuessCells[row].SetEvaluation(black, white);
 		}
 	}
 }

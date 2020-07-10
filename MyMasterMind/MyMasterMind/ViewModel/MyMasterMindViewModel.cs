@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
@@ -17,16 +18,21 @@ namespace MyMasterMind.ViewModel
 	{
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
-		MyMasterMindGame Game = new MyMasterMindGame();
+		MyMasterMindGame Game;
 
 		private void ClearBoard()
 		{
+			for(int j=0; j<MyMasterMindConstants.CLOUMNS; j++)
+			{
+				MasterMindBoard.SetCodeColor(j, MyMasterMindCodeColors.None);
+			}
+
 			for(int i=0; i< MyMasterMindConstants.ROWS; i++)
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
-					MasterMindBoard.SetColor(i, j, MyMasterMindCodeColors.None);
+					MasterMindBoard.SetGuessColor(i, j, MyMasterMindCodeColors.None);
 
-				MasterMindBoard.SetEvaluation(i, 0, 0);
+				MasterMindBoard.SetGuessEvaluation(i, 0, 0);
 			}
 		}
 
@@ -49,31 +55,46 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 		}
 
-		BackgroundWorker backgroundWorker;
-		Guess guess;
-		int currentGuess;
+		BackgroundWorker BackgroundWorker;
+		Guess Guess;
+		int CurrentGuess;
+		bool ShowCode;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (guess != null)
+			if (ShowCode)
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					MasterMindBoard.SetColor(currentGuess, j, guess.Code.Colors[j]);
+					MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
 				}
-				MasterMindBoard.SetEvaluation(currentGuess, guess.Black, guess.White);
+
+				ShowCode = false;
+			}
+
+			if (Guess != null)
+			{
+				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+				{
+					MasterMindBoard.SetGuessColor(CurrentGuess, j, Guess.Code.Colors[j]);
+				}
+				MasterMindBoard.SetGuessEvaluation(CurrentGuess, Guess.Black, Guess.White);
 			}
 		}
 
 		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
-			guess = null;
-			currentGuess = 0;
+			Guess = null;
+			CurrentGuess = 0;
+			
+			ShowCode = true;
+			BackgroundWorker.ReportProgress((CurrentGuess + 1) * 10);
+
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
-				guess = Game.GetGuess();
-				currentGuess = i;
-				backgroundWorker.ReportProgress((currentGuess + 1) * 10);
+				Guess = Game.GetGuess();
+				CurrentGuess = i;
+				BackgroundWorker.ReportProgress((CurrentGuess + 1) * 10);
 				System.Threading.Thread.Sleep(100);
 			}
 		}
@@ -86,12 +107,13 @@ namespace MyMasterMind.ViewModel
 
 		private void ComputerCommand(object sender, EventArgs e)
 		{
-			backgroundWorker = new BackgroundWorker();
-			backgroundWorker.WorkerReportsProgress = true;
-			backgroundWorker.DoWork += BackGroundComputerDoWork;
-			backgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
-			backgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
-			backgroundWorker.RunWorkerAsync(this);
+			Game = new MyMasterMindGame();
+			BackgroundWorker = new BackgroundWorker();
+			BackgroundWorker.WorkerReportsProgress = true;
+			BackgroundWorker.DoWork += BackGroundComputerDoWork;
+			BackgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
+			BackgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
+			BackgroundWorker.RunWorkerAsync(this);
 		}
 
 		#endregion
