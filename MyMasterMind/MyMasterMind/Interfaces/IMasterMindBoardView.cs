@@ -8,7 +8,7 @@ namespace MyMasterMind.Interfaces
 {
 	interface IMasterMindBoardView
 	{
-		void SetColor(int row, int column, MyMasterMindColors color);
+		void SetColor(int row, int column, MyMasterMindCodeColors color);
 
 		void SetEvaluation(int row, int black, int white);
 	}

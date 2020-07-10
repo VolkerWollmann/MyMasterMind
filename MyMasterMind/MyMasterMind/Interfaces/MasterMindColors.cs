@@ -7,11 +7,9 @@ using System.Windows.Media;
 
 namespace MyMasterMind.Interfaces
 {
-	public enum MyMasterMindColors
+	public enum MyMasterMindCodeColors
 	{
-		Gray=0,
-		White,
-		Black,
+		None=0,
 		Red,
 		Green,
 		Blue,
@@ -20,31 +18,50 @@ namespace MyMasterMind.Interfaces
 		Cyan
 	}
 
+	public enum MyMasterMindEvaluationColors
+	{
+		None=0,
+		White,
+		Black
+	}
+
 	public class DisplayColors
 	{
 		private static DisplayColors singleton = null;
-		private Brush[] Brushes;
+		private Brush[] CodeBrushes;
+		private Brush[] EvaluationBrushes;
 
-		public static Brush GetBrush(MyMasterMindColors color)
+		public static Brush GetCodeBrush(MyMasterMindCodeColors color)
 		{
 			if (singleton == null)
 				singleton = new DisplayColors();
 
-			return singleton.Brushes[(int)color];
+			return singleton.CodeBrushes[(int)color];
 	    }
+
+		public static Brush GetEvaluationBrush(MyMasterMindEvaluationColors color)
+		{
+			if (singleton == null)
+				singleton = new DisplayColors();
+
+			return singleton.EvaluationBrushes[(int)color];
+		}
 
 		private DisplayColors()
 		{
-			Brushes = new Brush[9];
-			Brushes[(int)MyMasterMindColors.Gray]		= new SolidColorBrush(Colors.Gray);
-			Brushes[(int)MyMasterMindColors.White]		= new SolidColorBrush(Colors.White);
-			Brushes[(int)MyMasterMindColors.Black]		= new SolidColorBrush(Colors.Black);
-			Brushes[(int)MyMasterMindColors.Red]		= new SolidColorBrush(Colors.Red);
-			Brushes[(int)MyMasterMindColors.Green]		= new SolidColorBrush(Colors.Green);
-			Brushes[(int)MyMasterMindColors.Blue]		= new SolidColorBrush(Colors.Blue);
-			Brushes[(int)MyMasterMindColors.Yellow]		= new SolidColorBrush(Colors.Yellow);
-			Brushes[(int)MyMasterMindColors.Magenta]	= new SolidColorBrush(Colors.Magenta);
-			Brushes[(int)MyMasterMindColors.Cyan]		= new SolidColorBrush(Colors.Cyan);
+			CodeBrushes = new Brush[7];
+			CodeBrushes[(int)MyMasterMindCodeColors.None]       = new SolidColorBrush(Colors.Gray);
+			CodeBrushes[(int)MyMasterMindCodeColors.Red]		= new SolidColorBrush(Colors.Red);
+			CodeBrushes[(int)MyMasterMindCodeColors.Green]		= new SolidColorBrush(Colors.Green);
+			CodeBrushes[(int)MyMasterMindCodeColors.Blue]		= new SolidColorBrush(Colors.Blue);
+			CodeBrushes[(int)MyMasterMindCodeColors.Yellow]		= new SolidColorBrush(Colors.Yellow);
+			CodeBrushes[(int)MyMasterMindCodeColors.Magenta]	= new SolidColorBrush(Colors.Magenta);
+			CodeBrushes[(int)MyMasterMindCodeColors.Cyan]		= new SolidColorBrush(Colors.Cyan);
+
+			EvaluationBrushes = new Brush[3];
+			EvaluationBrushes[(int)MyMasterMindEvaluationColors.None] = new SolidColorBrush(Colors.Gray);
+			EvaluationBrushes[(int)MyMasterMindEvaluationColors.White] = new SolidColorBrush(Colors.White);
+			EvaluationBrushes[(int)MyMasterMindEvaluationColors.Black] = new SolidColorBrush(Colors.Black);
 		}
 	}
 

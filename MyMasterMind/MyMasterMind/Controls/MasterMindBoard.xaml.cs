@@ -43,7 +43,7 @@ namespace MyMasterMind.Controls
 			code.HideEvaluation();
 		}
 
-		public void SetColor(int row, int column, MyMasterMindColors color)
+		public void SetColor(int row, int column, MyMasterMindCodeColors color)
 		{
 			guessCells[row].SetColor(column, color);
 		}

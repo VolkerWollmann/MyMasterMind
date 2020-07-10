@@ -40,26 +40,26 @@ namespace MyMasterMind.Controls
 			Field[2] = Field2;
 			Field[3] = Field3;
 
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
-			Field.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); });
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None); });
+			Field.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
 		}
 
-		internal void SetColor( int column, MyMasterMindColors color )
+		internal void SetColor( int column, MyMasterMindCodeColors color )
 		{
-			Field[column].Fill = DisplayColors.GetBrush(color);
+			Field[column].Fill = DisplayColors.GetCodeBrush(color);
 		}
 
 		internal void SetEvaluation( int black, int white)
 		{
 			int i;
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetBrush(MyMasterMindColors.Gray); }); 
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); }); 
 			for (i = 0; i < black; i++)
 			{
-				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.Black);
+				Evaluation[i].Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.Black);
 			}
 			for(i= black; i<black+white; i++)
 			{
-				Evaluation[i].Fill = DisplayColors.GetBrush(MyMasterMindColors.White);
+				Evaluation[i].Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.White);
 			}
 		}
 

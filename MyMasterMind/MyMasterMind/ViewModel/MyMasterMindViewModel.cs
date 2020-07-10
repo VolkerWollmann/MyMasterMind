@@ -24,7 +24,7 @@ namespace MyMasterMind.ViewModel
 			for(int i=0; i< 10; i++)
 			{
 				for (int j = 0; j < 4; j++)
-					MasterMindBoard.SetColor(i, j, MyMasterMindColors.Gray);
+					MasterMindBoard.SetColor(i, j, MyMasterMindCodeColors.None);
 
 				MasterMindBoard.SetEvaluation(i, 0, 0);
 			}

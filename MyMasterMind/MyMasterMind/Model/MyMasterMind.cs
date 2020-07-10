@@ -11,20 +11,27 @@ namespace MyMasterMind.Model
 
 	public class Guess
 	{
-		public MyMasterMindColors[] Colors { get; private set; }
+		public MyMasterMindCodeColors[] Colors { get; private set; }
 		public int Black { get; private set; }
 		public int White { get; private set; }
 
-		public Guess()
+		public static Guess GetRandomGuess()
 		{
+			Guess guess = new Guess();
 			Random random = new Random();
-			Colors = new MyMasterMindColors[4];
+			guess.Colors = new MyMasterMindCodeColors[4];
 			for (int j = 0; j < 4; j++)
 			{
-				Colors[j] = (MyMasterMindColors)random.Next(3, 9);
+				guess.Colors[j] = (MyMasterMindCodeColors)random.Next(1, 7);
 			}
-			Black = random.Next(0, 5);
-			White = random.Next(0, 5 - Black);
+			guess.Black = random.Next(0, 5);
+			guess.White = random.Next(0, 5 - guess.Black);
+
+			return guess;
+		}
+
+		public Guess()
+		{
 
 		}
 	}
@@ -35,7 +42,7 @@ namespace MyMasterMind.Model
 		}
 		public Guess GetGuess()
 		{
-			return new Guess();
+			return Guess.GetRandomGuess();
 		}
 	}
 }
