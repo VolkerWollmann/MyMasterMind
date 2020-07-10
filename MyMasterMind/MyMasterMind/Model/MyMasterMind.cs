@@ -9,9 +9,19 @@ namespace MyMasterMind.Model
 {
 	using DataTriple = Tuple<int, int, int>;
 
-	public class Guess
+	public class Code
 	{
 		public MyMasterMindCodeColors[] Colors { get; private set; }
+
+		public Code()
+		{
+			Colors = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+		}
+	}
+
+	public class Guess
+	{
+		public Code Code { get; private set; }
 		public int Black { get; private set; }
 		public int White { get; private set; }
 
@@ -19,12 +29,11 @@ namespace MyMasterMind.Model
 		{
 			Guess guess = new Guess();
 			Random random = new Random();
-			guess.Colors = new MyMasterMindCodeColors[4];
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 			{
-				guess.Colors[j] = (MyMasterMindCodeColors)random.Next(1, 7);
+				guess.Code.Colors[j] = (MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length);
 			}
-			guess.Black = random.Next(0, 5);
+			guess.Black = random.Next(0, MyMasterMindConstants.CLOUMNS+1);
 			guess.White = random.Next(0, 5 - guess.Black);
 
 			return guess;
@@ -32,7 +41,7 @@ namespace MyMasterMind.Model
 
 		public Guess()
 		{
-
+			Code = new Code();
 		}
 	}
 	public class MyMasterMindGame

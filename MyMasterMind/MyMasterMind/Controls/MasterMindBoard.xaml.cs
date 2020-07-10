@@ -22,7 +22,7 @@ namespace MyMasterMind.Controls
 	public partial class MasterMindBoard : UserControl, IMasterMindBoardView
 	{
 		private GuessCell code;
-		private GuessCell[] guessCells = new GuessCell[10];
+		private GuessCell[] guessCells = new GuessCell[MyMasterMindConstants.ROWS];
 		public MasterMindBoard()
 		{
 			InitializeComponent();
@@ -32,12 +32,12 @@ namespace MyMasterMind.Controls
 			Grid.SetColumn(code, 0);
 			Grid.SetRow(code, 0);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
 				guessCells[i] = new GuessCell();
 				BoardGrid.Children.Add(guessCells[i]);
 				Grid.SetColumn(guessCells[i], 0);
-				Grid.SetRow(guessCells[i], 2 + (9-i ));
+				Grid.SetRow(guessCells[i], 2 + (9-i));
 			}
 
 			code.HideEvaluation();

@@ -7,6 +7,7 @@ using System.Windows.Media;
 
 namespace MyMasterMind.Interfaces
 {
+	
 	public enum MyMasterMindCodeColors
 	{
 		None=0,
@@ -23,6 +24,12 @@ namespace MyMasterMind.Interfaces
 		None=0,
 		White,
 		Black
+	}
+
+	public class MyMasterMindConstants
+	{
+		public static int CLOUMNS = 4;
+		public static int ROWS = 10;
 	}
 
 	public class DisplayColors
@@ -49,7 +56,7 @@ namespace MyMasterMind.Interfaces
 
 		private DisplayColors()
 		{
-			CodeBrushes = new Brush[7];
+			CodeBrushes = new Brush[Enum.GetNames(typeof(MyMasterMindCodeColors)).Length];
 			CodeBrushes[(int)MyMasterMindCodeColors.None]       = new SolidColorBrush(Colors.Gray);
 			CodeBrushes[(int)MyMasterMindCodeColors.Red]		= new SolidColorBrush(Colors.Red);
 			CodeBrushes[(int)MyMasterMindCodeColors.Green]		= new SolidColorBrush(Colors.Green);
@@ -58,7 +65,7 @@ namespace MyMasterMind.Interfaces
 			CodeBrushes[(int)MyMasterMindCodeColors.Magenta]	= new SolidColorBrush(Colors.Magenta);
 			CodeBrushes[(int)MyMasterMindCodeColors.Cyan]		= new SolidColorBrush(Colors.Cyan);
 
-			EvaluationBrushes = new Brush[3];
+			EvaluationBrushes = new Brush[Enum.GetNames(typeof(MyMasterMindEvaluationColors)).Length];
 			EvaluationBrushes[(int)MyMasterMindEvaluationColors.None] = new SolidColorBrush(Colors.Gray);
 			EvaluationBrushes[(int)MyMasterMindEvaluationColors.White] = new SolidColorBrush(Colors.White);
 			EvaluationBrushes[(int)MyMasterMindEvaluationColors.Black] = new SolidColorBrush(Colors.Black);

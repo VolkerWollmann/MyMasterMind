@@ -21,9 +21,9 @@ namespace MyMasterMind.ViewModel
 
 		private void ClearBoard()
 		{
-			for(int i=0; i< 10; i++)
+			for(int i=0; i< MyMasterMindConstants.ROWS; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 					MasterMindBoard.SetColor(i, j, MyMasterMindCodeColors.None);
 
 				MasterMindBoard.SetEvaluation(i, 0, 0);
@@ -51,29 +51,29 @@ namespace MyMasterMind.ViewModel
 
 		BackgroundWorker backgroundWorker;
 		Guess guess;
-		int c;
+		int currentGuess;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			if (guess != null)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					MasterMindBoard.SetColor(c, j, guess.Colors[j]);
+					MasterMindBoard.SetColor(currentGuess, j, guess.Code.Colors[j]);
 				}
-				MasterMindBoard.SetEvaluation(c, guess.Black, guess.White);
+				MasterMindBoard.SetEvaluation(currentGuess, guess.Black, guess.White);
 			}
 		}
 
 		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
 			guess = null;
-			c = 0;
-			for (int i = 0; i < 10; i++)
+			currentGuess = 0;
+			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
 				guess = Game.GetGuess();
-				c = i;
-				backgroundWorker.ReportProgress((c + 1) * 10);
+				currentGuess = i;
+				backgroundWorker.ReportProgress((currentGuess + 1) * 10);
 				System.Threading.Thread.Sleep(100);
 			}
 		}
