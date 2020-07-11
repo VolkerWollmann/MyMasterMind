@@ -78,7 +78,7 @@ namespace MyMasterMind.ViewModel
 				{
 					MasterMindBoard.SetGuessColor(CurrentGuess, j, Guess.Code.Colors[j]);
 				}
-				MasterMindBoard.SetGuessEvaluation(CurrentGuess, Guess.Black, Guess.White);
+				MasterMindBoard.SetGuessEvaluation(CurrentGuess, Guess.Evaluation.Black, Guess.Evaluation.White);
 			}
 		}
 
