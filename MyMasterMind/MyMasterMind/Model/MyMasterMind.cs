@@ -55,10 +55,12 @@ namespace MyMasterMind.Model
 			{
 				CurrentGuess = PreviousGuess.Copy();
 				List<Guess> guesseSoFar = GetGuessesSoFarAsList();
-				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)))
+				do
 				{
 					CurrentGuess.Increment();
 				}
+				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)));
+
 			}
 			CurrentGuess.Evaluation = Code.Compare(CurrentGuess.Code);
 			return CurrentGuess;
