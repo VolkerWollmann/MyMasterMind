@@ -26,6 +26,12 @@ namespace MyMasterMind.Model
 
 			return copy;
 		}
+
+		internal void Increment()
+		{
+
+		}
+
 		internal Evaluation Compare(Code other)
 		{
 			Evaluation evaluation = new Evaluation();
@@ -55,7 +61,10 @@ namespace MyMasterMind.Model
 
 			return evaluation;
 		}
-		public static Code GetRandomCode()
+
+		
+
+		internal static Code GetRandomCode()
 		{
 			Code code = new Code();
 

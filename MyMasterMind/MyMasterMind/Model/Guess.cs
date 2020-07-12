@@ -6,7 +6,7 @@ namespace MyMasterMind.Model
 {
 	public class Guess
 	{
-		public Code Code { get; private set; }
+		public Code Code { get; internal set; }
 		public Evaluation Evaluation { get; internal set; }
 
 		public static Guess GetRandomGuess()
@@ -15,6 +15,23 @@ namespace MyMasterMind.Model
 			guess.Code = Code.GetRandomCode();
 
 			return guess;
+		}
+
+		public Guess Copy()
+		{
+			Guess copy = new Guess();
+			copy.Code = Code.Copy();
+
+			return copy;
+		}
+		public void Increment()
+		{
+			Code.Increment();
+		}
+
+		internal bool Compare(Guess other)
+		{
+			return Code.Compare(other.Code).Equals(Evaluation);
 		}
 
 		public Guess()
