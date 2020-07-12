@@ -24,6 +24,7 @@ namespace MyMasterMind.Model
 		{
 			currentGuess++;
 			Guesses[currentGuess] = Guess.GetRandomGuess();
+			Guesses[currentGuess].Evaluation = Code.Compare(Guesses[currentGuess].Code);
 			return Guesses[currentGuess];
 		}
 	}

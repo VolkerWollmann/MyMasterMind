@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
 using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Model
@@ -43,10 +45,10 @@ namespace MyMasterMind.Model
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					if ((i != j ) && (this[i] == copy[i]))
+					if ((i != j ) && (this[i] == copy[j]))
 					{
 						evaluation.White++;
-						copy[i] = MyMasterMindCodeColors.None;
+						copy[j] = MyMasterMindCodeColors.None;
 					}
 				}
 			}
@@ -58,10 +60,8 @@ namespace MyMasterMind.Model
 			Code code = new Code();
 
 			Random random = new Random();
-			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
-			{
-				code.Colors[j] = (MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length);
-			}
+			Enumerable.Range(0,MyMasterMindConstants.CLOUMNS ).ToList().ForEach( i => 
+				{ code[i] =(MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length); });
 
 			return code;
 		}
