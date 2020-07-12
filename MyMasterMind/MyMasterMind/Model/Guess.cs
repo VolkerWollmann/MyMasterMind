@@ -31,8 +31,7 @@ namespace MyMasterMind.Model
 
 		internal bool Compare(Guess other)
 		{
-			var x = Code.Compare(other.Code);
-			return x.Compare(Evaluation);
+			return Code.Compare(other.Code).Compare(Evaluation);
 		}
 
 		public Guess()

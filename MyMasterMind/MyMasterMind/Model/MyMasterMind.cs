@@ -48,26 +48,15 @@ namespace MyMasterMind.Model
 		}
 		public Guess GetGuess()
 		{
-			int j = 0;
 			currentGuess++;
 			if ( currentGuess == 0)
 				CurrentGuess = Guess.GetRandomGuess();
 			else
 			{
-				CurrentGuess = new Guess();
-				CurrentGuess.Code[0] = MyMasterMindCodeColors.Magenta;
-				CurrentGuess.Code[1] = MyMasterMindCodeColors.Magenta;
-				CurrentGuess.Code[2] = MyMasterMindCodeColors.Magenta;
-				CurrentGuess.Code[3] = MyMasterMindCodeColors.Cyan;
-				//CurrentGuess = PreviousGuess.Copy();
+				CurrentGuess = PreviousGuess.Copy();
 				List<Guess> guesseSoFar = GetGuessesSoFarAsList();
 				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)))
 				{
-					j++;
-					if ( j > ( 6*6*6*6 ))
-					{
-						;
-					}
 					CurrentGuess.Increment();
 				}
 			}
