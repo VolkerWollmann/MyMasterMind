@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace MyMasterMind.Model
 {
-	public class Evaluation : IEqualityComparer<Evaluation>
+	public class Evaluation 
 	{
 		public int Black { get; set; }
 
 		public int White { get; set; }
 
 		#region IEqualityComparer<Evaluation>
-		public bool Equals(Evaluation x, Evaluation y)
+		public bool Compare(Evaluation other)
 		{
-			return (x.White == y.White) && (x.Black == y.Black);
+			return (this.White == other.White) && (this.Black == other.Black);
 		}
 
 		public int GetHashCode(Evaluation obj)

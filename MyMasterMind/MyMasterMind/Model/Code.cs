@@ -8,6 +8,7 @@ namespace MyMasterMind.Model
 {
 	public class Code
 	{
+		static Random random = new Random();
 		public MyMasterMindCodeColors[] Colors { get; private set; }
 
 		internal MyMasterMindCodeColors this[int index]
@@ -29,21 +30,37 @@ namespace MyMasterMind.Model
 
 		internal void Increment()
 		{
-
+			int index = 0;
+			while (index < MyMasterMindConstants.CLOUMNS )
+			{
+				if (Colors[index] < MyMasterMindCodeColors.Cyan)
+				{
+					Colors[index] += 1;
+					return;
+				}
+				else
+				{
+					Colors[index] = MyMasterMindCodeColors.Red;
+					index++;
+				}
+			}
 		}
 
 		internal Evaluation Compare(Code other)
 		{
 			Evaluation evaluation = new Evaluation();
 
-			Code copy = other.Copy();
+			Code otherCopy = other.Copy();
+			Code myCopy = this.Copy();
 
 			for(int i =0; i < MyMasterMindConstants.CLOUMNS; i++)
 			{
-				if ( this[i] == copy[i] )
+				if ( myCopy[i] == otherCopy[i] ) 
 				{
 					evaluation.Black++;
-					copy[i] = MyMasterMindCodeColors.None;
+					otherCopy[i] = MyMasterMindCodeColors.None;
+					myCopy[i] = MyMasterMindCodeColors.None;
+					
 				}
 			}
 
@@ -51,10 +68,11 @@ namespace MyMasterMind.Model
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					if ((i != j ) && (this[i] == copy[j]))
+					if ((i != j ) && (myCopy[i] == otherCopy[j]) && ( otherCopy[j] != MyMasterMindCodeColors.None))
 					{
 						evaluation.White++;
-						copy[j] = MyMasterMindCodeColors.None;
+						otherCopy[j] = MyMasterMindCodeColors.None;
+						myCopy[i] = MyMasterMindCodeColors.None;
 					}
 				}
 			}
@@ -68,7 +86,6 @@ namespace MyMasterMind.Model
 		{
 			Code code = new Code();
 
-			Random random = new Random();
 			Enumerable.Range(0,MyMasterMindConstants.CLOUMNS ).ToList().ForEach( i => 
 				{ code[i] =(MyMasterMindCodeColors)random.Next(1, Enum.GetNames(typeof(MyMasterMindCodeColors)).Length); });
 

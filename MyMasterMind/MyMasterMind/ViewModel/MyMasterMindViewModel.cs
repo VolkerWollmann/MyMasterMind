@@ -96,6 +96,8 @@ namespace MyMasterMind.ViewModel
 				CurrentGuess = i;
 				BackgroundWorker.ReportProgress((CurrentGuess + 1) * 10);
 				System.Threading.Thread.Sleep(100);
+				if (Game.Finished())
+					break;
 			}
 		}
 
@@ -107,6 +109,8 @@ namespace MyMasterMind.ViewModel
 
 		private void ComputerCommand(object sender, EventArgs e)
 		{
+			ClearBoard();
+
 			Game = new MyMasterMindGame();
 			BackgroundWorker = new BackgroundWorker();
 			BackgroundWorker.WorkerReportsProgress = true;
