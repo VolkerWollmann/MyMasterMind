@@ -34,6 +34,11 @@ namespace MyMasterMind.Model
 			return Code.Compare(other.Code).Compare(Evaluation);
 		}
 
+		internal void Evaluate(Code code)
+		{
+			Evaluation = Code.Compare(code);
+		}
+
 		public Guess()
 		{
 			Code = new Code();

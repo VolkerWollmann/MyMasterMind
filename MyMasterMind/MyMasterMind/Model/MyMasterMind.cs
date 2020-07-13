@@ -62,7 +62,7 @@ namespace MyMasterMind.Model
 				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)));
 
 			}
-			CurrentGuess.Evaluation = Code.Compare(CurrentGuess.Code);
+			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
 		}
 	}
