@@ -19,12 +19,9 @@ namespace MyMasterMind.Model
 		internal Code Copy()
 		{
 			Code copy = new Code();
-			
-			for(int i = 0; i< MyMasterMindConstants.CLOUMNS; i++ )
-			{
-				copy[i] = this[i];
-			}
 
+			copy.Colors = (MyMasterMindCodeColors[])Colors.Clone();
+			
 			return copy;
 		}
 
