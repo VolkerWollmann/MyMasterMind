@@ -39,6 +39,7 @@
             </StackPanel>
         </Border>
         <Border Name="GuessBorder" BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="Black">
+            
             <StackPanel Orientation="Horizontal">
                 <Rectangle Name="Field0" Fill="Beige" HorizontalAlignment="Left" 
                    Height="30" Margin="1,1,0,0"
