@@ -1,4 +1,5 @@
-﻿using MyMasterMind.Interfaces;
+﻿using MyMasterMind.Commands;
+using MyMasterMind.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,19 @@ namespace MyMasterMind.Controls
 	public partial class CodeField : UserControl
 	{
 		MyMasterMindCodeColors Color;
+
+		private SelectColorCommand selectColorCommand;
+		public ICommand SelectColorCommand
+		{ 
+			get { return selectColorCommand; }
+		}
+
 		public CodeField()
 		{
 			InitializeComponent();
 			this.DataContext = this;
 			Color = MyMasterMindCodeColors.None;
+			selectColorCommand = new SelectColorCommand(this);
 		}
 
 		public void SetColor( MyMasterMindCodeColors color )

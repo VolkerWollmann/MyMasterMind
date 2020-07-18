@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyMasterMind.Controls;
+using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Commands
 {
@@ -20,7 +21,7 @@ namespace MyMasterMind.Commands
 
 		public void Execute(object parameter)
 		{
-			;
+			CodeField.SetColor(MyMasterMindConstants.GetCodeColor((string)parameter));
 		}
 
 		public SelectColorCommand(CodeField codeField )

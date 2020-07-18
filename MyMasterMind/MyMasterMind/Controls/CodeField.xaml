@@ -9,12 +9,12 @@
     <StackPanel>
         <StackPanel.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Red" Background="Red" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
-                <MenuItem Header="Green" Background="Green"/>
-                <MenuItem Header="Blue" Background="Blue"/>
-                <MenuItem Header="Yellow" Background="Yellow"/>
-                <MenuItem Header="Magenta" Background="Magenta"/>
-                <MenuItem Header="Cyan" Background="Cyan"/>
+                <MenuItem Header="Red" Background="Red" CommandParameter="RED" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
+                <MenuItem Header="Green" Background="Green" CommandParameter="GREEN" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Blue" Background="Blue" CommandParameter="BLUE" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Yellow" Background="Yellow" CommandParameter="YELLOW" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Magenta" Background="Magenta" CommandParameter="MAGENTA" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Cyan" Background="Cyan" CommandParameter="CYAN" Command="{Binding SelectColorCommand, Mode=OneWay}" />
             </ContextMenu>
         </StackPanel.ContextMenu>
         <Rectangle Name="CodeFieldRectangle" Fill="Beige" HorizontalAlignment="Left" 
