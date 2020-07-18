@@ -42,7 +42,7 @@
             <StackPanel Name="CodeStackPanel" Orientation="Horizontal">
                 <StackPanel.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Red" Background="Red"/>
+                        <MenuItem Header="Red" Background="Red" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
                         <MenuItem Header="Green" Background="Green"/>
                         <MenuItem Header="Blue" Background="Blue"/>
                         <MenuItem Header="Yellow" Background="Yellow"/>

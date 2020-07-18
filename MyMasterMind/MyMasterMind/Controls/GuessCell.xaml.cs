@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using MyMasterMind.Interfaces;
+using MyMasterMind.Commands;
 
 namespace MyMasterMind.Controls
 {
@@ -27,6 +28,9 @@ namespace MyMasterMind.Controls
 		public GuessCell()
 		{
 			InitializeComponent();
+
+			this.DataContext = this;
+
 			Evaluation = new Rectangle[4];
 			Field = new Rectangle[4];
 
@@ -42,6 +46,14 @@ namespace MyMasterMind.Controls
 
 			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None); });
 			Field.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
+		}
+
+		public ICommand SelectColorCommand
+		{
+			get
+			{
+				return new SelectColorCommand();
+			}
 		}
 
 		internal void SetColor( int column, MyMasterMindCodeColors color )
