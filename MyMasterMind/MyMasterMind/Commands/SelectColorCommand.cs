@@ -10,7 +10,7 @@ namespace MyMasterMind.Commands
 {
 	public class SelectColorCommand : ICommand
 	{
-		private GuessCell GuessCell;
+		private CodeField CodeField;
 		public event EventHandler CanExecuteChanged;
 
 		public bool CanExecute(object parameter)
@@ -23,9 +23,9 @@ namespace MyMasterMind.Commands
 			;
 		}
 
-		public SelectColorCommand(GuessCell guessCell)
+		public SelectColorCommand(CodeField codeField )
 		{
-			GuessCell = guessCell;
+			CodeField  = codeField;
 		}
 	}
 }

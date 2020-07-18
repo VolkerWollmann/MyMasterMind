@@ -25,6 +25,7 @@ namespace MyMasterMind.Controls
 		public CodeField()
 		{
 			InitializeComponent();
+			this.DataContext = this;
 			Color = MyMasterMindCodeColors.None;
 		}
 
@@ -32,6 +33,11 @@ namespace MyMasterMind.Controls
 		{
 			Color = color;
 			CodeFieldRectangle.Fill = DisplayColors.GetCodeBrush(Color);
+		}
+
+		public MyMasterMindCodeColors GetColor()
+		{
+			return Color;
 		}
 	}
 }

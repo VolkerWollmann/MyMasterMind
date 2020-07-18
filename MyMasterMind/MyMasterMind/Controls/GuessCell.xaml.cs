@@ -49,14 +49,6 @@ namespace MyMasterMind.Controls
 			Field.Cast<CodeField >().ToList().ForEach(e => { e.SetColor( MyMasterMindCodeColors.None); });
 		}
 
-		public ICommand SelectColorCommand
-		{
-			get
-			{
-				return new SelectColorCommand(this);
-			}
-		}
-
 		internal void SetColor( int column, MyMasterMindCodeColors color )
 		{
 			Field[column].SetColor( color);
