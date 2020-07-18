@@ -56,12 +56,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\SelectColorCommand.cs" />
+    <Compile Include="Controls\CodeField.xaml.cs">
+      <DependentUpon>CodeField.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Code.cs" />
     <Compile Include="Model\Evaluation.cs" />
     <Compile Include="Model\Guess.cs" />
     <Compile Include="Model\MyMasterMind.cs" />
     <Compile Include="ViewModel\MyMasterMindViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInitialize.cs" />
+    <Page Include="Controls\CodeField.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\GuessCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

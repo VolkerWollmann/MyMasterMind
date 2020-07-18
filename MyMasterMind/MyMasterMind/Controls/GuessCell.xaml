@@ -40,34 +40,7 @@
         </Border>
         <Border Name="CodeBorder" BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="Black">
             <StackPanel Name="CodeStackPanel" Orientation="Horizontal">
-                <StackPanel.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Red" Background="Red" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
-                        <MenuItem Header="Green" Background="Green"/>
-                        <MenuItem Header="Blue" Background="Blue"/>
-                        <MenuItem Header="Yellow" Background="Yellow"/>
-                        <MenuItem Header="Magenta" Background="Magenta"/>
-                        <MenuItem Header="Cyan" Background="Cyan"/>
-                    </ContextMenu>
-                </StackPanel.ContextMenu>
-                <Rectangle Name="Field0" Fill="Beige" HorizontalAlignment="Left" 
-                   Height="30" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Center" Width="30" ></Rectangle>
-                <Rectangle Name="Field1" Fill="Beige" HorizontalAlignment="Left"
-                   Height="30" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Center" Width="30" ></Rectangle>
-                <Rectangle Name="Field2" Fill="Beige" HorizontalAlignment="Left"
-                   Height="30" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Center" Width="30" ></Rectangle>
-                <Rectangle Name="Field3" Fill="Beige" HorizontalAlignment="Left"
-                   Height="30" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Center" Width="30" ></Rectangle>
             </StackPanel>
-
         </Border>
     </Grid>
 </UserControl>

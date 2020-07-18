@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MyMasterMind.Controls;
 
 namespace MyMasterMind.Commands
 {
 	public class SelectColorCommand : ICommand
 	{
+		private GuessCell GuessCell;
 		public event EventHandler CanExecuteChanged;
 
 		public bool CanExecute(object parameter)
@@ -19,6 +21,11 @@ namespace MyMasterMind.Commands
 		public void Execute(object parameter)
 		{
 			;
+		}
+
+		public SelectColorCommand(GuessCell guessCell)
+		{
+			GuessCell = guessCell;
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace MyMasterMind.Controls
 	public partial class GuessCell : UserControl
 	{
 		private Rectangle[] Evaluation;
-		private Rectangle[] Field;
+		private CodeField[] Field;
 		public GuessCell()
 		{
 			InitializeComponent();
@@ -32,33 +32,34 @@ namespace MyMasterMind.Controls
 			this.DataContext = this;
 
 			Evaluation = new Rectangle[4];
-			Field = new Rectangle[4];
+			Field = new CodeField[4];
 
 			Evaluation[0] = Evaluation0;
 			Evaluation[1] = Evaluation1;
 			Evaluation[2] = Evaluation2;
 			Evaluation[3] = Evaluation3;
 
-			Field[0] = Field0;
-			Field[1] = Field1;
-			Field[2] = Field2;
-			Field[3] = Field3;
+			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++)
+			{
+				Field[i] = new CodeField();
+				this.CodeStackPanel.Children.Add(Field[i]);
+			}
 
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None); });
-			Field.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
+			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
+			Field.Cast<CodeField >().ToList().ForEach(e => { e.SetColor( MyMasterMindCodeColors.None); });
 		}
 
 		public ICommand SelectColorCommand
 		{
 			get
 			{
-				return new SelectColorCommand();
+				return new SelectColorCommand(this);
 			}
 		}
 
 		internal void SetColor( int column, MyMasterMindCodeColors color )
 		{
-			Field[column].Fill = DisplayColors.GetCodeBrush(color);
+			Field[column].SetColor( color);
 		}
 
 		internal void SetEvaluation( int black, int white)
