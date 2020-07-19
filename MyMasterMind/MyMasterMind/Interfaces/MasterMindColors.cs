@@ -28,6 +28,14 @@ namespace MyMasterMind.Interfaces
 		Black
 	}
 
+	public enum MyMasterMindCommands
+	{
+		Cancel =0,
+		Computer,
+		User,
+		Check,
+	}
+
 	public class MyMasterMindConstants
 	{
 		public const int CLOUMNS = 4;

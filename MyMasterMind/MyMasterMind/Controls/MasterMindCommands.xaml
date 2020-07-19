@@ -12,11 +12,10 @@
                 Margin="10,10,10,10" Click="ButtonCommandComputer_Click">
                 Computer
             </Button>
-            <Button Name="ButtonCommandCancel" Height="50"  
-                Margin="10,10,10,10">
+            <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10">
                 Cancel
             </Button>
-            <Button Name="ButtonCommandUser" IsEnabled="False" Height="50" Margin="10,10,10,10">
+            <Button Name="ButtonCommandUser" IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandUser_Click">
                 User
             </Button>
             <Button Name="ButtonCommandCheck"  IsEnabled="False" Height="50" Margin="10,10,10,10">

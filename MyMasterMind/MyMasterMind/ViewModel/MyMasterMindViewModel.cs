@@ -45,6 +45,8 @@ namespace MyMasterMind.ViewModel
 			// bind command to buttons
 			MasterMindCommands.SetClearCommandEventHandler(ClearCommand);
 			MasterMindCommands.SetComputerCommandEventHandler(ComputerCommand);
+			MasterMindCommands.SetUserCommandEventHandler(UserCommand);
+
 		}
 
 		#endregion
@@ -53,6 +55,9 @@ namespace MyMasterMind.ViewModel
 		private void ClearCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
 		}
 
 		BackgroundWorker BackgroundWorker;
@@ -103,14 +108,18 @@ namespace MyMasterMind.ViewModel
 
 		void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			//
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
 		}
 
 
 		private void ComputerCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
-
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
+			
 			Game = new MyMasterMindGame();
 			BackgroundWorker = new BackgroundWorker();
 			BackgroundWorker.WorkerReportsProgress = true;
@@ -118,6 +127,14 @@ namespace MyMasterMind.ViewModel
 			BackgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
 			BackgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
 			BackgroundWorker.RunWorkerAsync(this);
+		}
+
+		private void UserCommand(object sender, EventArgs e)
+		{
+			ClearBoard();
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
 		}
 
 		#endregion

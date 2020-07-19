@@ -23,6 +23,7 @@ namespace MyMasterMind.Controls
 	{
 		private EventHandler ClearCommandEventHandler;
 		private EventHandler ComputerCommandEventHandler;
+		private EventHandler UserCommandEventHandler;
 		public MasterMindCommands()
 		{
 			InitializeComponent();
@@ -38,16 +39,56 @@ namespace MyMasterMind.Controls
 			ComputerCommandEventHandler += eventHandler;
 		}
 
+		public void SetUserCommandEventHandler(EventHandler eventHandler)
+		{
+			UserCommandEventHandler += eventHandler;
+		}
+
 		private void ButtonCommandComputer_Click(object sender, RoutedEventArgs e)
 		{
+
 			if (ComputerCommandEventHandler != null)
 				ComputerCommandEventHandler(sender, e);
 		}
 
 		private void ButtonCommandClear_Click(object sender, RoutedEventArgs e)
 		{
+			
 			if (ClearCommandEventHandler != null)
 				ClearCommandEventHandler(sender, e);
+		}
+
+		private void ButtonCommandUser_Click(object sender, RoutedEventArgs e)
+		{
+			if (UserCommandEventHandler != null)
+				UserCommandEventHandler(sender, e);
+		}
+
+		private void SetButton(MyMasterMindCommands command, bool state)
+		{
+			switch (command)
+			{
+				case MyMasterMindCommands.Check:
+					ButtonCommandCheck.IsEnabled = state;
+					break;
+
+				case MyMasterMindCommands.Computer:
+					ButtonCommandComputer.IsEnabled = state;
+					break;
+
+				case MyMasterMindCommands.User:
+					ButtonCommandUser.IsEnabled = state;
+					break;
+			}
+		}
+		public void EnableButton(MyMasterMindCommands command)
+		{
+			SetButton(command, true);
+		}
+
+		public void DisableButton(MyMasterMindCommands command)
+		{
+			SetButton(command, false);
 		}
 	}
 }
