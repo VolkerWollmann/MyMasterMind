@@ -24,7 +24,7 @@ namespace MyMasterMind.Controls
 	/// </summary>
 	public partial class CodeField : UserControl, INotifyPropertyChanged
 	{
-		MyMasterMindCodeColors Color;
+		private MyMasterMindCodeColors Color;
 
 		Brush colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
 		public Brush XColorBrush

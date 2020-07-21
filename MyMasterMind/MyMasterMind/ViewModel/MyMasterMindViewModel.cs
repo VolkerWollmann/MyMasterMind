@@ -145,8 +145,17 @@ namespace MyMasterMind.ViewModel
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
+			Code code = new Code();
+			for(int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
+			{
+				code[i] = MasterMindBoard.GetGuessColor(CurrentGuessRow, i);
+			}
+
+			Guess = Game.SetGuess(CurrentGuessRow, code);
+			MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
+
 			CurrentGuessRow++;
-			if (CurrentGuessRow >= MyMasterMindConstants.ROWS)
+			if ( (CurrentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
 			{
 				ShowCode();
 				MasterMindCommands.EnableButton(MyMasterMindCommands.User);

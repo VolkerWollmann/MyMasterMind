@@ -51,7 +51,12 @@ namespace MyMasterMind.Controls
 
 		internal void SetColor( int column, MyMasterMindCodeColors color )
 		{
-			Field[column].SetColor( color);
+			Field[column].SetColor(color);
+		}
+
+		internal MyMasterMindCodeColors GetColor( int column )
+		{
+			return Field[column].GetColor();
 		}
 
 		internal void SetEvaluation( int black, int white)

@@ -43,5 +43,10 @@ namespace MyMasterMind.Model
 		{
 			Code = new Code();
 		}
+
+		public Guess(Code code)
+		{
+			Code = code;
+		}
 	}
 }

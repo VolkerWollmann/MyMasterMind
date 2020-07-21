@@ -68,5 +68,10 @@ namespace MyMasterMind.Controls
 			CurrentGuessCell = GuessCells[row];
 			CurrentGuessCell.Mark(mark);
 		}
+
+		public MyMasterMindCodeColors GetGuessColor(int row, int column)
+		{
+			return GuessCells[row].GetColor(column);
+		}
 	}
 }
