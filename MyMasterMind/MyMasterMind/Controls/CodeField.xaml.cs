@@ -2,6 +2,7 @@
 using MyMasterMind.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,38 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for CodeField.xaml
 	/// </summary>
-	public partial class CodeField : UserControl
+	public partial class CodeField : UserControl, INotifyPropertyChanged
 	{
 		MyMasterMindCodeColors Color;
 
+		Brush colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
+		public Brush XColorBrush
+		{
+			private set
+			{
+				colorBrush = value;
+				NotifyPropertyChanged("XColorBrush");
+			}
+
+			get
+			{
+				return colorBrush;
+			}
+		}
+
 		private SelectColorCommand selectColorCommand;
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void NotifyPropertyChanged(string info)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(info));
+			}
+		}
+
+
 		public ICommand SelectColorCommand
 		{ 
 			get { return selectColorCommand; }
@@ -34,14 +62,16 @@ namespace MyMasterMind.Controls
 		{
 			InitializeComponent();
 			this.DataContext = this;
-			Color = MyMasterMindCodeColors.None;
+
+			SetColor(MyMasterMindCodeColors.None);
 			selectColorCommand = new SelectColorCommand(this);
+			
 		}
 
 		public void SetColor( MyMasterMindCodeColors color )
 		{
 			Color = color;
-			CodeFieldRectangle.Fill = DisplayColors.GetCodeBrush(Color);
+			XColorBrush = DisplayColors.GetCodeBrush(Color);	
 		}
 
 		public MyMasterMindCodeColors GetColor()

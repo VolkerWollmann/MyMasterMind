@@ -19,6 +19,7 @@ namespace MyMasterMind.ViewModel
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
 		MyMasterMindGame Game;
+		int CurrentGuessRow;
 
 		private void ClearBoard()
 		{
@@ -62,44 +63,36 @@ namespace MyMasterMind.ViewModel
 
 		BackgroundWorker BackgroundWorker;
 		Guess Guess;
-		int CurrentGuess;
-		bool ShowCode;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (ShowCode)
-			{
-				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
-				{
-					MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
-				}
-
-				ShowCode = false;
-			}
-
 			if (Guess != null)
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					MasterMindBoard.SetGuessColor(CurrentGuess, j, Guess.Code.Colors[j]);
+					MasterMindBoard.SetGuessColor(CurrentGuessRow, j, Guess.Code.Colors[j]);
 				}
-				MasterMindBoard.SetGuessEvaluation(CurrentGuess, Guess.Evaluation.Black, Guess.Evaluation.White);
+				MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
 			}
 		}
 
 		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
 			Guess = null;
-			CurrentGuess = 0;
-			
-			ShowCode = true;
-			BackgroundWorker.ReportProgress((CurrentGuess + 1) * 10);
+			CurrentGuessRow = 0;
+
+			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+			{
+				MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
+			}
+
+			BackgroundWorker.ReportProgress((CurrentGuessRow + 1) * 10);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
 				Guess = Game.GetGuess();
-				CurrentGuess = i;
-				BackgroundWorker.ReportProgress((CurrentGuess + 1) * 10);
+				CurrentGuessRow = i;
+				BackgroundWorker.ReportProgress((CurrentGuessRow + 1) * 10);
 				System.Threading.Thread.Sleep(100);
 				if (Game.Finished())
 					break;
