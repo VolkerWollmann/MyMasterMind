@@ -11,6 +11,7 @@ namespace MyMasterMind.Interfaces
 		void SetClearCommandEventHandler(EventHandler eventHandler);
 		void SetComputerCommandEventHandler(EventHandler eventHandler);
 		void SetUserCommandEventHandler(EventHandler eventHandler);
+		void SetCheckCommandEventHandler(EventHandler eventHandler);
 
 		void EnableButton(MyMasterMindCommands command);
 

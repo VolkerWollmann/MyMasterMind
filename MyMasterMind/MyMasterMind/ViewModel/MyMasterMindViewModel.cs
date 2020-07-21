@@ -42,11 +42,11 @@ namespace MyMasterMind.ViewModel
 			MasterMindBoard = masterMindBoard;
 			MasterMindCommands = (IMasterMindCommandView)masterMindCommands;
 
-			// bind command to buttons
+			// bind commands to buttons
 			MasterMindCommands.SetClearCommandEventHandler(ClearCommand);
 			MasterMindCommands.SetComputerCommandEventHandler(ComputerCommand);
 			MasterMindCommands.SetUserCommandEventHandler(UserCommand);
-
+			MasterMindCommands.SetCheckCommandEventHandler(CheckCommand);
 		}
 
 		#endregion
@@ -132,11 +132,17 @@ namespace MyMasterMind.ViewModel
 		private void UserCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
+
+			Game = new MyMasterMindGame();
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
 		}
 
+		private void CheckCommand(object sender, EventArgs e)
+		{
+			;
+		}
 		#endregion
 	}
 }
