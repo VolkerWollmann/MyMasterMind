@@ -137,6 +137,7 @@ namespace MyMasterMind.ViewModel
 
 			Game = new MyMasterMindGame();
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
+			MasterMindBoard.MarkGuessCell(0, true);
 		}
 
 		private void CheckCommand(object sender, EventArgs e)

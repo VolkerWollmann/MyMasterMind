@@ -15,7 +15,7 @@
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Border Name="EvaluationBorder" BorderThickness="1,1,1,1" Grid.Column="0" BorderBrush="Black">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Name="EvaluationStackPanel"  Orientation="Horizontal">
                 <StackPanel>
                 <Rectangle Name="Evaluation0" Fill="Beige" HorizontalAlignment="Left"
                    Height="15" Margin="1,1,0,0"

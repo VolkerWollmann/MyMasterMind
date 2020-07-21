@@ -72,5 +72,19 @@ namespace MyMasterMind.Controls
 		{
 			Evaluation.Cast<Rectangle>().ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
 		}
+
+		internal void Mark( bool mark)
+		{
+			if (mark)
+			{
+				EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+				CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+			}
+			else
+			{
+				EvaluationStackPanel.Background = new SolidColorBrush(Colors.White);
+				CodeStackPanel.Background = new SolidColorBrush(Colors.White);
+			}
+		}
 	}
 }
