@@ -23,21 +23,31 @@ namespace MyMasterMind.ViewModel
 
 		private void ClearBoard()
 		{
-			for(int j=0; j<MyMasterMindConstants.CLOUMNS; j++)
+			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 			{
 				MasterMindBoard.SetCodeColor(j, MyMasterMindCodeColors.None);
 			}
 
-			for(int i=0; i< MyMasterMindConstants.ROWS; i++)
+			for (int i=0; i< MyMasterMindConstants.ROWS; i++)
 			{
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 					MasterMindBoard.SetGuessColor(i, j, MyMasterMindCodeColors.None);
 
 				MasterMindBoard.SetGuessEvaluation(i, 0, 0);
+				MasterMindBoard.MarkGuessCell(i, false);
 			}
 		}
 
-		#region Construcotr
+		private void ShowCode()
+		{
+			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+			{
+				MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
+			}
+
+		}
+
+		#region Constructor
 		public MyMasterMindViewModel(MasterMindBoard masterMindBoard, MasterMindCommands masterMindCommands)
 		{
 			MasterMindBoard = masterMindBoard;
@@ -81,10 +91,7 @@ namespace MyMasterMind.ViewModel
 			Guess = null;
 			CurrentGuessRow = 0;
 
-			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
-			{
-				MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
-			}
+			ShowCode();
 
 			BackgroundWorker.ReportProgress((CurrentGuessRow + 1) * 10);
 
@@ -125,17 +132,29 @@ namespace MyMasterMind.ViewModel
 		private void UserCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
+			
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
 
 			Game = new MyMasterMindGame();
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
-			MasterMindBoard.MarkGuessCell(0, true);
+			
+			CurrentGuessRow = 0;
+			MasterMindBoard.MarkGuessCell(CurrentGuessRow, true);
 		}
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
-			;
+			CurrentGuessRow++;
+			if (CurrentGuessRow >= MyMasterMindConstants.ROWS)
+			{
+				ShowCode();
+				MasterMindCommands.EnableButton(MyMasterMindCommands.User);
+				MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+				MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
+				return;
+			}
+			MasterMindBoard.MarkGuessCell(CurrentGuessRow, true); ;
 		}
 		#endregion
 	}
