@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MyMasterMind.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
+    <StackPanel Name="CodeFieldStackPanel">
         <StackPanel.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Red" Background="Red" CommandParameter="RED" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
@@ -17,9 +17,10 @@
                 <MenuItem Header="Cyan" Background="Cyan" CommandParameter="CYAN" Command="{Binding SelectColorCommand, Mode=OneWay}" />
             </ContextMenu>
         </StackPanel.ContextMenu>
-        <Rectangle Name="CodeFieldRectangle" Fill="Beige" HorizontalAlignment="Left" 
+        <Rectangle Name="CodeFieldRectangle" HorizontalAlignment="Left" 
                    Height="30" Margin="1,1,0,0"
                    Stroke="DarkMagenta" StrokeThickness="2"
+                   Fill="{Binding Path=XColorBrush}"
                    VerticalAlignment="Center" Width="30" ></Rectangle>
     </StackPanel>
 </UserControl>

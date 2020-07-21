@@ -51,7 +51,12 @@ namespace MyMasterMind.Controls
 
 		internal void SetColor( int column, MyMasterMindCodeColors color )
 		{
-			Field[column].SetColor( color);
+			Field[column].SetColor(color);
+		}
+
+		internal MyMasterMindCodeColors GetColor( int column )
+		{
+			return Field[column].GetColor();
 		}
 
 		internal void SetEvaluation( int black, int white)
@@ -71,6 +76,22 @@ namespace MyMasterMind.Controls
 		internal void HideEvaluation()
 		{
 			Evaluation.Cast<Rectangle>().ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
+		}
+
+		internal void Mark( bool mark)
+		{
+			if (mark)
+			{
+				EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+				CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+				Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
+			}
+			else
+			{
+				EvaluationStackPanel.Background = new SolidColorBrush(Colors.White);
+				CodeStackPanel.Background = new SolidColorBrush(Colors.White);
+				Field.Cast<CodeField>().ToList().ForEach(f => { f.DisableMenu(); });
+			}
 		}
 	}
 }

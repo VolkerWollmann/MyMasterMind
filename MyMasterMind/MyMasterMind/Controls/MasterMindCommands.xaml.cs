@@ -24,11 +24,13 @@ namespace MyMasterMind.Controls
 		private EventHandler ClearCommandEventHandler;
 		private EventHandler ComputerCommandEventHandler;
 		private EventHandler UserCommandEventHandler;
+		private EventHandler CheckCommandEventHandler;
 		public MasterMindCommands()
 		{
 			InitializeComponent();
 		}
 
+		#region Command event handler registration
 		public void SetClearCommandEventHandler(EventHandler eventHandler)
 		{
 			ClearCommandEventHandler += eventHandler;
@@ -44,6 +46,13 @@ namespace MyMasterMind.Controls
 			UserCommandEventHandler += eventHandler;
 		}
 
+		public void SetCheckCommandEventHandler(EventHandler eventHandler)
+		{
+			CheckCommandEventHandler += eventHandler;
+		}
+		#endregion
+
+		#region Command event operation
 		private void ButtonCommandComputer_Click(object sender, RoutedEventArgs e)
 		{
 
@@ -64,6 +73,16 @@ namespace MyMasterMind.Controls
 				UserCommandEventHandler(sender, e);
 		}
 
+		private void ButtonCommandCheck_Click(object sender, RoutedEventArgs e)
+		{
+			if (CheckCommandEventHandler != null)
+				CheckCommandEventHandler(sender, e);
+
+		}
+
+		#endregion
+
+		#region Sufrace/Appearance Operation
 		private void SetButton(MyMasterMindCommands command, bool state)
 		{
 			switch (command)
@@ -90,5 +109,7 @@ namespace MyMasterMind.Controls
 		{
 			SetButton(command, false);
 		}
+
+		#endregion
 	}
 }

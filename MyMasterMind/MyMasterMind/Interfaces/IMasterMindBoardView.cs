@@ -12,6 +12,10 @@ namespace MyMasterMind.Interfaces
 
 		void SetGuessColor(int row, int column, MyMasterMindCodeColors color);
 
+		MyMasterMindCodeColors GetGuessColor(int row, int column);
+
 		void SetGuessEvaluation(int row, int black, int white);
+
+		void MarkGuessCell(int row, bool mark);
 	}
 }

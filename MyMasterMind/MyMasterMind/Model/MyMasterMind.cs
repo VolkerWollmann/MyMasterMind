@@ -11,23 +11,23 @@ namespace MyMasterMind.Model
 	{
 		public Code Code { get; private set; }
 		private Guess[] Guesses;
-		int currentGuess;
+		int currentGuessIndex;
 
 		private Guess CurrentGuess
 		{
-			get { return Guesses[currentGuess]; }
-			set { Guesses[currentGuess] = value; }
+			get { return Guesses[currentGuessIndex]; }
+			set { Guesses[currentGuessIndex] = value; }
 		}
 
 		private Guess PreviousGuess
 		{
-			get { return Guesses[currentGuess-1]; }
+			get { return Guesses[currentGuessIndex-1]; }
 		}
 
 		private List<Guess> GetGuessesSoFarAsList()
 		{
 			List<Guess> result = new List<Guess>();
-			for(int i=0; i< currentGuess; i++ )
+			for(int i=0; i< currentGuessIndex; i++ )
 			{
 				result.Add(Guesses[i]);
 			}
@@ -38,7 +38,7 @@ namespace MyMasterMind.Model
 		{
 			Code = Code.GetRandomCode();
 			Guesses = new Guess[MyMasterMindConstants.ROWS];
-			currentGuess = -1;
+			currentGuessIndex = -1;
 
 		}
 
@@ -46,10 +46,18 @@ namespace MyMasterMind.Model
 		{
 			return CurrentGuess.Evaluation.Black == MyMasterMindConstants.CLOUMNS;
 		}
+
+		public Guess SetGuess(int row, Code code)
+		{
+			currentGuessIndex = row;
+			CurrentGuess = new Guess(code);
+			CurrentGuess.Evaluate(Code);
+			return CurrentGuess;
+		}
 		public Guess GetGuess()
 		{
-			currentGuess++;
-			if ( currentGuess == 0)
+			currentGuessIndex++;
+			if ( currentGuessIndex == 0)
 				CurrentGuess = Guess.GetRandomGuess();
 			else
 			{
