@@ -79,11 +79,13 @@ namespace MyMasterMind.Controls
 			{
 				EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
 				CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+				Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
 			}
 			else
 			{
 				EvaluationStackPanel.Background = new SolidColorBrush(Colors.White);
 				CodeStackPanel.Background = new SolidColorBrush(Colors.White);
+				Field.Cast<CodeField>().ToList().ForEach(f => { f.DisableMenu(); });
 			}
 		}
 	}

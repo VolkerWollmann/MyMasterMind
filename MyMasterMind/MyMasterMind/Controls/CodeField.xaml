@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MyMasterMind.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
+    <StackPanel Name="CodeFieldStackPanel">
         <StackPanel.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Red" Background="Red" CommandParameter="RED" Command="{Binding SelectColorCommand, Mode=OneWay}"/>

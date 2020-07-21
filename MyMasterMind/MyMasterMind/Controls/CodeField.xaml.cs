@@ -1,5 +1,6 @@
 ﻿using MyMasterMind.Commands;
 using MyMasterMind.Interfaces;
+using MyMasterMind.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,7 +66,7 @@ namespace MyMasterMind.Controls
 
 			SetColor(MyMasterMindCodeColors.None);
 			selectColorCommand = new SelectColorCommand(this);
-			
+			DisableMenu();
 		}
 
 		public void SetColor( MyMasterMindCodeColors color )
@@ -77,6 +78,18 @@ namespace MyMasterMind.Controls
 		public MyMasterMindCodeColors GetColor()
 		{
 			return Color;
+		}
+
+		public void EnableMenu()
+		{
+			CodeFieldStackPanel.ContextMenu.IsEnabled = true;
+			CodeFieldStackPanel.ContextMenu.Visibility  = Visibility.Visible;
+		}
+
+		public void DisableMenu()
+		{
+			CodeFieldStackPanel.ContextMenu.IsEnabled = false;
+			CodeFieldStackPanel.ContextMenu.Visibility = Visibility.Hidden;
 		}
 	}
 }
