@@ -23,7 +23,6 @@ namespace MyMasterMind.Controls
 	{
 		private GuessCell Code;
 		private GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.ROWS];
-		private GuessCell CurrentGuessCell = null;
 
 		public MasterMindBoard()
 		{
@@ -60,13 +59,9 @@ namespace MyMasterMind.Controls
 		}
 
 
-		public void MarkGuessCell(int row, bool mark )
+		public void MarkGuessCell(int row, CellMark mark )
 		{
-			if (CurrentGuessCell != null)
-				CurrentGuessCell.Mark(false);
-
-			CurrentGuessCell = GuessCells[row];
-			CurrentGuessCell.Mark(mark);
+			GuessCells[row].Mark(mark);
 		}
 
 		public MyMasterMindCodeColors GetGuessColor(int row, int column)

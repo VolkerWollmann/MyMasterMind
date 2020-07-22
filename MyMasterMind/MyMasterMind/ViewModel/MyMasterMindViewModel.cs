@@ -34,7 +34,7 @@ namespace MyMasterMind.ViewModel
 					MasterMindBoard.SetGuessColor(i, j, MyMasterMindCodeColors.None);
 
 				MasterMindBoard.SetGuessEvaluation(i, 0, 0);
-				MasterMindBoard.MarkGuessCell(i, false);
+				MasterMindBoard.MarkGuessCell(i, CellMark.None);
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace MyMasterMind.ViewModel
 			Game = new MyMasterMindGame();
 			
 			CurrentGuessRow = 0;
-			MasterMindBoard.MarkGuessCell(CurrentGuessRow, true);
+			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.ForInput);
 		}
 
 		private void CheckCommand(object sender, EventArgs e)
@@ -154,6 +154,7 @@ namespace MyMasterMind.ViewModel
 			Guess = Game.SetGuess(CurrentGuessRow, code);
 			MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
 
+			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.None);
 			CurrentGuessRow++;
 			if ( (CurrentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
 			{
@@ -163,7 +164,7 @@ namespace MyMasterMind.ViewModel
 				MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 				return;
 			}
-			MasterMindBoard.MarkGuessCell(CurrentGuessRow, true); ;
+			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.ForInput ); 
 		}
 		#endregion
 	}

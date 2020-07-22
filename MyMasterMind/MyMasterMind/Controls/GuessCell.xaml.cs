@@ -78,19 +78,28 @@ namespace MyMasterMind.Controls
 			Evaluation.Cast<Rectangle>().ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
 		}
 
-		internal void Mark( bool mark)
+		internal void Mark(CellMark mark)
 		{
-			if (mark)
+			Field.Cast<CodeField>().ToList().ForEach(f => { f.DisableMenu(); });
+
+			switch(mark)
 			{
-				EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
-				CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
-				Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
-			}
-			else
-			{
-				EvaluationStackPanel.Background = new SolidColorBrush(Colors.White);
-				CodeStackPanel.Background = new SolidColorBrush(Colors.White);
-				Field.Cast<CodeField>().ToList().ForEach(f => { f.DisableMenu(); });
+				case CellMark.None:
+					EvaluationStackPanel.Background = new SolidColorBrush(Colors.White);
+					CodeStackPanel.Background = new SolidColorBrush(Colors.White);
+					break;
+
+				case CellMark.ForInput:
+					EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+					CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+					Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
+					break;
+
+				case CellMark.CompareTrue:
+					break;
+
+				case CellMark.CompareFalse:
+					break;
 			}
 		}
 	}
