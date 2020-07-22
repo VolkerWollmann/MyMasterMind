@@ -83,6 +83,8 @@ namespace MyMasterMind.ViewModel
 					MasterMindBoard.SetGuessColor(CurrentGuessRow, j, Guess.Code.Colors[j]);
 				}
 				MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
+
+				MasterMindBoard.MarkGuessCell(CurrentGuessRow, (CellMark)e.UserState);
 			}
 		}
 
@@ -93,13 +95,21 @@ namespace MyMasterMind.ViewModel
 
 			ShowCode();
 
-			BackgroundWorker.ReportProgress((CurrentGuessRow + 1) * 10);
+			BackgroundWorker.ReportProgress(0, CellMark.None);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
 				Guess = Game.GetGuess();
 				CurrentGuessRow = i;
-				BackgroundWorker.ReportProgress((CurrentGuessRow + 1) * 10);
+				for (int j = 0; j < 3; j++)
+				{
+					BackgroundWorker.ReportProgress(0, CellMark.CompareTrue);
+					System.Threading.Thread.Sleep(100);
+					BackgroundWorker.ReportProgress(0, CellMark.CompareFalse);
+					System.Threading.Thread.Sleep(100);
+				}
+
+				BackgroundWorker.ReportProgress(0, CellMark.None);
 				System.Threading.Thread.Sleep(100);
 				if (Game.Finished())
 					break;

@@ -96,9 +96,13 @@ namespace MyMasterMind.Controls
 					break;
 
 				case CellMark.CompareTrue:
+					EvaluationStackPanel.Background = new SolidColorBrush(Colors.LightGreen);
+					CodeStackPanel.Background = new SolidColorBrush(Colors.LightGreen);
 					break;
 
 				case CellMark.CompareFalse:
+					EvaluationStackPanel.Background = new SolidColorBrush(Colors.IndianRed);
+					CodeStackPanel.Background = new SolidColorBrush(Colors.IndianRed);
 					break;
 			}
 		}
