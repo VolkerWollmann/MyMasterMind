@@ -73,6 +73,8 @@ namespace MyMasterMind.Model
 			return CurrentGuess.Evaluation;
 		}
 
+		#region Computer plays
+		List<Guess> guessesSoFar=null;
 		public IMasterMindGuessModel GetNewGuess()
 		{
 			currentGuessIndex++;
@@ -81,17 +83,50 @@ namespace MyMasterMind.Model
 			else
 			{
 				CurrentGuess = PreviousGuess.Copy();
-				List<Guess> guesseSoFar = GetGuessesSoFarAsList();
+				guessesSoFar = GetGuessesSoFarAsList();
 				do
 				{
 					CurrentGuess.Increment();
 				}
-				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)));
+				while (guessesSoFar.Any(guess => !guess.Compare(CurrentGuess)));
 
 			}
 			CurrentGuess.Evaluate(Code);
+			guessesSoFar = null;
+
 			return CurrentGuess;
 		}
 
+		public bool StartGetNewGuess()
+		{
+			currentGuessIndex++;
+			if (currentGuessIndex == 0)
+				CurrentGuess = Guess.GetRandomGuess();
+			else
+			{
+				CurrentGuess = PreviousGuess.Copy();
+			}
+
+			return true;
+		}
+
+		public void Increment()
+		{
+			CurrentGuess.Increment();
+		}
+
+		public int GetFirstBadEvalaution()
+		{
+			for(int i=0; i < currentGuessIndex; i++ )
+			{
+				if (!Guesses[i].Compare(CurrentGuess))
+					return i;
+			}
+
+			CurrentGuess.Evaluate(Code);
+
+			return -1;
+		}
+		#endregion
 	}
 }

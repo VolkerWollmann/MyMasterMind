@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 
 namespace MyMasterMind.ViewModel
 {
-	using DataTriple = Tuple<int, int, int>;
+	using ComputerPlayInformation = Tuple<int, CellMark>;
 	public class MyMasterMindViewModel
 	{
 		MasterMindBoard MasterMindBoard;
@@ -71,9 +71,10 @@ namespace MyMasterMind.ViewModel
 		}
 
 		BackgroundWorker BackgroundWorker;
-	
+
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
+
 			IMasterMindGuessModel guess = Game.GetCurrentGuess();
 			if (guess != null)
 			{
@@ -82,37 +83,61 @@ namespace MyMasterMind.ViewModel
 				{
 					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.GetCode().Colors[j]);
 				}
-				MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
+				if (guess.GetEvaluation() != null )
+					MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
+			}
 
-				MasterMindBoard.MarkGuessCell(currentGuessRow, (CellMark)e.UserState);
+			if (e.UserState != null)
+			{
+				ComputerPlayInformation computerPlayInformation = (ComputerPlayInformation)e.UserState;
+				MasterMindBoard.MarkGuessCell(computerPlayInformation.Item1, computerPlayInformation.Item2);
 			}
 		}
 
-		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
+		private void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
+			int firstBadEvaluation;
+
 			ShowCode();
 
-			BackgroundWorker.ReportProgress(0, CellMark.None);
+			BackgroundWorker.ReportProgress(0,null);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
-				Game.GetNewGuess();
-				for (int j = 0; j < 3; j++)
-				{
-					BackgroundWorker.ReportProgress(0, CellMark.CompareTrue);
-					System.Threading.Thread.Sleep(100);
-					BackgroundWorker.ReportProgress(0, CellMark.CompareFalse);
-					System.Threading.Thread.Sleep(100);
-				}
+				Game.StartGetNewGuess();
 
-				BackgroundWorker.ReportProgress(0, CellMark.None);
+				int currentGuessRow = Game.GetCurrentGuessRow();
+
+				do
+				{
+					Game.Increment();
+					firstBadEvaluation = Game.GetFirstBadEvalaution();
+					if (firstBadEvaluation >= 0)
+					{
+						for(int j=0; j < firstBadEvaluation; j++ )
+						{
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue ));
+							System.Threading.Thread.Sleep(100);
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None ));
+							System.Threading.Thread.Sleep(100);
+						}
+
+						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
+						System.Threading.Thread.Sleep(100);
+						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
+						System.Threading.Thread.Sleep(100);
+					}
+
+				} while (firstBadEvaluation > -1);
+
+				BackgroundWorker.ReportProgress(0, null);
 				System.Threading.Thread.Sleep(100);
 				if (Game.Finished())
 					break;
 			}
 		}
 
-		void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);

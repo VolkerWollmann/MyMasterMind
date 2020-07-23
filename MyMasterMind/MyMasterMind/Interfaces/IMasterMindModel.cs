@@ -33,14 +33,40 @@ namespace MyMasterMind.Interfaces
 
 		IMasterMindGuessModel GetCurrentGuess();
 
-		IMasterMindGuessModel GetNewGuess();
-
+		
 		bool Finished();
 
+		#region User plays
 		IMasterMindGuessModel SetGuess(int row, MyMasterMindCodeColors[] code);
+		#endregion
 
-		//bool StartGetNewGuess();
-		//Code GetNewUnEvaluatedGuess();
-		//int GetFirstBadEvalaution();
+		#region Computer plays
+		/// <summary>
+		/// Get a new guess, which is consistent with guesses so far, at once
+		/// </summary>
+		/// <returns></returns>
+		IMasterMindGuessModel GetNewGuess();
+
+		/// <summary>
+		/// Start generation of a new consistent guess.
+		/// </summary>
+		/// <returns></returns>
+		bool StartGetNewGuess();
+
+		/// <summary>
+		/// Prepare next unevaluated code in current guess.
+		/// </summary>
+		/// <returns></returns>
+		void Increment();
+
+		/// <summary>
+		/// Get rowindex of guesses so far, with wich the unevaluted code does not match.
+		/// If this is -1,  GetCurrentGuess will return the new consistent guess
+		/// and the process, which was started with StartGetNewGuess is finished.
+		/// </summary>
+		/// <returns></returns>
+		int GetFirstBadEvalaution();
+		#endregion
+
 	}
 }
