@@ -18,7 +18,7 @@ namespace MyMasterMind.ViewModel
 	{
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
-		MyMasterMindGame Game;
+		IMasterMindModel Game;
 
 		private void ClearBoard()
 		{

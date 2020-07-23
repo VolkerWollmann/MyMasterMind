@@ -7,7 +7,7 @@ namespace MyMasterMind.Model
 {
 	using DataTriple = Tuple<int, int, int>;
 
-	public class MyMasterMindGame
+	public class MyMasterMindGame : IMasterMindModel
 	{
 		public Code Code { get; private set; }
 		private Guess[] Guesses;
@@ -62,6 +62,11 @@ namespace MyMasterMind.Model
 		public Guess GetCurrentGuess()
 		{
 			return CurrentGuess;
+		}
+
+		public Evaluation GetCurrentEvalaution()
+		{
+			return CurrentGuess.Evaluation;
 		}
 
 		public Guess GetNewGuess()
