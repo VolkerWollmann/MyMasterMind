@@ -7,7 +7,7 @@ namespace MyMasterMind.Model
 	public class Guess
 	{
 		public Code Code { get; internal set; }
-		public Evaluation Evaluation { get; internal set; }
+		internal Evaluation Evaluation { get;  set; }
 
 		public static Guess GetRandomGuess()
 		{

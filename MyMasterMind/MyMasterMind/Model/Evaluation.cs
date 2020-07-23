@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MyMasterMind.Model
 {
-	public class Evaluation 
+	internal class Evaluation 
 	{
 		public int Black { get; set; }
 
