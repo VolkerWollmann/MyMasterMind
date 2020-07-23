@@ -4,9 +4,9 @@ using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Model
 {
-	public class Guess
+	public class Guess : IMasterMindGuessModel
 	{
-		public Code Code { get; internal set; }
+		internal Code Code { get; set; }
 		internal Evaluation Evaluation { get;  set; }
 
 		public static Guess GetRandomGuess()
@@ -15,6 +15,16 @@ namespace MyMasterMind.Model
 			guess.Code = Code.GetRandomCode();
 
 			return guess;
+		}
+
+		public IMasterMindCodeModel GetCode()
+		{
+			return Code;
+		}
+
+		public IMasterMindEvalutionModel GetEvaluation()
+		{
+			return Evaluation;
 		}
 
 		public Guess Copy()
@@ -44,9 +54,9 @@ namespace MyMasterMind.Model
 			Code = new Code();
 		}
 
-		public Guess(Code code)
+		public Guess(MyMasterMindCodeColors[] code)
 		{
-			Code = code;
+			Code = new Code(code);
 		}
 	}
 }

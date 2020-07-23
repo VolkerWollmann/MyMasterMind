@@ -18,7 +18,7 @@ namespace MyMasterMind.ViewModel
 	{
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
-		IMasterMindModel Game;
+		IMasterMindGameModel Game;
 
 		private void ClearBoard()
 		{
@@ -41,7 +41,7 @@ namespace MyMasterMind.ViewModel
 		{
 			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 			{
-				MasterMindBoard.SetCodeColor(j, Game.Code.Colors[j]);
+				MasterMindBoard.SetCodeColor(j, Game.GetCode().Colors[j]);
 			}
 
 		}
@@ -74,15 +74,15 @@ namespace MyMasterMind.ViewModel
 	
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			Guess guess = Game.GetCurrentGuess();
+			IMasterMindGuessModel guess = Game.GetCurrentGuess();
 			if (guess != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow();
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.Code.Colors[j]);
+					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.GetCode().Colors[j]);
 				}
-				MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.Evaluation.Black, guess.Evaluation.White);
+				MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
 
 				MasterMindBoard.MarkGuessCell(currentGuessRow, (CellMark)e.UserState);
 			}
@@ -150,15 +150,15 @@ namespace MyMasterMind.ViewModel
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
-			Code code = new Code();
+			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.ROWS];
 			int currentGuessRow = Game.GetCurrentGuessRow()+1;
 			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
 			{
 				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 			}
 
-			Guess guess = Game.SetGuess(currentGuessRow, code);
-			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.Evaluation.Black, guess.Evaluation.White);
+			IMasterMindGuessModel guess = Game.SetGuess(currentGuessRow, code);
+			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
 
 			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.None);
 			currentGuessRow++;

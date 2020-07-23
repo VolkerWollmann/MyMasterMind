@@ -7,9 +7,9 @@ namespace MyMasterMind.Model
 {
 	using DataTriple = Tuple<int, int, int>;
 
-	public class MyMasterMindGame : IMasterMindModel
+	public class MyMasterMindGame : IMasterMindGameModel
 	{
-		public Code Code { get; private set; }
+		private Code Code { get; set; }
 		private Guess[] Guesses;
 		int currentGuessIndex;
 
@@ -47,7 +47,11 @@ namespace MyMasterMind.Model
 			return CurrentGuess.Evaluation.Black == MyMasterMindConstants.CLOUMNS;
 		}
 
-		public Guess SetGuess(int row, Code code)
+		public IMasterMindCodeModel GetCode()
+		{
+			return Code;
+		}
+		public IMasterMindGuessModel SetGuess(int row, MyMasterMindCodeColors[] code)
 		{
 			currentGuessIndex = row;
 			CurrentGuess = new Guess(code);
@@ -59,7 +63,7 @@ namespace MyMasterMind.Model
 		{
 			return currentGuessIndex;
 		}
-		public Guess GetCurrentGuess()
+		public IMasterMindGuessModel GetCurrentGuess()
 		{
 			return CurrentGuess;
 		}
@@ -69,7 +73,7 @@ namespace MyMasterMind.Model
 			return CurrentGuess.Evaluation;
 		}
 
-		public Guess GetNewGuess()
+		public IMasterMindGuessModel GetNewGuess()
 		{
 			currentGuessIndex++;
 			if ( currentGuessIndex == 0)
