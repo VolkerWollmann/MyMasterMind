@@ -59,6 +59,7 @@
     <Compile Include="Controls\CodeField.xaml.cs">
       <DependentUpon>CodeField.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IMasterMindModel.cs" />
     <Compile Include="Model\Code.cs" />
     <Compile Include="Model\Evaluation.cs" />
     <Compile Include="Model\Guess.cs" />

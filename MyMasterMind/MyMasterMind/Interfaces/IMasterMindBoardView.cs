@@ -16,6 +16,6 @@ namespace MyMasterMind.Interfaces
 
 		void SetGuessEvaluation(int row, int black, int white);
 
-		void MarkGuessCell(int row, bool mark);
+		void MarkGuessCell(int row, CellMark mark);
 	}
 }

@@ -7,9 +7,9 @@ namespace MyMasterMind.Model
 {
 	using DataTriple = Tuple<int, int, int>;
 
-	public class MyMasterMindGame
+	public class MyMasterMindGame : IMasterMindGameModel
 	{
-		public Code Code { get; private set; }
+		private Code Code { get; set; }
 		private Guess[] Guesses;
 		int currentGuessIndex;
 
@@ -47,14 +47,35 @@ namespace MyMasterMind.Model
 			return CurrentGuess.Evaluation.Black == MyMasterMindConstants.CLOUMNS;
 		}
 
-		public Guess SetGuess(int row, Code code)
+		public IMasterMindCodeModel GetCode()
+		{
+			return Code;
+		}
+		public IMasterMindGuessModel SetGuess(int row, MyMasterMindCodeColors[] code)
 		{
 			currentGuessIndex = row;
 			CurrentGuess = new Guess(code);
 			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
 		}
-		public Guess GetGuess()
+
+		public int GetCurrentGuessRow()
+		{
+			return currentGuessIndex;
+		}
+		public IMasterMindGuessModel GetCurrentGuess()
+		{
+			return CurrentGuess;
+		}
+
+		public Evaluation GetCurrentEvalaution()
+		{
+			return CurrentGuess.Evaluation;
+		}
+
+		#region Computer plays
+		List<Guess> guessesSoFar=null;
+		public IMasterMindGuessModel GetNewGuess()
 		{
 			currentGuessIndex++;
 			if ( currentGuessIndex == 0)
@@ -62,16 +83,50 @@ namespace MyMasterMind.Model
 			else
 			{
 				CurrentGuess = PreviousGuess.Copy();
-				List<Guess> guesseSoFar = GetGuessesSoFarAsList();
+				guessesSoFar = GetGuessesSoFarAsList();
 				do
 				{
 					CurrentGuess.Increment();
 				}
-				while (guesseSoFar.Any(guess => !guess.Compare(CurrentGuess)));
+				while (guessesSoFar.Any(guess => !guess.Compare(CurrentGuess)));
 
 			}
 			CurrentGuess.Evaluate(Code);
+			guessesSoFar = null;
+
 			return CurrentGuess;
 		}
+
+		public bool StartGetNewGuess()
+		{
+			currentGuessIndex++;
+			if (currentGuessIndex == 0)
+				CurrentGuess = Guess.GetRandomGuess();
+			else
+			{
+				CurrentGuess = PreviousGuess.Copy();
+			}
+
+			return true;
+		}
+
+		public void Increment()
+		{
+			CurrentGuess.Increment();
+		}
+
+		public int GetFirstBadEvalaution()
+		{
+			for(int i=0; i < currentGuessIndex; i++ )
+			{
+				if (!Guesses[i].Compare(CurrentGuess))
+					return i;
+			}
+
+			CurrentGuess.Evaluate(Code);
+
+			return -1;
+		}
+		#endregion
 	}
 }

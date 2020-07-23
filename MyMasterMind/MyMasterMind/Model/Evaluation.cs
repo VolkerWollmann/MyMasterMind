@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Model
 {
-	public class Evaluation 
+	public class Evaluation : IMasterMindEvalutionModel
 	{
-		public int Black { get; set; }
+		public int Black { get; internal set; }
 
-		public int White { get; set; }
+		public int White { get; internal set; }
 
 		#region IEqualityComparer<Evaluation>
 		public bool Compare(Evaluation other)

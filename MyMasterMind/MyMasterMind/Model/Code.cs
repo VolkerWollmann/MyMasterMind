@@ -6,7 +6,7 @@ using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Model
 {
-	public class Code
+	public class Code : IMasterMindCodeModel
 	{
 		static Random random = new Random();
 		public MyMasterMindCodeColors[] Colors { get; private set; }
@@ -91,6 +91,15 @@ namespace MyMasterMind.Model
 		public Code()
 		{
 			Colors = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+		}
+
+		public Code(MyMasterMindCodeColors[] code)
+		{
+			Colors = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+			for(int i=0; i< MyMasterMindConstants.CLOUMNS; i++)
+			{
+				Colors[i] = code[i];
+			}
 		}
 	}
 }
