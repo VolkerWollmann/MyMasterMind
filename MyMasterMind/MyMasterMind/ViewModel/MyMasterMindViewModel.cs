@@ -19,7 +19,6 @@ namespace MyMasterMind.ViewModel
 		MasterMindBoard MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
 		MyMasterMindGame Game;
-		int CurrentGuessRow;
 
 		private void ClearBoard()
 		{
@@ -72,35 +71,32 @@ namespace MyMasterMind.ViewModel
 		}
 
 		BackgroundWorker BackgroundWorker;
-		Guess Guess;
-
+	
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (Guess != null)
+			Guess guess = Game.GetCurrentGuess();
+			if (guess != null)
 			{
+				int currentGuessRow = Game.GetCurrentGuessRow();
 				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
 				{
-					MasterMindBoard.SetGuessColor(CurrentGuessRow, j, Guess.Code.Colors[j]);
+					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.Code.Colors[j]);
 				}
-				MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
+				MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.Evaluation.Black, guess.Evaluation.White);
 
-				MasterMindBoard.MarkGuessCell(CurrentGuessRow, (CellMark)e.UserState);
+				MasterMindBoard.MarkGuessCell(currentGuessRow, (CellMark)e.UserState);
 			}
 		}
 
 		void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
-			Guess = null;
-			CurrentGuessRow = 0;
-
 			ShowCode();
 
 			BackgroundWorker.ReportProgress(0, CellMark.None);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
-				Guess = Game.GetGuess();
-				CurrentGuessRow = i;
+				Game.GetNewGuess();
 				for (int j = 0; j < 3; j++)
 				{
 					BackgroundWorker.ReportProgress(0, CellMark.CompareTrue);
@@ -148,25 +144,25 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
 
 			Game = new MyMasterMindGame();
-			
-			CurrentGuessRow = 0;
-			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.ForInput);
+
+			MasterMindBoard.MarkGuessCell(0, CellMark.ForInput);
 		}
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
 			Code code = new Code();
-			for(int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
+			int currentGuessRow = Game.GetCurrentGuessRow()+1;
+			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
 			{
-				code[i] = MasterMindBoard.GetGuessColor(CurrentGuessRow, i);
+				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 			}
 
-			Guess = Game.SetGuess(CurrentGuessRow, code);
-			MasterMindBoard.SetGuessEvaluation(CurrentGuessRow, Guess.Evaluation.Black, Guess.Evaluation.White);
+			Guess guess = Game.SetGuess(currentGuessRow, code);
+			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.Evaluation.Black, guess.Evaluation.White);
 
-			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.None);
-			CurrentGuessRow++;
-			if ( (CurrentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
+			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.None);
+			currentGuessRow++;
+			if ( (currentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
 			{
 				ShowCode();
 				MasterMindCommands.EnableButton(MyMasterMindCommands.User);
@@ -174,7 +170,7 @@ namespace MyMasterMind.ViewModel
 				MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 				return;
 			}
-			MasterMindBoard.MarkGuessCell(CurrentGuessRow, CellMark.ForInput ); 
+			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.ForInput ); 
 		}
 		#endregion
 	}

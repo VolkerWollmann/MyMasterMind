@@ -54,7 +54,17 @@ namespace MyMasterMind.Model
 			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
 		}
-		public Guess GetGuess()
+
+		public int GetCurrentGuessRow()
+		{
+			return currentGuessIndex;
+		}
+		public Guess GetCurrentGuess()
+		{
+			return CurrentGuess;
+		}
+
+		public Guess GetNewGuess()
 		{
 			currentGuessIndex++;
 			if ( currentGuessIndex == 0)
@@ -73,5 +83,6 @@ namespace MyMasterMind.Model
 			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
 		}
+
 	}
 }
