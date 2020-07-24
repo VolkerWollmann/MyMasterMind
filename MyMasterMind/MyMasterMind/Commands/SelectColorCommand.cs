@@ -21,7 +21,7 @@ namespace MyMasterMind.Commands
 
 		public void Execute(object parameter)
 		{
-			CodeField.SetColor(MyMasterMindConstants.GetCodeColor((string)parameter));
+			CodeField.SetColor((MyMasterMindCodeColors)parameter);
 		}
 
 		public SelectColorCommand(CodeField codeField )

@@ -4,17 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MyMasterMind.Controls"
+             xmlns:constants="clr-namespace:MyMasterMind.Interfaces" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Name="CodeFieldStackPanel">
         <StackPanel.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Red" Background="Red" CommandParameter="RED" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
-                <MenuItem Header="Green" Background="Green" CommandParameter="GREEN" Command="{Binding SelectColorCommand, Mode=OneWay}" />
-                <MenuItem Header="Blue" Background="Blue" CommandParameter="BLUE" Command="{Binding SelectColorCommand, Mode=OneWay}" />
-                <MenuItem Header="Yellow" Background="Yellow" CommandParameter="YELLOW" Command="{Binding SelectColorCommand, Mode=OneWay}" />
-                <MenuItem Header="Magenta" Background="Magenta" CommandParameter="MAGENTA" Command="{Binding SelectColorCommand, Mode=OneWay}" />
-                <MenuItem Header="Cyan" Background="Cyan" CommandParameter="CYAN" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Red" Background="Red" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Red}}" Command="{Binding SelectColorCommand, Mode=OneWay}"/>
+                <MenuItem Header="Green" Background="Green" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Green}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Blue" Background="Blue" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Blue}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Yellow" Background="Yellow" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Yellow}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Magenta" Background="Magenta" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Magenta}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="Cyan" Background="Cyan" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Cyan}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
             </ContextMenu>
         </StackPanel.ContextMenu>
         <Rectangle Name="CodeFieldRectangle" HorizontalAlignment="Left" 
