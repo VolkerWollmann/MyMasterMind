@@ -28,22 +28,6 @@ namespace MyMasterMind.Interfaces
 		Black
 	}
 
-	public enum MyMasterMindCommands
-	{
-		Clear = 0,
-		Computer,
-		Cancel,
-		User,
-		Check,
-	}
-
-	public enum CellMark
-	{
-		None=0,
-		ForInput,
-		CompareFalse,
-		CompareTrue,
-	}
 	public class MyMasterMindConstants
 	{
 		public const int CLOUMNS = 4;
