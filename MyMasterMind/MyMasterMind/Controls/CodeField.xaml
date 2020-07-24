@@ -20,7 +20,7 @@
         <Rectangle Name="CodeFieldRectangle" HorizontalAlignment="Left" 
                    Height="30" Margin="1,1,0,0"
                    Stroke="DarkMagenta" StrokeThickness="2"
-                   Fill="{Binding Path=XColorBrush}"
+                   Fill="{Binding Path=ColorBrush}"
                    VerticalAlignment="Center" Width="30" ></Rectangle>
     </StackPanel>
 </UserControl>

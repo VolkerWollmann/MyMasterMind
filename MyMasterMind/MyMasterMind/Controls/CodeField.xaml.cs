@@ -27,12 +27,12 @@ namespace MyMasterMind.Controls
 		private MyMasterMindCodeColors Color;
 
 		Brush colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
-		public Brush XColorBrush
+		public Brush ColorBrush
 		{
 			private set
 			{
 				colorBrush = value;
-				NotifyPropertyChanged("XColorBrush");
+				NotifyPropertyChanged("ColorBrush");
 			}
 
 			get
@@ -72,7 +72,7 @@ namespace MyMasterMind.Controls
 		public void SetColor( MyMasterMindCodeColors color )
 		{
 			Color = color;
-			XColorBrush = DisplayColors.GetCodeBrush(Color);	
+			ColorBrush = DisplayColors.GetCodeBrush(Color);	
 		}
 
 		public MyMasterMindCodeColors GetColor()
