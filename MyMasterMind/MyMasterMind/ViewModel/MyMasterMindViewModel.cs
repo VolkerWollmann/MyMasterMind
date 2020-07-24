@@ -16,7 +16,7 @@ namespace MyMasterMind.ViewModel
 	using ComputerPlayInformation = Tuple<int, CellMark>;
 	public class MyMasterMindViewModel
 	{
-		MasterMindBoard MasterMindBoard;
+		IMasterMindBoardView MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
 		IMasterMindGameModel Game;
 
