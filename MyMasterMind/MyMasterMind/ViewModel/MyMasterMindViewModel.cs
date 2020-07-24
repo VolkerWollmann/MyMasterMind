@@ -147,6 +147,7 @@ namespace MyMasterMind.ViewModel
 		{
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Clear);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
 		}
 
@@ -156,6 +157,7 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Clear);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Cancel);
 
