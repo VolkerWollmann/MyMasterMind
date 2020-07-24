@@ -30,8 +30,9 @@ namespace MyMasterMind.Interfaces
 
 	public enum MyMasterMindCommands
 	{
-		Cancel =0,
+		Clear = 0,
 		Computer,
+		Cancel,
 		User,
 		Check,
 	}

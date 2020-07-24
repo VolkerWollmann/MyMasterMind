@@ -8,11 +8,14 @@
              d:DesignHeight="450" d:DesignWidth="800" MinWidth="150">
     <Border Name="BoardBorder" BorderThickness="3,3,3,3" BorderBrush="Black">
         <StackPanel  HorizontalAlignment="Stretch"  >
+            <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandClear_Click">
+                Clear
+            </Button>
             <Button Name="ButtonCommandComputer" Height="50"  
                 Margin="10,10,10,10" Click="ButtonCommandComputer_Click">
                 Computer
             </Button>
-            <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10">
+            <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10" Click="ButtonCommandCancel_Click">
                 Cancel
             </Button>
             <Button Name="ButtonCommandUser" IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandUser_Click">
@@ -21,9 +24,6 @@
             <Button Name="ButtonCommandCheck"  IsEnabled="False" Height="50" Margin="10,10,10,10" Click="ButtonCommandCheck_Click">
                 Check
             </Button>
-            <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandClear_Click">
-                Clear
-            </Button>            
         </StackPanel>
     </Border>
 </UserControl>

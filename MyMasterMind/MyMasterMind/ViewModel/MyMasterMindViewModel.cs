@@ -53,10 +53,11 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands = (IMasterMindCommandView)masterMindCommands;
 
 			// bind commands to buttons
-			MasterMindCommands.SetClearCommandEventHandler(ClearCommand);
-			MasterMindCommands.SetComputerCommandEventHandler(ComputerCommand);
-			MasterMindCommands.SetUserCommandEventHandler(UserCommand);
-			MasterMindCommands.SetCheckCommandEventHandler(CheckCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,    ClearCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Computer, ComputerCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,   CancelCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,     UserCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,    CheckCommand);
 		}
 
 		#endregion
@@ -66,10 +67,12 @@ namespace MyMasterMind.ViewModel
 		{
 			ClearBoard();
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
 		}
 
+		#region Computer Command
 		BackgroundWorker BackgroundWorker;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -128,6 +131,9 @@ namespace MyMasterMind.ViewModel
 						System.Threading.Thread.Sleep(100);
 					}
 
+					if (BackgroundWorker.CancellationPending)
+						return;
+
 				} while (firstBadEvaluation > -1);
 
 				BackgroundWorker.ReportProgress(0, null);
@@ -141,6 +147,7 @@ namespace MyMasterMind.ViewModel
 		{
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
 		}
 
 
@@ -150,14 +157,23 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
-			
+			MasterMindCommands.EnableButton(MyMasterMindCommands.Cancel);
+
 			Game = new MyMasterMindGame();
 			BackgroundWorker = new BackgroundWorker();
 			BackgroundWorker.WorkerReportsProgress = true;
 			BackgroundWorker.DoWork += BackGroundComputerDoWork;
 			BackgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
 			BackgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
+			BackgroundWorker.WorkerSupportsCancellation = true;
 			BackgroundWorker.RunWorkerAsync(this);
+		}
+		#endregion
+
+		private void CancelCommand(object sender, EventArgs e)
+		{
+			if (BackgroundWorker != null)
+				BackgroundWorker.CancelAsync();
 		}
 
 		private void UserCommand(object sender, EventArgs e)

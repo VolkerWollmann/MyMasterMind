@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="Interfaces\IMasterMindBoardView.cs" />
     <Compile Include="Interfaces\IMasterMindCommandView.cs" />
-    <Compile Include="Interfaces\MasterMindColors.cs" />
+    <Compile Include="Interfaces\MasterMindEnums.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

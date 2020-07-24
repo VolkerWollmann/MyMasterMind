@@ -21,63 +21,49 @@ namespace MyMasterMind.Controls
 	/// </summary>
 	public partial class MasterMindCommands : UserControl, IMasterMindCommandView
 	{
-		private EventHandler ClearCommandEventHandler;
-		private EventHandler ComputerCommandEventHandler;
-		private EventHandler UserCommandEventHandler;
-		private EventHandler CheckCommandEventHandler;
+		private Dictionary<MyMasterMindCommands, EventHandler> EventHandler;
 		public MasterMindCommands()
 		{
 			InitializeComponent();
+			EventHandler = new Dictionary<MyMasterMindCommands, EventHandler>();
 		}
 
 		#region Command event handler registration
-		public void SetClearCommandEventHandler(EventHandler eventHandler)
+		public void SetCommandEventHandler(MyMasterMindCommands command, EventHandler eventHandler)
 		{
-			ClearCommandEventHandler += eventHandler;
+			if (EventHandler.ContainsKey(command))
+				EventHandler[command] += eventHandler;
+			else
+				EventHandler.Add(command, eventHandler);
 		}
 
-		public void SetComputerCommandEventHandler(EventHandler eventHandler)
-		{
-			ComputerCommandEventHandler += eventHandler;
-		}
-
-		public void SetUserCommandEventHandler(EventHandler eventHandler)
-		{
-			UserCommandEventHandler += eventHandler;
-		}
-
-		public void SetCheckCommandEventHandler(EventHandler eventHandler)
-		{
-			CheckCommandEventHandler += eventHandler;
-		}
 		#endregion
 
 		#region Command event operation
+
 		private void ButtonCommandComputer_Click(object sender, RoutedEventArgs e)
 		{
-
-			if (ComputerCommandEventHandler != null)
-				ComputerCommandEventHandler(sender, e);
+			EventHandler[MyMasterMindCommands.Computer]?.Invoke(sender, e);
 		}
 
 		private void ButtonCommandClear_Click(object sender, RoutedEventArgs e)
 		{
-			
-			if (ClearCommandEventHandler != null)
-				ClearCommandEventHandler(sender, e);
+			EventHandler[MyMasterMindCommands.Clear]?.Invoke(sender, e);
 		}
 
 		private void ButtonCommandUser_Click(object sender, RoutedEventArgs e)
 		{
-			if (UserCommandEventHandler != null)
-				UserCommandEventHandler(sender, e);
+			EventHandler[MyMasterMindCommands.User]?.Invoke(sender, e);
 		}
 
 		private void ButtonCommandCheck_Click(object sender, RoutedEventArgs e)
 		{
-			if (CheckCommandEventHandler != null)
-				CheckCommandEventHandler(sender, e);
+			EventHandler[MyMasterMindCommands.Check]?.Invoke(sender, e);
+		}
 
+		private void ButtonCommandCancel_Click(object sender, RoutedEventArgs e)
+		{
+			EventHandler[MyMasterMindCommands.Cancel]?.Invoke(sender, e);
 		}
 
 		#endregion
@@ -98,6 +84,10 @@ namespace MyMasterMind.Controls
 				case MyMasterMindCommands.User:
 					ButtonCommandUser.IsEnabled = state;
 					break;
+
+				case MyMasterMindCommands.Cancel:
+					ButtonCommandCancel.IsEnabled = state;
+					break;
 			}
 		}
 		public void EnableButton(MyMasterMindCommands command)
@@ -111,5 +101,6 @@ namespace MyMasterMind.Controls
 		}
 
 		#endregion
+
 	}
 }
