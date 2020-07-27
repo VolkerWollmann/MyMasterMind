@@ -11,9 +11,11 @@
             <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandClear_Click">
                 Clear
             </Button>
-            <Button Name="ButtonCommandComputer" Height="50"  
-                Margin="10,10,10,10" Click="ButtonCommandComputer_Click">
-                Computer
+            <Button Name="ButtonCommandComputerFast" Height="50" Margin="10,10,10,10" Click="ButtonCommandComputerFast_Click">
+                Computer (fast)
+            </Button>
+            <Button Name="ButtonCommandComputerSlow" Height="50" Margin="10,10,10,10" Click="ButtonCommandComputerSlow_Click">
+                Computer (slow)
             </Button>
             <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10" Click="ButtonCommandCancel_Click">
                 Cancel

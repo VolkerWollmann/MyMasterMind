@@ -54,7 +54,8 @@ namespace MyMasterMind.ViewModel
 
 			// bind commands to buttons
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,    ClearCommand);
-			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Computer, ComputerCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerSlow, ComputerSlowCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerFast, ComputerFastCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,   CancelCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,     UserCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,    CheckCommand);
@@ -68,11 +69,13 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
 		}
 
 		#region Computer Command
+		MyMasterMindCommands computerCommand;
 		BackgroundWorker BackgroundWorker;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -107,41 +110,49 @@ namespace MyMasterMind.ViewModel
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
-				Game.StartGetNewGuess();
-
-				int currentGuessRow = Game.GetCurrentGuessRow();
-
-				do
+				if (computerCommand == MyMasterMindCommands.ComputerSlow)
 				{
-					Game.Increment();
-					firstBadEvaluation = Game.GetFirstBadEvalaution();
+					Game.StartGetNewGuess();
 
-					int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
-					int badblinkrate = 25;
+					int currentGuessRow = Game.GetCurrentGuessRow();
 
-					for (int j = 0; j < jMax; j++)
+					do
 					{
-						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
-						System.Threading.Thread.Sleep(500);
-						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
-						System.Threading.Thread.Sleep(500);
+						Game.Increment();
+						firstBadEvaluation = Game.GetFirstBadEvalaution();
 
-						badblinkrate = 500;
-					}
+						int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
+						int badblinkrate = 25;
 
-					if (firstBadEvaluation > -1)
-					{
-						// show bad one
-						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
-						System.Threading.Thread.Sleep(badblinkrate);
-						BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
-						System.Threading.Thread.Sleep(badblinkrate);
-					}
+						for (int j = 0; j < jMax; j++)
+						{
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
+							System.Threading.Thread.Sleep(500);
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
+							System.Threading.Thread.Sleep(500);
 
-					if (BackgroundWorker.CancellationPending)
-						return;
+							badblinkrate = 500;
+						}
 
-				} while (firstBadEvaluation > -1);
+						if (firstBadEvaluation > -1)
+						{
+							// show bad one
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
+							System.Threading.Thread.Sleep(badblinkrate);
+							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
+							System.Threading.Thread.Sleep(badblinkrate);
+						}
+
+						if (BackgroundWorker.CancellationPending)
+							return;
+
+					} while (firstBadEvaluation > -1);
+				}
+				else
+				{
+					Game.GetNewGuess();
+					System.Threading.Thread.Sleep(500);
+				}
 
 				BackgroundWorker.ReportProgress(0, null);
 				System.Threading.Thread.Sleep(100);
@@ -152,20 +163,22 @@ namespace MyMasterMind.ViewModel
 
 		private void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
+			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Clear);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
 		}
 
 
-		private void ComputerCommand(object sender, EventArgs e)
+		private void ComputerComand(MyMasterMindCommands command)
 		{
 			ClearBoard();
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
 			MasterMindCommands.DisableButton(MyMasterMindCommands.Clear);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerSlow);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerFast);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Cancel);
 
 			Game = new MyMasterMindGame();
@@ -176,6 +189,18 @@ namespace MyMasterMind.ViewModel
 			BackgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
 			BackgroundWorker.WorkerSupportsCancellation = true;
 			BackgroundWorker.RunWorkerAsync(this);
+		}
+
+		private void ComputerSlowCommand(object sender, EventArgs e)
+		{
+			computerCommand = MyMasterMindCommands.ComputerSlow;
+			ComputerComand(MyMasterMindCommands.ComputerSlow);
+		}
+
+		private void ComputerFastCommand(object sender, EventArgs e)
+		{
+			computerCommand = MyMasterMindCommands.ComputerFast;
+			ComputerComand(MyMasterMindCommands.ComputerFast);
 		}
 		#endregion
 
@@ -190,7 +215,8 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 			
 			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Computer);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerSlow);
+			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerFast);
 			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
 
 			Game = new MyMasterMindGame();
@@ -216,7 +242,8 @@ namespace MyMasterMind.ViewModel
 			{
 				ShowCode();
 				MasterMindCommands.EnableButton(MyMasterMindCommands.User);
-				MasterMindCommands.EnableButton(MyMasterMindCommands.Computer);
+				MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
+				MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
 				MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
 				return;
 			}

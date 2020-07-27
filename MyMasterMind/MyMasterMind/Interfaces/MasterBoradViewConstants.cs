@@ -17,7 +17,8 @@ namespace MyMasterMind.Interfaces
 	public enum MyMasterMindCommands
 	{
 		Clear = 0,
-		Computer,
+		ComputerFast,
+		ComputerSlow,
 		Cancel,
 		User,
 		Check,

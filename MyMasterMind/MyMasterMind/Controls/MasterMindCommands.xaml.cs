@@ -41,10 +41,16 @@ namespace MyMasterMind.Controls
 
 		#region Command event operation
 
-		private void ButtonCommandComputer_Click(object sender, RoutedEventArgs e)
+		private void ButtonCommandComputerFast_Click(object sender, RoutedEventArgs e)
 		{
-			EventHandler[MyMasterMindCommands.Computer]?.Invoke(sender, e);
+			EventHandler[MyMasterMindCommands.ComputerFast]?.Invoke(sender, e);
 		}
+
+		private void ButtonCommandComputerSlow_Click(object sender, RoutedEventArgs e)
+		{
+			EventHandler[MyMasterMindCommands.ComputerSlow]?.Invoke(sender, e);
+		}
+
 
 		private void ButtonCommandClear_Click(object sender, RoutedEventArgs e)
 		{
@@ -77,8 +83,12 @@ namespace MyMasterMind.Controls
 					ButtonCommandCheck.IsEnabled = state;
 					break;
 
-				case MyMasterMindCommands.Computer:
-					ButtonCommandComputer.IsEnabled = state;
+				case MyMasterMindCommands.ComputerFast:
+					ButtonCommandComputerFast.IsEnabled = state;
+					break;
+
+				case MyMasterMindCommands.ComputerSlow:
+					ButtonCommandComputerSlow.IsEnabled = state;
 					break;
 
 				case MyMasterMindCommands.User:
