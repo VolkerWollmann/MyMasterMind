@@ -46,6 +46,18 @@ namespace MyMasterMind.ViewModel
 
 		}
 
+		private void EnableCommands(List<MyMasterMindCommands> commandList)
+		{
+			commandList.ForEach(command => { MasterMindCommands.EnableButton(command); });
+
+		}
+
+		private void DisableCommands(List<MyMasterMindCommands> commandList)
+		{
+			commandList.ForEach(command => { MasterMindCommands.DisableButton(command); });
+
+		}
+
 		#region Constructor
 		public MyMasterMindViewModel(MasterMindBoard masterMindBoard, MasterMindCommands masterMindCommands)
 		{
@@ -67,11 +79,8 @@ namespace MyMasterMind.ViewModel
 		private void ClearCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User });
 		}
 
 		#region Computer Command
@@ -163,23 +172,17 @@ namespace MyMasterMind.ViewModel
 
 		private void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.User);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Clear);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Cancel);
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 		}
 
 
 		private void ComputerComand(MyMasterMindCommands command)
 		{
 			ClearBoard();
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.Clear);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerSlow);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerFast);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Cancel);
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Cancel });
+			DisableCommands(new List<MyMasterMindCommands>() { 
+				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear, MyMasterMindCommands.Check });
 
 			Game = new MyMasterMindGame();
 			BackgroundWorker = new BackgroundWorker();
@@ -213,11 +216,9 @@ namespace MyMasterMind.ViewModel
 		private void UserCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
-			
-			MasterMindCommands.DisableButton(MyMasterMindCommands.User);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerSlow);
-			MasterMindCommands.DisableButton(MyMasterMindCommands.ComputerFast);
-			MasterMindCommands.EnableButton(MyMasterMindCommands.Check);
+
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User });
 
 			Game = new MyMasterMindGame();
 
@@ -241,10 +242,8 @@ namespace MyMasterMind.ViewModel
 			if ( (currentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
 			{
 				ShowCode();
-				MasterMindCommands.EnableButton(MyMasterMindCommands.User);
-				MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerFast);
-				MasterMindCommands.EnableButton(MyMasterMindCommands.ComputerSlow);
-				MasterMindCommands.DisableButton(MyMasterMindCommands.Check);
+				DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
+				EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 				return;
 			}
 			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.ForInput ); 
