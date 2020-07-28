@@ -79,8 +79,8 @@ namespace MyMasterMind.ViewModel
 		private void ClearCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
-			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
-			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User });
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel});
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 		}
 
 		#region Computer Command
@@ -111,19 +111,19 @@ namespace MyMasterMind.ViewModel
 
 		private void BackGroundComputerDoWork(object sender, DoWorkEventArgs e)
 		{
-			int firstBadEvaluation;
-
 			ShowCode();
-
-			BackgroundWorker.ReportProgress(0,null);
 
 			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
 			{
 				if (computerCommand == MyMasterMindCommands.ComputerSlow)
 				{
+					int firstBadEvaluation;
+
 					Game.StartGetNewGuess();
 
 					int currentGuessRow = Game.GetCurrentGuessRow();
+
+					BackgroundWorker.ReportProgress(0, null);
 
 					do
 					{
@@ -160,6 +160,9 @@ namespace MyMasterMind.ViewModel
 				else
 				{
 					Game.GetNewGuess();
+
+					BackgroundWorker.ReportProgress(0, null);
+
 					System.Threading.Thread.Sleep(500);
 				}
 
@@ -217,8 +220,8 @@ namespace MyMasterMind.ViewModel
 		{
 			ClearBoard();
 
-			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
-			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Clear });
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Cancel });
 
 			Game = new MyMasterMindGame();
 
