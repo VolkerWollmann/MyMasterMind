@@ -130,11 +130,13 @@ namespace MyMasterMind.ViewModel
 						Game.Increment();
 						firstBadEvaluation = Game.GetFirstBadEvalaution();
 
+						// show evaluations
 						int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
 						int badblinkrate = 25;
 
 						for (int j = 0; j < jMax; j++)
 						{
+							// show the good evalaution
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
 							System.Threading.Thread.Sleep(500);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
@@ -145,7 +147,7 @@ namespace MyMasterMind.ViewModel
 
 						if (firstBadEvaluation > -1)
 						{
-							// show bad one
+							// show the first bad evalaution
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
 							System.Threading.Thread.Sleep(badblinkrate);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));

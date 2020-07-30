@@ -98,6 +98,10 @@ namespace MyMasterMind.Controls
 				case MyMasterMindCommands.Cancel:
 					ButtonCommandCancel.IsEnabled = state;
 					break;
+
+				case MyMasterMindCommands.Clear:
+					ButtonCommandClear.IsEnabled = state;
+					break;
 			}
 		}
 		public void EnableButton(MyMasterMindCommands command)
