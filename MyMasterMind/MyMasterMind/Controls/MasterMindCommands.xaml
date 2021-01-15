@@ -23,7 +23,7 @@
             <Button Name="ButtonCommandUser" IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommandUser_Click">
                 User
             </Button>
-            <Button Name="ButtonCommandCheck"  IsEnabled="False" Height="50" Margin="10,10,10,10" Click="ButtonCommandCheck_Click">
+            <Button Name="ButtonCommandCheck" Command="{Binding CheckCommand}" IsEnabled="False" Height="50" Margin="10,10,10,10" >
                 Check
             </Button>
         </StackPanel>

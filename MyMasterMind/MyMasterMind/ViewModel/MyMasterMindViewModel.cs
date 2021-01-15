@@ -65,12 +65,12 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands = (IMasterMindCommandView)masterMindCommands;
 
 			// bind commands to buttons
-			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,    ClearCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,        ClearCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerSlow, ComputerSlowCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerFast, ComputerFastCommand);
-			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,   CancelCommand);
-			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,     UserCommand);
-			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,    CheckCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,       CancelCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,         UserCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,        CheckCommand);
 		}
 
 		#endregion
@@ -224,6 +224,8 @@ namespace MyMasterMind.ViewModel
 
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Clear });
 			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Cancel });
+
+			MasterMindCommands.
 
 			Game = new MyMasterMindGame();
 

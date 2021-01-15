@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CheckCommand.cs" />
     <Compile Include="Commands\SelectColorCommand.cs" />
     <Compile Include="Controls\CodeField.xaml.cs">
       <DependentUpon>CodeField.xaml</DependentUpon>
