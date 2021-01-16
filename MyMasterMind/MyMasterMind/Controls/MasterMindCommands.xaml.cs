@@ -26,6 +26,13 @@ namespace MyMasterMind.Controls
 		{
 			InitializeComponent();
 			EventHandler = new Dictionary<MyMasterMindCommands, EventHandler>();
+
+			this.ButtonCommandCancel.Tag = MyMasterMindCommands.Cancel;
+			this.ButtonCommandCheck.Tag = MyMasterMindCommands.Check;
+			this.ButtonCommandClear.Tag = MyMasterMindCommands.Clear;
+			this.ButtonCommandComputerFast.Tag = MyMasterMindCommands.ComputerFast;
+			this.ButtonCommandComputerSlow.Tag = MyMasterMindCommands.ComputerSlow;
+			this.ButtonCommandUser.Tag = MyMasterMindCommands.User;
 		}
 
 		#region Command event handler registration
@@ -41,35 +48,12 @@ namespace MyMasterMind.Controls
 
 		#region Command event operation
 
-		private void ButtonCommandComputerFast_Click(object sender, RoutedEventArgs e)
+		private void ButtonCommand_Click(object sender, RoutedEventArgs e)
 		{
-			EventHandler[MyMasterMindCommands.ComputerFast]?.Invoke(sender, e);
-		}
-
-		private void ButtonCommandComputerSlow_Click(object sender, RoutedEventArgs e)
-		{
-			EventHandler[MyMasterMindCommands.ComputerSlow]?.Invoke(sender, e);
-		}
-
-
-		private void ButtonCommandClear_Click(object sender, RoutedEventArgs e)
-		{
-			EventHandler[MyMasterMindCommands.Clear]?.Invoke(sender, e);
-		}
-
-		private void ButtonCommandUser_Click(object sender, RoutedEventArgs e)
-		{
-			EventHandler[MyMasterMindCommands.User]?.Invoke(sender, e);
-		}
-
-		private void ButtonCommandCheck_Click(object sender, RoutedEventArgs e)
-		{
-			EventHandler[MyMasterMindCommands.Check]?.Invoke(sender, e);
-		}
-
-		private void ButtonCommandCancel_Click(object sender, RoutedEventArgs e)
-		{
-			EventHandler[MyMasterMindCommands.Cancel]?.Invoke(sender, e);
+			if (sender is Button b)
+			{
+				EventHandler[(MyMasterMindCommands)b.Tag]?.Invoke(sender, e);
+			}
 		}
 
 		#endregion
@@ -114,7 +98,12 @@ namespace MyMasterMind.Controls
 			SetButton(command, false);
 		}
 
-		#endregion
+        public void SetCommand(ICommand command)
+        {
+            throw new NotImplementedException();
+        }
 
-	}
+        #endregion
+
+    }
 }

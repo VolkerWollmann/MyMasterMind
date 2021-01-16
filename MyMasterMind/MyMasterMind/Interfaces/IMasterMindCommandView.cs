@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MyMasterMind.Interfaces
 {
@@ -14,6 +15,6 @@ namespace MyMasterMind.Interfaces
 
 		void DisableButton(MyMasterMindCommands command);
 
-		void SetCommand();
+		void SetCommand(ICommand command);
 	}
 }

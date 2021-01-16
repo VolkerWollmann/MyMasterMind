@@ -225,8 +225,6 @@ namespace MyMasterMind.ViewModel
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Clear });
 			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Cancel });
 
-			MasterMindCommands.
-
 			Game = new MyMasterMindGame();
 
 			MasterMindBoard.MarkGuessCell(0, CellMark.ForInput);
@@ -235,11 +233,16 @@ namespace MyMasterMind.ViewModel
 		private void CheckCommand(object sender, EventArgs e)
 		{
 			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.ROWS];
+		
 			int currentGuessRow = Game.GetCurrentGuessRow()+1;
 			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
 			{
 				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 			}
+
+			// prevent check of unfinished guess
+			if (code.Any(c => c == MyMasterMindCodeColors.None))
+				return;
 
 			IMasterMindGuessModel guess = Game.SetGuess(currentGuessRow, code);
 			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
