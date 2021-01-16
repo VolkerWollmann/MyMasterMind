@@ -90,8 +90,21 @@ namespace MyMasterMind.Controls
 					break;
 
 				case CellMark.ForInput:
-					EvaluationStackPanel.Background = new SolidColorBrush(Colors.Aqua);
-					CodeStackPanel.Background = new SolidColorBrush(Colors.Aqua);
+					GradientStop gs1 = new GradientStop(Colors.White, 0);
+					GradientStop gs2 = new GradientStop(Colors.White, 0.5);
+					GradientStop gs3 = new GradientStop(Colors.Gray, 0.5);
+					GradientStop gs4 = new GradientStop(Colors.Gray, 1);
+					LinearGradientBrush lgb = new LinearGradientBrush();
+					lgb.MappingMode = BrushMappingMode.Absolute;
+					lgb.StartPoint = new Point(0, 0);
+					lgb.EndPoint = new Point(4, 4);
+					lgb.SpreadMethod = GradientSpreadMethod.Repeat;
+					lgb.GradientStops.Add(gs1);
+					lgb.GradientStops.Add(gs2);
+					lgb.GradientStops.Add(gs3);
+					lgb.GradientStops.Add(gs4);
+					EvaluationStackPanel.Background = lgb;
+					CodeStackPanel.Background = lgb;
 					Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
 					break;
 

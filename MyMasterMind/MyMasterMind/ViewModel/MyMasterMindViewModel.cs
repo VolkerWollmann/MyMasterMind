@@ -232,7 +232,7 @@ namespace MyMasterMind.ViewModel
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
-			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.ROWS];
+			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
 		
 			int currentGuessRow = Game.GetCurrentGuessRow()+1;
 			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
