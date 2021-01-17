@@ -7,13 +7,15 @@ using System.Windows.Input;
 
 namespace MyMasterMind.Interfaces
 {
-	interface IMasterMindCommandView
+	public interface IMasterMindCommandView
 	{
 		void SetCommandEventHandler(MyMasterMindCommands command, EventHandler eventHandler);
 
-		void EnableButton(MyMasterMindCommands command);
+		void RaiseCommandEventHandler(MyMasterMindCommands command);
 
-		void DisableButton(MyMasterMindCommands command);
+		void SetButtonState(MyMasterMindCommands command, bool state);
+
+		bool GetButtonState(MyMasterMindCommands command);
 
 	}
 }

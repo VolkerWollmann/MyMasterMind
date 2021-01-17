@@ -8,22 +8,22 @@
              d:DesignHeight="450" d:DesignWidth="800" MinWidth="150">
     <Border Name="BoardBorder" BorderThickness="3,3,3,3" BorderBrush="Black">
         <StackPanel  HorizontalAlignment="Stretch"  >
-            <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommand_Click">
+            <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Clear</Bold></TextBlock>
             </Button>
-            <Button Name="ButtonCommandComputerFast" Height="50" Margin="10,10,10,10" Click="ButtonCommand_Click">
+            <Button Name="ButtonCommandComputerFast" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold> Computer (fast)</Bold></TextBlock>
             </Button>
-            <Button Name="ButtonCommandComputerSlow" Height="50" Margin="10,10,10,10" Click="ButtonCommand_Click">
+            <Button Name="ButtonCommandComputerSlow" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold> Computer (slow)</Bold></TextBlock>
             </Button>
-            <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10" Click="ButtonCommand_Click">
+            <Button Name="ButtonCommandCancel" IsEnabled="False"  Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Cancel</Bold></TextBlock>
             </Button>
-            <Button Name="ButtonCommandUser" IsEnabled="True" Height="50" Margin="10,10,10,10" Click="ButtonCommand_Click">
+            <Button Name="ButtonCommandUser" IsEnabled="True" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>User</Bold></TextBlock>
             </Button>
-            <Button Name="ButtonCommandCheck"  Click="ButtonCommand_Click" IsEnabled="False" Height="50" Margin="10,10,10,10" >
+            <Button Name="ButtonCommandCheck" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Check</Bold></TextBlock>
             </Button>
         </StackPanel>

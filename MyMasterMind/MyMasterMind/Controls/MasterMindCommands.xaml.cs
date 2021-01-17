@@ -1,18 +1,9 @@
 ﻿using MyMasterMind.Interfaces;
+using MyMasterMind.Commands;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyMasterMind.Controls
 {
@@ -22,38 +13,36 @@ namespace MyMasterMind.Controls
 	public partial class MasterMindCommands : UserControl, IMasterMindCommandView
 	{
 		private Dictionary<MyMasterMindCommands, EventHandler> EventHandler;
+		private bool[] State = new bool[6];
 		public MasterMindCommands()
 		{
 			InitializeComponent();
 			EventHandler = new Dictionary<MyMasterMindCommands, EventHandler>();
 
-			this.ButtonCommandCancel.Tag = MyMasterMindCommands.Cancel;
-			this.ButtonCommandCheck.Tag = MyMasterMindCommands.Check;
-			this.ButtonCommandClear.Tag = MyMasterMindCommands.Clear;
-			this.ButtonCommandComputerFast.Tag = MyMasterMindCommands.ComputerFast;
-			this.ButtonCommandComputerSlow.Tag = MyMasterMindCommands.ComputerSlow;
-			this.ButtonCommandUser.Tag = MyMasterMindCommands.User;
+			this.ButtonCommandCancel.Command = new ButtonCommand(this, MyMasterMindCommands.Cancel);
+			this.ButtonCommandCheck.Command = new ButtonCommand(this, MyMasterMindCommands.Check);
+			this.ButtonCommandClear.Command = new ButtonCommand(this, MyMasterMindCommands.Clear);
+			this.ButtonCommandComputerFast.Command = new ButtonCommand(this, MyMasterMindCommands.ComputerFast);
+			this.ButtonCommandComputerSlow.Command = new ButtonCommand(this, MyMasterMindCommands.ComputerSlow);
+			this.ButtonCommandUser.Command = new ButtonCommand(this, MyMasterMindCommands.User);
 		}
 
-		#region Command event handler registration
-		public void SetCommandEventHandler(MyMasterMindCommands command, EventHandler eventHandler)
+
+        #region Command event handler registration
+        public void SetCommandEventHandler(MyMasterMindCommands command, EventHandler eventHandler)
 		{
 			if (EventHandler.ContainsKey(command))
 				EventHandler[command] += eventHandler;
 			else
 				EventHandler.Add(command, eventHandler);
 		}
+        #endregion
 
-		#endregion
-
-		#region Command event operation
-
-		private void ButtonCommand_Click(object sender, RoutedEventArgs e)
+        #region Command event operation
+        public void RaiseCommandEventHandler(MyMasterMindCommands command)
 		{
-			if (sender is Button b)
-			{
-				EventHandler[(MyMasterMindCommands)b.Tag]?.Invoke(sender, e);
-			}
+			if (EventHandler.ContainsKey(command))
+				EventHandler[command].Invoke(this,null);
 		}
 
 		#endregion
@@ -61,6 +50,7 @@ namespace MyMasterMind.Controls
 		#region Sufrace/Appearance Operation
 		private void SetButton(MyMasterMindCommands command, bool state)
 		{
+			State[(int)command] = state;
 			switch (command)
 			{
 				case MyMasterMindCommands.Check:
@@ -88,20 +78,16 @@ namespace MyMasterMind.Controls
 					break;
 			}
 		}
-		public void EnableButton(MyMasterMindCommands command)
+
+		public bool GetButtonState(MyMasterMindCommands command)
 		{
-			SetButton(command, true);
+			return State[(int)command];
 		}
 
-		public void DisableButton(MyMasterMindCommands command)
+		public void SetButtonState(MyMasterMindCommands command, bool state)
 		{
-			SetButton(command, false);
+			SetButton(command, state);
 		}
-
-        public void SetCommand(ICommand command)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 

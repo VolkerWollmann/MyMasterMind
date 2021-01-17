@@ -48,13 +48,13 @@ namespace MyMasterMind.ViewModel
 
 		private void EnableCommands(List<MyMasterMindCommands> commandList)
 		{
-			commandList.ForEach(command => { MasterMindCommands.EnableButton(command); });
+			commandList.ForEach(command => { MasterMindCommands.SetButtonState(command, true); });
 
 		}
 
 		private void DisableCommands(List<MyMasterMindCommands> commandList)
 		{
-			commandList.ForEach(command => { MasterMindCommands.DisableButton(command); });
+			commandList.ForEach(command => { MasterMindCommands.SetButtonState(command, false); });
 
 		}
 
