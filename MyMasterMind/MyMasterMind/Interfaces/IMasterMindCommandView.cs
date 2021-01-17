@@ -15,6 +15,5 @@ namespace MyMasterMind.Interfaces
 
 		void DisableButton(MyMasterMindCommands command);
 
-		void SetCommand(ICommand command);
 	}
 }
