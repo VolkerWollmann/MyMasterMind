@@ -22,9 +22,11 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for CodeField.xaml
 	/// </summary>
-	public partial class CodeField : UserControl, INotifyPropertyChanged
+	public partial class CodeField : UserControl, INotifyPropertyChanged, ISetCheckCheckCommandEventHandler
 	{
 		private MyMasterMindCodeColors Color;
+
+		EventHandler CheckCheckCommandEventHandler;
 
 		Brush colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
 		public Brush ColorBrush
@@ -59,7 +61,8 @@ namespace MyMasterMind.Controls
 			get { return selectColorCommand; }
 		}
 
-		public CodeField()
+        #region Constructor
+        public CodeField()
 		{
 			InitializeComponent();
 			this.DataContext = this;
@@ -68,11 +71,15 @@ namespace MyMasterMind.Controls
 			selectColorCommand = new SelectColorCommand(this);
 			DisableMenu();
 		}
+		#endregion
 
 		public void SetColor( MyMasterMindCodeColors color )
 		{
 			Color = color;
-			ColorBrush = DisplayColors.GetCodeBrush(Color);	
+			ColorBrush = DisplayColors.GetCodeBrush(Color);
+
+			if (CheckCheckCommandEventHandler != null)
+				CheckCheckCommandEventHandler(this, null);
 		}
 
 		public MyMasterMindCodeColors GetColor()
@@ -91,5 +98,13 @@ namespace MyMasterMind.Controls
 			CodeFieldStackPanel.ContextMenu.IsEnabled = false;
 			CodeFieldStackPanel.ContextMenu.Visibility = Visibility.Hidden;
 		}
+
+		#region ISetCheckCheckCommandEventHandler
+		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+        {
+			CheckCheckCommandEventHandler = checkCheckCommandEventHandler;
+
+		}
+		#endregion
 	}
 }

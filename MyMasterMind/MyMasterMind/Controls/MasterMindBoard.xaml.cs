@@ -19,7 +19,7 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for MasterMindBoard.xaml
 	/// </summary>
-	public partial class MasterMindBoard : UserControl, IMasterMindBoardView
+	public partial class MasterMindBoard : UserControl, IMasterMindBoardView, ISetCheckCheckCommandEventHandler
 	{
 		private GuessCell Code;
 		private GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.ROWS];
@@ -68,5 +68,12 @@ namespace MyMasterMind.Controls
 		{
 			return GuessCells[row].GetColor(column);
 		}
+
+		#region ISetCheckCheckCommandEventHandler
+		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+        {
+			GuessCells.ToList().ForEach(gc => { gc.SetCheckCheckCommandEventHandler(checkCheckCommandEventHandler); });
+		}
+		#endregion
 	}
 }

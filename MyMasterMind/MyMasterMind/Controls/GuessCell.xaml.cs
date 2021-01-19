@@ -21,7 +21,7 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for GuessCell.xaml
 	/// </summary>
-	public partial class GuessCell : UserControl
+	public partial class GuessCell : UserControl, ISetCheckCheckCommandEventHandler
 	{
 		private Rectangle[] Evaluation;
 		private CodeField[] Field;
@@ -119,5 +119,12 @@ namespace MyMasterMind.Controls
 					break;
 			}
 		}
+
+		#region ISetCheckCheckCommandEventHandler
+		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+        {
+			Field.ToList().ForEach(f => {f.SetCheckCheckCommandEventHandler(checkCheckCommandEventHandler); } );
+		}
+		#endregion
 	}
 }

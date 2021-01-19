@@ -64,6 +64,7 @@
       <DependentUpon>CodeField.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IMasterMindModel.cs" />
+    <Compile Include="Interfaces\ISetCheckCheckCommandEventHandler.cs" />
     <Compile Include="Interfaces\MasterBoradViewConstants.cs" />
     <Compile Include="Model\Code.cs" />
     <Compile Include="Model\Evaluation.cs" />

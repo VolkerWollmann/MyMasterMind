@@ -19,6 +19,7 @@ namespace MyMasterMind.ViewModel
 		IMasterMindBoardView MasterMindBoard;
 		IMasterMindCommandView MasterMindCommands;
 		IMasterMindGameModel Game;
+		bool userPlaying = false;
 
 		private void ClearBoard()
 		{
@@ -62,6 +63,9 @@ namespace MyMasterMind.ViewModel
 		public MyMasterMindViewModel(MasterMindBoard masterMindBoard, MasterMindCommands masterMindCommands)
 		{
 			MasterMindBoard = masterMindBoard;
+
+			((ISetCheckCheckCommandEventHandler)MasterMindBoard).SetCheckCheckCommandEventHandler(CheckCheckCommand);
+
 			MasterMindCommands = (IMasterMindCommandView)masterMindCommands;
 
 			// bind commands to buttons
@@ -71,6 +75,8 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,       CancelCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,         UserCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,        CheckCommand);
+
+			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
 		}
 
 		#endregion
@@ -187,7 +193,9 @@ namespace MyMasterMind.ViewModel
 			ClearBoard();
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Cancel });
 			DisableCommands(new List<MyMasterMindCommands>() { 
-				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear, MyMasterMindCommands.Check });
+				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, 
+				MyMasterMindCommands.User,         MyMasterMindCommands.Clear, 
+				MyMasterMindCommands.Check });
 
 			Game = new MyMasterMindGame();
 			BackgroundWorker = new BackgroundWorker();
@@ -201,12 +209,14 @@ namespace MyMasterMind.ViewModel
 
 		private void ComputerSlowCommand(object sender, EventArgs e)
 		{
+			userPlaying = false;
 			computerCommand = MyMasterMindCommands.ComputerSlow;
 			ComputerComand(MyMasterMindCommands.ComputerSlow);
 		}
 
 		private void ComputerFastCommand(object sender, EventArgs e)
 		{
+			userPlaying = false;
 			computerCommand = MyMasterMindCommands.ComputerFast;
 			ComputerComand(MyMasterMindCommands.ComputerFast);
 		}
@@ -214,6 +224,7 @@ namespace MyMasterMind.ViewModel
 
 		private void CancelCommand(object sender, EventArgs e)
 		{
+			userPlaying = false;
 			if (BackgroundWorker != null)
 				BackgroundWorker.CancelAsync();
 		}
@@ -222,12 +233,36 @@ namespace MyMasterMind.ViewModel
 		{
 			ClearBoard();
 
-			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Clear });
-			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Cancel });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Clear });
+			DisableCommands(new List<MyMasterMindCommands>() { 
+				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, 
+				MyMasterMindCommands.User,         MyMasterMindCommands.Cancel,
+			    MyMasterMindCommands.Check});
 
 			Game = new MyMasterMindGame();
 
 			MasterMindBoard.MarkGuessCell(0, CellMark.ForInput);
+
+			userPlaying = true;
+		}
+
+		private void CheckCheckCommand(object sender, EventArgs e)
+        {
+			bool state = userPlaying;
+			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+
+			if (Game != null)
+			{
+				int currentGuessRow = Game.GetCurrentGuessRow() + 1;
+				for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++)
+				{
+					code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
+				}
+
+				state = state && (code.All(c => c != MyMasterMindCodeColors.None));
+			}
+
+			MasterMindCommands.SetButtonState(MyMasterMindCommands.Check, state);
 		}
 
 		private void CheckCommand(object sender, EventArgs e)
@@ -239,10 +274,6 @@ namespace MyMasterMind.ViewModel
 			{
 				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 			}
-
-			// prevent check of unfinished guess
-			if (code.Any(c => c == MyMasterMindCodeColors.None))
-				return;
 
 			IMasterMindGuessModel guess = Game.SetGuess(currentGuessRow, code);
 			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
@@ -256,7 +287,9 @@ namespace MyMasterMind.ViewModel
 				EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 				return;
 			}
-			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.ForInput ); 
+			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.ForInput );
+
+			MasterMindCommands.SetButtonState(MyMasterMindCommands.Check, false);
 		}
 		#endregion
 	}
