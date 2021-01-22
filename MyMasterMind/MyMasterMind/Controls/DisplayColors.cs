@@ -36,6 +36,7 @@ namespace MyMasterMind.Controls
 			CodeBrushes[(int)MyMasterMindCodeColors.Yellow] = new SolidColorBrush(Colors.Yellow);
 			CodeBrushes[(int)MyMasterMindCodeColors.Magenta] = new SolidColorBrush(Colors.Magenta);
 			CodeBrushes[(int)MyMasterMindCodeColors.Cyan] = new SolidColorBrush(Colors.Cyan);
+			CodeBrushes[(int)MyMasterMindCodeColors.SandyBrown] = new SolidColorBrush(Colors.SandyBrown);
 
 			EvaluationBrushes = new Brush[Enum.GetNames(typeof(MyMasterMindEvaluationColors)).Length];
 			EvaluationBrushes[(int)MyMasterMindEvaluationColors.None] = new SolidColorBrush(Colors.Gray);

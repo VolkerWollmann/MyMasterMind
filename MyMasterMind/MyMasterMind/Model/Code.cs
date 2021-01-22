@@ -30,7 +30,7 @@ namespace MyMasterMind.Model
 			int index = 0;
 			while (index < MyMasterMindConstants.CLOUMNS )
 			{
-				if (Colors[index] < MyMasterMindCodeColors.Cyan)
+				if (Colors[index] < MyMasterMindConstants.MaxColor)
 				{
 					Colors[index] += 1;
 					return;

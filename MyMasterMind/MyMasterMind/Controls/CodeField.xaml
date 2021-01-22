@@ -16,6 +16,7 @@
                 <MenuItem Header="Yellow" Background="Yellow" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Yellow}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
                 <MenuItem Header="Magenta" Background="Magenta" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Magenta}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
                 <MenuItem Header="Cyan" Background="Cyan" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.Cyan}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
+                <MenuItem Header="SandyBrown" Background="SandyBrown" CommandParameter="{Binding Source={x:Static constants:MyMasterMindCodeColors.SandyBrown}}" Command="{Binding SelectColorCommand, Mode=OneWay}" />
             </ContextMenu>
         </StackPanel.ContextMenu>
         <Rectangle Name="CodeFieldRectangle" HorizontalAlignment="Left" 

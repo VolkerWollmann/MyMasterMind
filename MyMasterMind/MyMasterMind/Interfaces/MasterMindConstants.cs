@@ -18,7 +18,8 @@ namespace MyMasterMind.Interfaces
 		Blue,
 		Yellow,
 		Magenta,
-		Cyan
+		Cyan,
+		SandyBrown
 	}
 
 	public enum MyMasterMindEvaluationColors
@@ -32,5 +33,7 @@ namespace MyMasterMind.Interfaces
 	{
 		public const int CLOUMNS = 4;
 		public const int ROWS = 10;
+
+		public static MyMasterMindCodeColors MaxColor => Enum.GetValues(typeof(MyMasterMindCodeColors)).Cast<MyMasterMindCodeColors>().Max();
 	}
 }
