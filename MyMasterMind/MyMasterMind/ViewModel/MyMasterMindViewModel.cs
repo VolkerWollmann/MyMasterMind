@@ -138,26 +138,24 @@ namespace MyMasterMind.ViewModel
 
 						// show evaluations
 						int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
-						int badblinkrate = 25;
 
 						for (int j = 0; j < jMax; j++)
 						{
 							// show the good evalaution
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
-							System.Threading.Thread.Sleep(500);
+							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
-							System.Threading.Thread.Sleep(500);
+							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
 
-							badblinkrate = 500;
 						}
 
 						if (firstBadEvaluation > -1)
 						{
 							// show the first bad evalaution
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
-							System.Threading.Thread.Sleep(badblinkrate);
+							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.BadGuessDisplayTime);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
-							System.Threading.Thread.Sleep(badblinkrate);
+							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.BadGuessDisplayTime);
 						}
 
 						if (BackgroundWorker.CancellationPending)

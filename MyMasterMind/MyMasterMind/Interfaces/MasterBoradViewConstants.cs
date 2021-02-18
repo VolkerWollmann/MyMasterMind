@@ -23,4 +23,10 @@ namespace MyMasterMind.Interfaces
 		User,
 		Check,
 	}
+
+	public class MyMasterMindBoarViewConstants
+    {
+		public static int GoodGuessDisplayTime = 400;
+		public static int BadGuessDisplayTime = 20;
+	}
 }

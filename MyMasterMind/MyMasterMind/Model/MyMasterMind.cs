@@ -74,7 +74,6 @@ namespace MyMasterMind.Model
 		}
 
 		#region Computer plays
-		List<Guess> guessesSoFar=null;
 		public IMasterMindGuessModel GetNewGuess()
 		{
 			currentGuessIndex++;
@@ -83,7 +82,7 @@ namespace MyMasterMind.Model
 			else
 			{
 				CurrentGuess = PreviousGuess.Copy();
-				guessesSoFar = GetGuessesSoFarAsList();
+				List<Guess> guessesSoFar = GetGuessesSoFarAsList();
 				do
 				{
 					CurrentGuess.Increment();
@@ -91,9 +90,8 @@ namespace MyMasterMind.Model
 				while (guessesSoFar.Any(guess => !guess.Compare(CurrentGuess)));
 
 			}
-			CurrentGuess.Evaluate(Code);
-			guessesSoFar = null;
 
+			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
 		}
 
