@@ -1,28 +1,17 @@
 ﻿using MyMasterMind.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyMasterMind.Controls
 {
 	/// <summary>
 	/// Interaction logic for MasterMindBoard.xaml
 	/// </summary>
-	public partial class MasterMindBoard : UserControl, IMasterMindBoardView, ISetCheckCheckCommandEventHandler
+	public partial class MasterMindBoard : IMasterMindBoardView, ISetCheckCheckCommandEventHandler
 	{
-		private GuessCell Code;
-		private GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.ROWS];
+		private readonly GuessCell Code;
+		private readonly GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.Rows];
 
 		public MasterMindBoard()
 		{
@@ -33,7 +22,7 @@ namespace MyMasterMind.Controls
 			Grid.SetColumn(Code, 0);
 			Grid.SetRow(Code, 0);
 
-			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
+			for (int i = 0; i < MyMasterMindConstants.Rows; i++)
 			{
 				GuessCells[i] = new GuessCell();
 				BoardGrid.Children.Add(GuessCells[i]);

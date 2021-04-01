@@ -2,18 +2,16 @@
 using MyMasterMind.Commands;
 using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace MyMasterMind.Controls
 {
 	/// <summary>
 	/// Interaction logic for MasterMindCommands.xaml
 	/// </summary>
-	public partial class MasterMindCommands : UserControl, IMasterMindCommandView
+	public partial class MasterMindCommands : IMasterMindCommandView
 	{
-		private Dictionary<MyMasterMindCommands, EventHandler> EventHandler;
-		private bool[] State = new bool[6];
+		private readonly Dictionary<MyMasterMindCommands, EventHandler> EventHandler;
+		private readonly bool[] State = new bool[6];
 		public MasterMindCommands()
 		{
 			InitializeComponent();

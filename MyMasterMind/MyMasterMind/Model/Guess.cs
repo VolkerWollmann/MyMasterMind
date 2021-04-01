@@ -1,5 +1,4 @@
-﻿using System;
-using MyMasterMind.Interfaces;
+﻿using MyMasterMind.Interfaces;
 
 
 namespace MyMasterMind.Model
@@ -11,10 +10,9 @@ namespace MyMasterMind.Model
 
 		public static Guess GetRandomGuess()
 		{
-			Guess guess = new Guess();
-			guess.Code = Code.GetRandomCode();
+            Guess guess = new Guess {Code = Code.GetRandomCode()};
 
-			return guess;
+            return guess;
 		}
 
 		public IMasterMindCodeModel GetCode()
@@ -22,17 +20,16 @@ namespace MyMasterMind.Model
 			return Code;
 		}
 
-		public IMasterMindEvalutionModel GetEvaluation()
+		public IMasterMindEvaluationModel GetEvaluation()
 		{
 			return Evaluation;
 		}
 
 		public Guess Copy()
 		{
-			Guess copy = new Guess();
-			copy.Code = Code.Copy();
+            Guess copy = new Guess {Code = Code.Copy()};
 
-			return copy;
+            return copy;
 		}
 		public void Increment()
 		{

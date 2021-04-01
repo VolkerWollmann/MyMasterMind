@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace MyMasterMind.Interfaces
 {
@@ -31,8 +25,8 @@ namespace MyMasterMind.Interfaces
 
 	public class MyMasterMindConstants
 	{
-		public const int CLOUMNS = 4;
-		public const int ROWS = 10;
+		public const int Columns = 4;
+		public const int Rows = 10;
 
 		public static MyMasterMindCodeColors MaxColor => Enum.GetValues(typeof(MyMasterMindCodeColors)).Cast<MyMasterMindCodeColors>().Max();
 	}

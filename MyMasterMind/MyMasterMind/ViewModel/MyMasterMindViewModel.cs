@@ -5,32 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 
 namespace MyMasterMind.ViewModel
 {
 	using ComputerPlayInformation = Tuple<int, CellMark>;
 	public class MyMasterMindViewModel
 	{
-		IMasterMindBoardView MasterMindBoard;
-		IMasterMindCommandView MasterMindCommands;
+        readonly IMasterMindBoardView MasterMindBoard;
+        readonly IMasterMindCommandView MasterMindCommands;
 		IMasterMindGameModel Game;
-		bool userPlaying = false;
+		bool UserPlaying;
 
 		private void ClearBoard()
 		{
-			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+			for (int j = 0; j < MyMasterMindConstants.Columns; j++)
 			{
 				MasterMindBoard.SetCodeColor(j, MyMasterMindCodeColors.None);
 			}
 
-			for (int i=0; i< MyMasterMindConstants.ROWS; i++)
+			for (int i=0; i< MyMasterMindConstants.Rows; i++)
 			{
-				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+				for (int j = 0; j < MyMasterMindConstants.Columns; j++)
 					MasterMindBoard.SetGuessColor(i, j, MyMasterMindCodeColors.None);
 
 				MasterMindBoard.SetGuessEvaluation(i, 0, 0);
@@ -40,7 +35,7 @@ namespace MyMasterMind.ViewModel
 
 		private void ShowCode()
 		{
-			for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+			for (int j = 0; j < MyMasterMindConstants.Columns; j++)
 			{
 				MasterMindBoard.SetCodeColor(j, Game.GetCode().Colors[j]);
 			}
@@ -66,7 +61,7 @@ namespace MyMasterMind.ViewModel
 
 			((ISetCheckCheckCommandEventHandler)MasterMindBoard).SetCheckCheckCommandEventHandler(CheckCheckCommand);
 
-			MasterMindCommands = (IMasterMindCommandView)masterMindCommands;
+			MasterMindCommands = masterMindCommands;
 
 			// bind commands to buttons
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,        ClearCommand);
@@ -90,7 +85,7 @@ namespace MyMasterMind.ViewModel
 		}
 
 		#region Computer Command
-		MyMasterMindCommands computerCommand;
+		MyMasterMindCommands ComputerCommand;
 		BackgroundWorker BackgroundWorker;
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -100,7 +95,7 @@ namespace MyMasterMind.ViewModel
 			if (guess != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow();
-				for (int j = 0; j < MyMasterMindConstants.CLOUMNS; j++)
+				for (int j = 0; j < MyMasterMindConstants.Columns; j++)
 				{
 					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.GetCode().Colors[j]);
 				}
@@ -119,29 +114,29 @@ namespace MyMasterMind.ViewModel
 		{
 			ShowCode();
 
-			for (int i = 0; i < MyMasterMindConstants.ROWS; i++)
+			for (int i = 0; i < MyMasterMindConstants.Rows; i++)
 			{
-				if (computerCommand == MyMasterMindCommands.ComputerSlow)
+				if (ComputerCommand == MyMasterMindCommands.ComputerSlow)
 				{
 					int firstBadEvaluation;
 
 					Game.StartGetNewGuess();
 
-					int currentGuessRow = Game.GetCurrentGuessRow();
+					Game.GetCurrentGuessRow();
 
 					BackgroundWorker.ReportProgress(0, null);
 
 					do
 					{
 						Game.Increment();
-						firstBadEvaluation = Game.GetFirstBadEvalaution();
+						firstBadEvaluation = Game.GetFirstBadEvaluation();
 
 						// show evaluations
 						int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
 
 						for (int j = 0; j < jMax; j++)
 						{
-							// show the good evalaution
+							// show the good evaluation
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
 							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
@@ -151,7 +146,7 @@ namespace MyMasterMind.ViewModel
 
 						if (firstBadEvaluation > -1)
 						{
-							// show the first bad evalaution
+							// show the first bad evaluation
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
 							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.BadGuessDisplayTime);
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
@@ -186,8 +181,9 @@ namespace MyMasterMind.ViewModel
 		}
 
 
-		private void ComputerComand(MyMasterMindCommands command)
+		private void ExecuteComputerCommand(MyMasterMindCommands command)
 		{
+            ComputerCommand = command;
 			ClearBoard();
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Cancel });
 			DisableCommands(new List<MyMasterMindCommands>() { 
@@ -196,9 +192,8 @@ namespace MyMasterMind.ViewModel
 				MyMasterMindCommands.Check });
 
 			Game = new MyMasterMindGame();
-			BackgroundWorker = new BackgroundWorker();
-			BackgroundWorker.WorkerReportsProgress = true;
-			BackgroundWorker.DoWork += BackGroundComputerDoWork;
+            BackgroundWorker = new BackgroundWorker {WorkerReportsProgress = true};
+            BackgroundWorker.DoWork += BackGroundComputerDoWork;
 			BackgroundWorker.RunWorkerCompleted += BackGroundComputerCompleted;
 			BackgroundWorker.ProgressChanged += BackgroundWorkerComputerProgressChanged;
 			BackgroundWorker.WorkerSupportsCancellation = true;
@@ -206,26 +201,23 @@ namespace MyMasterMind.ViewModel
 		}
 
 		private void ComputerSlowCommand(object sender, EventArgs e)
-		{
-			userPlaying = false;
-			computerCommand = MyMasterMindCommands.ComputerSlow;
-			ComputerComand(MyMasterMindCommands.ComputerSlow);
+        {
+            UserPlaying = false;
+            ExecuteComputerCommand(MyMasterMindCommands.ComputerSlow);
 		}
 
 		private void ComputerFastCommand(object sender, EventArgs e)
 		{
-			userPlaying = false;
-			computerCommand = MyMasterMindCommands.ComputerFast;
-			ComputerComand(MyMasterMindCommands.ComputerFast);
+			UserPlaying = false;
+            ExecuteComputerCommand(MyMasterMindCommands.ComputerFast);
 		}
 		#endregion
 
 		private void CancelCommand(object sender, EventArgs e)
 		{
-			userPlaying = false;
-			if (BackgroundWorker != null)
-				BackgroundWorker.CancelAsync();
-		}
+			UserPlaying = false;
+            BackgroundWorker?.CancelAsync();
+        }
 
 		private void UserCommand(object sender, EventArgs e)
 		{
@@ -241,18 +233,18 @@ namespace MyMasterMind.ViewModel
 
 			MasterMindBoard.MarkGuessCell(0, CellMark.ForInput);
 
-			userPlaying = true;
+			UserPlaying = true;
 		}
 
 		private void CheckCheckCommand(object sender, EventArgs e)
         {
-			bool state = userPlaying;
-			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+			bool state = UserPlaying;
+			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
 
 			if (Game != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow() + 1;
-				for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++)
+				for (int i = 0; i < MyMasterMindConstants.Columns; i++)
 				{
 					code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 				}
@@ -265,10 +257,10 @@ namespace MyMasterMind.ViewModel
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
-			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.CLOUMNS];
+			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
 		
 			int currentGuessRow = Game.GetCurrentGuessRow()+1;
-			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++ )
+			for (int i = 0; i < MyMasterMindConstants.Columns; i++ )
 			{
 				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
 			}
@@ -278,7 +270,7 @@ namespace MyMasterMind.ViewModel
 
 			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.None);
 			currentGuessRow++;
-			if ( (currentGuessRow >= MyMasterMindConstants.ROWS) || Game.Finished() )
+			if ( (currentGuessRow >= MyMasterMindConstants.Rows) || Game.Finished() )
 			{
 				ShowCode();
 				DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });

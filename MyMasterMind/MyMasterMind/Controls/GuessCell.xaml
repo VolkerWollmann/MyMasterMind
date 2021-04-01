@@ -2,17 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MyMasterMind.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Border Name="EvaluationBorder" BorderThickness="1,1,1,1" Grid.Column="0" BorderBrush="Black">
             <StackPanel Name="EvaluationStackPanel"  Orientation="Horizontal">
@@ -20,27 +19,26 @@
                 <Rectangle Name="Evaluation0" Fill="Beige" HorizontalAlignment="Left"
                    Height="15" Margin="1,1,0,0"
                    Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Top" Width="15" ></Rectangle>
-                    <Rectangle Name="Evaluation1" Fill="Beige" HorizontalAlignment="Left"
-                   Height="15" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                   VerticalAlignment="Top" Width="15" />
+                <Rectangle Name="Evaluation1" Fill="Beige" HorizontalAlignment="Left"
+                           Height="15" Margin="1,1,0,0"
+                           Stroke="DarkMagenta" StrokeThickness="2"
+                           VerticalAlignment="Top" Width="15" />
                 </StackPanel>
                 <StackPanel>
                     <Rectangle Name="Evaluation2" Fill="Beige" HorizontalAlignment="Left"
                    Height="15" Margin="1,1,0,0"
                    Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                   VerticalAlignment="Top" Width="15" />
                     <Rectangle Name="Evaluation3" Fill="Beige" HorizontalAlignment="Left"
-                   Height="15" Margin="1,1,0,0"
-                   Stroke="DarkMagenta" StrokeThickness="2"
-                   VerticalAlignment="Top" Width="15" ></Rectangle>
+                               Height="15" Margin="1,1,0,0"
+                               Stroke="DarkMagenta" StrokeThickness="2"
+                               VerticalAlignment="Top" Width="15" />
                 </StackPanel>
             </StackPanel>
         </Border>
         <Border Name="CodeBorder" BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="Black">
-            <StackPanel Name="CodeStackPanel" Orientation="Horizontal">
-            </StackPanel>
+            <StackPanel Name="CodeStackPanel" Orientation="Horizontal" />
         </Border>
     </Grid>
 </UserControl>

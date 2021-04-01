@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mmc="clr-namespace:MyMasterMind.Controls"
-        xmlns:local="clr-namespace:MyMasterMind"
         mc:Ignorable="d"
         Title="MyMasterMind" Height="450" Width="400" MinHeight="500" MinWidth="350">
     <Grid Name="MyMasterMindGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -15,9 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" MinHeight="200" />
         </Grid.RowDefinitions>
-        <mmc:MasterMindBoard Grid.Row="0" Grid.Column="0" >
-        </mmc:MasterMindBoard>
-        <mmc:MasterMindCommands Grid.Row="0" Grid.Column="1">
-        </mmc:MasterMindCommands>
+        <mmc:MasterMindBoard Grid.Row="0" Grid.Column="0" />
+        <mmc:MasterMindCommands Grid.Row="0" Grid.Column="1" />
     </Grid>
 </Window>

@@ -1,65 +1,45 @@
 ﻿using MyMasterMind.Commands;
 using MyMasterMind.Interfaces;
-using MyMasterMind.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyMasterMind.Controls
 {
 	/// <summary>
 	/// Interaction logic for CodeField.xaml
 	/// </summary>
-	public partial class CodeField : UserControl, INotifyPropertyChanged, ISetCheckCheckCommandEventHandler
+	public partial class CodeField : INotifyPropertyChanged, ISetCheckCheckCommandEventHandler
 	{
 		private MyMasterMindCodeColors Color;
 
 		EventHandler CheckCheckCommandEventHandler;
 
-		Brush colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
+		Brush _colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
 		public Brush ColorBrush
 		{
 			private set
 			{
-				colorBrush = value;
+				_colorBrush = value;
 				NotifyPropertyChanged("ColorBrush");
 			}
 
-			get
-			{
-				return colorBrush;
-			}
-		}
+			get => _colorBrush;
+        }
 
-		private SelectColorCommand selectColorCommand;
+		private readonly SelectColorCommand _SelectColorCommand;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void NotifyPropertyChanged(string info)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(info));
-			}
-		}
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
 
 
-		public ICommand SelectColorCommand
-		{ 
-			get { return selectColorCommand; }
-		}
+		public ICommand SelectColorCommand => _SelectColorCommand;
 
         #region Constructor
         public CodeField()
@@ -68,7 +48,7 @@ namespace MyMasterMind.Controls
 			this.DataContext = this;
 
 			SetColor(MyMasterMindCodeColors.None);
-			selectColorCommand = new SelectColorCommand(this);
+            _SelectColorCommand = new SelectColorCommand(this);
 			DisableMenu();
 		}
 		#endregion
@@ -78,9 +58,8 @@ namespace MyMasterMind.Controls
 			Color = color;
 			ColorBrush = DisplayColors.GetCodeBrush(Color);
 
-			if (CheckCheckCommandEventHandler != null)
-				CheckCheckCommandEventHandler(this, null);
-		}
+            CheckCheckCommandEventHandler?.Invoke(this, null);
+        }
 
 		public MyMasterMindCodeColors GetColor()
 		{
@@ -89,15 +68,21 @@ namespace MyMasterMind.Controls
 
 		public void EnableMenu()
 		{
-			CodeFieldStackPanel.ContextMenu.IsEnabled = true;
-			CodeFieldStackPanel.ContextMenu.Visibility  = Visibility.Visible;
-		}
+            if (CodeFieldStackPanel.ContextMenu != null)
+            {
+                CodeFieldStackPanel.ContextMenu.IsEnabled = true;
+                CodeFieldStackPanel.ContextMenu.Visibility = Visibility.Visible;
+            }
+        }
 
 		public void DisableMenu()
 		{
-			CodeFieldStackPanel.ContextMenu.IsEnabled = false;
-			CodeFieldStackPanel.ContextMenu.Visibility = Visibility.Hidden;
-		}
+            if (CodeFieldStackPanel.ContextMenu != null)
+            {
+                CodeFieldStackPanel.ContextMenu.IsEnabled = false;
+                CodeFieldStackPanel.ContextMenu.Visibility = Visibility.Hidden;
+            }
+        }
 
 		#region ISetCheckCheckCommandEventHandler
 		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)

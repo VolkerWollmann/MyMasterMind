@@ -9,25 +9,22 @@ namespace MyMasterMind.Model
 
 	public class MyMasterMindGame : IMasterMindGameModel
 	{
-		private Code Code { get; set; }
-		private Guess[] Guesses;
-		int currentGuessIndex;
+		private Code Code { get; }
+		private readonly Guess[] Guesses;
+		int CurrentGuessIndex;
 
 		private Guess CurrentGuess
 		{
-			get { return Guesses[currentGuessIndex]; }
-			set { Guesses[currentGuessIndex] = value; }
-		}
+			get => Guesses[CurrentGuessIndex];
+            set => Guesses[CurrentGuessIndex] = value;
+        }
 
-		private Guess PreviousGuess
-		{
-			get { return Guesses[currentGuessIndex-1]; }
-		}
+		private Guess PreviousGuess => Guesses[CurrentGuessIndex-1];
 
-		private List<Guess> GetGuessesSoFarAsList()
+        private List<Guess> GetGuessesSoFarAsList()
 		{
 			List<Guess> result = new List<Guess>();
-			for(int i=0; i< currentGuessIndex; i++ )
+			for(int i=0; i< CurrentGuessIndex; i++ )
 			{
 				result.Add(Guesses[i]);
 			}
@@ -37,14 +34,14 @@ namespace MyMasterMind.Model
 		public MyMasterMindGame()
 		{
 			Code = Code.GetRandomCode();
-			Guesses = new Guess[MyMasterMindConstants.ROWS];
-			currentGuessIndex = -1;
+			Guesses = new Guess[MyMasterMindConstants.Rows];
+			CurrentGuessIndex = -1;
 
 		}
 
 		public bool Finished()
 		{
-			return CurrentGuess.Evaluation.Black == MyMasterMindConstants.CLOUMNS;
+			return CurrentGuess.Evaluation.Black == MyMasterMindConstants.Columns;
 		}
 
 		public IMasterMindCodeModel GetCode()
@@ -53,7 +50,7 @@ namespace MyMasterMind.Model
 		}
 		public IMasterMindGuessModel SetGuess(int row, MyMasterMindCodeColors[] code)
 		{
-			currentGuessIndex = row;
+			CurrentGuessIndex = row;
 			CurrentGuess = new Guess(code);
 			CurrentGuess.Evaluate(Code);
 			return CurrentGuess;
@@ -61,14 +58,14 @@ namespace MyMasterMind.Model
 
 		public int GetCurrentGuessRow()
 		{
-			return currentGuessIndex;
+			return CurrentGuessIndex;
 		}
 		public IMasterMindGuessModel GetCurrentGuess()
 		{
 			return CurrentGuess;
 		}
 
-		public Evaluation GetCurrentEvalaution()
+		public Evaluation GetCurrentEvaluation()
 		{
 			return CurrentGuess.Evaluation;
 		}
@@ -76,8 +73,8 @@ namespace MyMasterMind.Model
 		#region Computer plays
 		public IMasterMindGuessModel GetNewGuess()
 		{
-			currentGuessIndex++;
-			if ( currentGuessIndex == 0)
+			CurrentGuessIndex++;
+			if ( CurrentGuessIndex == 0)
 				CurrentGuess = Guess.GetRandomGuess();
 			else
 			{
@@ -97,13 +94,8 @@ namespace MyMasterMind.Model
 
 		public bool StartGetNewGuess()
 		{
-			currentGuessIndex++;
-			if (currentGuessIndex == 0)
-				CurrentGuess = Guess.GetRandomGuess();
-			else
-			{
-				CurrentGuess = PreviousGuess.Copy();
-			}
+			CurrentGuessIndex++;
+			CurrentGuess = CurrentGuessIndex == 0 ? Guess.GetRandomGuess() : PreviousGuess.Copy();
 
 			return true;
 		}
@@ -113,9 +105,9 @@ namespace MyMasterMind.Model
 			CurrentGuess.Increment();
 		}
 
-		public int GetFirstBadEvalaution()
+		public int GetFirstBadEvaluation()
 		{
-			for(int i=0; i < currentGuessIndex; i++ )
+			for(int i=0; i < CurrentGuessIndex; i++ )
 			{
 				if (!Guesses[i].Compare(CurrentGuess))
 					return i;

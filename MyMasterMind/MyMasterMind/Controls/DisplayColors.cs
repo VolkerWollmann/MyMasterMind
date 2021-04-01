@@ -6,24 +6,24 @@ namespace MyMasterMind.Controls
 {
 	public class DisplayColors
 	{
-		private static DisplayColors singleton = null;
-		private Brush[] CodeBrushes;
-		private Brush[] EvaluationBrushes;
+		private static DisplayColors _singleton;
+		private readonly Brush[] CodeBrushes;
+		private readonly Brush[] EvaluationBrushes;
 
 		public static Brush GetCodeBrush(MyMasterMindCodeColors color)
 		{
-			if (singleton == null)
-				singleton = new DisplayColors();
+			if (_singleton == null)
+				_singleton = new DisplayColors();
 
-			return singleton.CodeBrushes[(int)color];
+			return _singleton.CodeBrushes[(int)color];
 		}
 
 		public static Brush GetEvaluationBrush(MyMasterMindEvaluationColors color)
 		{
-			if (singleton == null)
-				singleton = new DisplayColors();
+			if (_singleton == null)
+				_singleton = new DisplayColors();
 
-			return singleton.EvaluationBrushes[(int)color];
+			return _singleton.EvaluationBrushes[(int)color];
 		}
 
 		private DisplayColors()

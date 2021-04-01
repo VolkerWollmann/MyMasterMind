@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using MyMasterMind.Interfaces;
 
 namespace MyMasterMind.Model
 {
-	public class Evaluation : IMasterMindEvalutionModel
+	public class Evaluation : IMasterMindEvaluationModel
 	{
 		public int Black { get; internal set; }
 

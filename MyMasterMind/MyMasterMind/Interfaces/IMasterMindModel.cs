@@ -1,18 +1,11 @@
-﻿using MyMasterMind.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyMasterMind.Interfaces
+﻿namespace MyMasterMind.Interfaces
 {
 	public interface IMasterMindCodeModel
 	{
 		MyMasterMindCodeColors[] Colors { get; }
 	}
 
-	public interface IMasterMindEvalutionModel
+	public interface IMasterMindEvaluationModel
 	{
 		int Black { get; }
 		int White { get; }
@@ -22,7 +15,7 @@ namespace MyMasterMind.Interfaces
 	{
 		IMasterMindCodeModel GetCode();
 
-		IMasterMindEvalutionModel GetEvaluation();
+		IMasterMindEvaluationModel GetEvaluation();
 	}
 
 	public interface  IMasterMindGameModel
@@ -60,12 +53,12 @@ namespace MyMasterMind.Interfaces
 		void Increment();
 
 		/// <summary>
-		/// Get rowindex of guesses so far, with wich the unevaluted code does not match.
+		/// Get row index of guesses so far, with which the unevaluated code does not match.
 		/// If this is -1,  GetCurrentGuess will return the new consistent guess
 		/// and the process, which was started with StartGetNewGuess is finished.
 		/// </summary>
 		/// <returns></returns>
-		int GetFirstBadEvalaution();
+		int GetFirstBadEvaluation();
 		#endregion
 
 	}

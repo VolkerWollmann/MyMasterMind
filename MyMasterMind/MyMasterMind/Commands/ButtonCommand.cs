@@ -6,8 +6,8 @@ namespace MyMasterMind.Commands
 {
     public class ButtonCommand : ICommand
     {
-        IMasterMindCommandView MasterMindCommandView;
-        MyMasterMindCommands Command;
+        readonly IMasterMindCommandView MasterMindCommandView;
+        readonly MyMasterMindCommands Command;
 
         public event EventHandler CanExecuteChanged;
 

@@ -1,30 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml;
 using MyMasterMind.Interfaces;
-using MyMasterMind.Commands;
 
 namespace MyMasterMind.Controls
 {
 	/// <summary>
 	/// Interaction logic for GuessCell.xaml
 	/// </summary>
-	public partial class GuessCell : UserControl, ISetCheckCheckCommandEventHandler
+	public partial class GuessCell : ISetCheckCheckCommandEventHandler
 	{
-		private Rectangle[] Evaluation;
-		private CodeField[] Field;
+		private readonly Rectangle[] Evaluation;
+		private readonly CodeField[] Field;
 		public GuessCell()
 		{
 			InitializeComponent();
@@ -39,14 +28,14 @@ namespace MyMasterMind.Controls
 			Evaluation[2] = Evaluation2;
 			Evaluation[3] = Evaluation3;
 
-			for (int i = 0; i < MyMasterMindConstants.CLOUMNS; i++)
+			for (int i = 0; i < MyMasterMindConstants.Columns; i++)
 			{
 				Field[i] = new CodeField();
 				this.CodeStackPanel.Children.Add(Field[i]);
 			}
 
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
-			Field.Cast<CodeField >().ToList().ForEach(e => { e.SetColor( MyMasterMindCodeColors.None); });
+			Evaluation.ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); });
+			Field.ToList().ForEach(e => { e.SetColor( MyMasterMindCodeColors.None); });
 		}
 
 		internal void SetColor( int column, MyMasterMindCodeColors color )
@@ -62,7 +51,7 @@ namespace MyMasterMind.Controls
 		internal void SetEvaluation( int black, int white)
 		{
 			int i;
-			Evaluation.Cast<Rectangle>().ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); }); 
+			Evaluation.ToList().ForEach(e => { e.Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.None); }); 
 			for (i = 0; i < black; i++)
 			{
 				Evaluation[i].Fill = DisplayColors.GetEvaluationBrush(MyMasterMindEvaluationColors.Black);
@@ -75,12 +64,12 @@ namespace MyMasterMind.Controls
 
 		internal void HideEvaluation()
 		{
-			Evaluation.Cast<Rectangle>().ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
+			Evaluation.ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
 		}
 
 		internal void Mark(CellMark mark)
 		{
-			Field.Cast<CodeField>().ToList().ForEach(f => { f.DisableMenu(); });
+			Field.ToList().ForEach(f => { f.DisableMenu(); });
 
 			switch(mark)
 			{
@@ -105,7 +94,7 @@ namespace MyMasterMind.Controls
 					lgb.GradientStops.Add(gs4);
 					EvaluationStackPanel.Background = lgb;
 					CodeStackPanel.Background = lgb;
-					Field.Cast<CodeField>().ToList().ForEach(f => { f.EnableMenu(); });
+					Field.ToList().ForEach(f => { f.EnableMenu(); });
 					break;
 
 				case CellMark.CompareTrue:
