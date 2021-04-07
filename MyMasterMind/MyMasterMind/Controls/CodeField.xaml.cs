@@ -17,16 +17,16 @@ namespace MyMasterMind.Controls
 
 		EventHandler CheckCheckCommandEventHandler;
 
-		Brush _colorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
+		private Brush _ColorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
 		public Brush ColorBrush
 		{
 			private set
 			{
-				_colorBrush = value;
+				_ColorBrush = value;
 				NotifyPropertyChanged("ColorBrush");
 			}
 
-			get => _colorBrush;
+			get => _ColorBrush;
         }
 
 		private readonly SelectColorCommand _SelectColorCommand;
