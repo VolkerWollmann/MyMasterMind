@@ -63,13 +63,6 @@
     <Compile Include="Controls\CodeField.xaml.cs">
       <DependentUpon>CodeField.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IMasterMindModel.cs" />
-    <Compile Include="Interfaces\ISetCheckCheckCommandEventHandler.cs" />
-    <Compile Include="Interfaces\MasterBoradViewConstants.cs" />
-    <Compile Include="Model\Code.cs" />
-    <Compile Include="Model\Evaluation.cs" />
-    <Compile Include="Model\Guess.cs" />
-    <Compile Include="Model\MyMasterMind.cs" />
     <Compile Include="Controls\DisplayColors.cs" />
     <Compile Include="ViewModel\MyMasterMindViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInitialize.cs" />
@@ -106,9 +99,6 @@
     <Compile Include="Controls\MasterMindCommands.xaml.cs">
       <DependentUpon>MasterMindCommands.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IMasterMindBoardView.cs" />
-    <Compile Include="Interfaces\IMasterMindCommandView.cs" />
-    <Compile Include="Interfaces\MasterMindConstants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -142,6 +132,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MasterMind.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Interfaces\Interfaces.csproj">
+      <Project>{1bfa6c42-ec43-44d3-b5c2-9d62b7a19c3b}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\Model.csproj">
+      <Project>{e0c27ba6-8eb4-4256-a5cd-ddbba7d04823}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

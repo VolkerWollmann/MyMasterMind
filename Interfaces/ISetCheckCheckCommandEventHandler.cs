@@ -2,7 +2,7 @@
 
 namespace MyMasterMind.Interfaces
 {
-    interface ISetCheckCheckCommandEventHandler
+    public interface ISetCheckCheckCommandEventHandler
     {
         void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler);
     }

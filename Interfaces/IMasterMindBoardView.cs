@@ -1,6 +1,6 @@
 ﻿namespace MyMasterMind.Interfaces
 {
-	interface IMasterMindBoardView
+	public interface IMasterMindBoardView
 	{
 		void SetCodeColor(int column, MyMasterMindCodeColors color);
 
