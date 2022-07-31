@@ -40,7 +40,7 @@ namespace MyMasterMind.Model
 			}
 		}
 
-		internal Evaluation Compare(Code other)
+		public Evaluation Compare(Code other)
 		{
 			Evaluation evaluation = new Evaluation();
 

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "..\Model\Model.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "..\Interfaces\Interfaces.csproj", "{1BFA6C42-EC43-44D3-B5C2-9D62B7A19C3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMindModelTest", "..\MasterMindModelTest\MasterMindModelTest.csproj", "{332E0308-195F-41A8-9913-0E9F7DDEE088}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1BFA6C42-EC43-44D3-B5C2-9D62B7A19C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BFA6C42-EC43-44D3-B5C2-9D62B7A19C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BFA6C42-EC43-44D3-B5C2-9D62B7A19C3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
