@@ -1,5 +1,4 @@
-﻿using MyMasterMind.Controls;
-using MyMasterMind.Interfaces;
+﻿using MyMasterMind.Interfaces;
 using MyMasterMind.Model;
 using System;
 using System.Collections.Generic;
@@ -55,7 +54,7 @@ namespace MyMasterMind.ViewModel
 		}
 
 		#region Constructor
-		public MyMasterMindViewModel(MasterMindBoard masterMindBoard, MasterMindCommands masterMindCommands)
+		public MyMasterMindViewModel(IMasterMindBoardView masterMindBoard, IMasterMindCommandView masterMindCommands)
 		{
 			MasterMindBoard = masterMindBoard;
 

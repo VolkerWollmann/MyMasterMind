@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "..\Interfaces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMindModelTest", "..\MasterMindModelTest\MasterMindModelTest.csproj", "{332E0308-195F-41A8-9913-0E9F7DDEE088}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "..\ViewModel\ViewModel.csproj", "{9B4AC41A-B404-4DC4-88BB-4EAAB1B9A2FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{332E0308-195F-41A8-9913-0E9F7DDEE088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4AC41A-B404-4DC4-88BB-4EAAB1B9A2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4AC41A-B404-4DC4-88BB-4EAAB1B9A2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4AC41A-B404-4DC4-88BB-4EAAB1B9A2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4AC41A-B404-4DC4-88BB-4EAAB1B9A2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

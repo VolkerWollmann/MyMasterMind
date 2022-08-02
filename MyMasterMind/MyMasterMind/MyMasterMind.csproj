@@ -64,7 +64,6 @@
       <DependentUpon>CodeField.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DisplayColors.cs" />
-    <Compile Include="ViewModel\MyMasterMindViewModel.cs" />
     <Compile Include="ViewModel\ViewModelInitialize.cs" />
     <Page Include="Controls\CodeField.xaml">
       <SubType>Designer</SubType>
@@ -138,9 +137,9 @@
       <Project>{1bfa6c42-ec43-44d3-b5c2-9d62b7a19c3b}</Project>
       <Name>Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Model\Model.csproj">
-      <Project>{e0c27ba6-8eb4-4256-a5cd-ddbba7d04823}</Project>
-      <Name>Model</Name>
+    <ProjectReference Include="..\..\ViewModel\ViewModel.csproj">
+      <Project>{9b4ac41a-b404-4dc4-88bb-4eaab1b9a2fb}</Project>
+      <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
