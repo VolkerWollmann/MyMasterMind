@@ -2,7 +2,7 @@
 {
 	public interface IMasterMindBoardView
 	{
-		void SetCodeColor(int column, MyMasterMindCodeColors color);
+		void SetCode(MyMasterMindCodeColors[] colors);
 
 		void SetGuessColor(int row, int column, MyMasterMindCodeColors color);
 

@@ -22,11 +22,7 @@ namespace MyMasterMind.ViewModel
 
 		private void ShowCode()
 		{
-			for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-			{
-				MasterMindBoard.SetCodeColor(j, Game.GetCode().Colors[j]);
-			}
-
+            MasterMindBoard.SetCode(Game.GetCode().Colors);
 		}
 
 		private void EnableCommands(List<MyMasterMindCommands> commandList)

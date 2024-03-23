@@ -33,9 +33,10 @@ namespace MyMasterMind.Controls
 			Code.HideEvaluation();
 		}
 
-		public void SetCodeColor(int column, MyMasterMindCodeColors color)
+		public void SetCode(MyMasterMindCodeColors[] colors)
 		{
-			Code.SetColor(column, color);
+            for (int j = 0; j < MyMasterMindConstants.Columns; j++ )
+                 Code.SetColor(j, colors[j]);
 		}
 		public void SetGuessColor(int row, int column, MyMasterMindCodeColors color)
 		{
@@ -60,10 +61,12 @@ namespace MyMasterMind.Controls
 
         public void Clear()
         {
+            MyMasterMindCodeColors[] emptyColorsArray = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
+			
             for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-            {
-                SetCodeColor(j, MyMasterMindCodeColors.None);
-            }
+                emptyColorsArray[j] = MyMasterMindCodeColors.None;
+            
+            SetCode(emptyColorsArray);
 
             for (int i = 0; i < MyMasterMindConstants.Rows; i++)
             {

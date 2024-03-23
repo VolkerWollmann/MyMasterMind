@@ -15,7 +15,7 @@
 		ComputerSlow,
 		Cancel,
 		User,
-		Check,
+		Check, // User wants check of his current guess
 	}
 
 	public class MyMasterMindBoarViewConstants
