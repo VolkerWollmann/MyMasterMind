@@ -11,5 +11,7 @@
 		void SetGuessEvaluation(int row, int black, int white);
 
 		void MarkGuessCell(int row, CellMark mark);
-	}
+
+        void Clear();
+    }
 }

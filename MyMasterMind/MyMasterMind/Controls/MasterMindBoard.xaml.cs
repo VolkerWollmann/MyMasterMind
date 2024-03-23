@@ -58,6 +58,23 @@ namespace MyMasterMind.Controls
 			return GuessCells[row].GetColor(column);
 		}
 
+        public void Clear()
+        {
+            for (int j = 0; j < MyMasterMindConstants.Columns; j++)
+            {
+                SetCodeColor(j, MyMasterMindCodeColors.None);
+            }
+
+            for (int i = 0; i < MyMasterMindConstants.Rows; i++)
+            {
+                for (int j = 0; j < MyMasterMindConstants.Columns; j++)
+                    SetGuessColor(i, j, MyMasterMindCodeColors.None);
+
+                SetGuessEvaluation(i, 0, 0);
+                MarkGuessCell(i, CellMark.None);
+            }
+        }
+		
 		#region ISetCheckCheckCommandEventHandler
 		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
         {

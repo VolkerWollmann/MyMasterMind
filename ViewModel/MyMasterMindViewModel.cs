@@ -17,19 +17,7 @@ namespace MyMasterMind.ViewModel
 
 		private void ClearBoard()
 		{
-			for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-			{
-				MasterMindBoard.SetCodeColor(j, MyMasterMindCodeColors.None);
-			}
-
-			for (int i=0; i< MyMasterMindConstants.Rows; i++)
-			{
-				for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-					MasterMindBoard.SetGuessColor(i, j, MyMasterMindCodeColors.None);
-
-				MasterMindBoard.SetGuessEvaluation(i, 0, 0);
-				MasterMindBoard.MarkGuessCell(i, CellMark.None);
-			}
+			MasterMindBoard.Clear();
 		}
 
 		private void ShowCode()
