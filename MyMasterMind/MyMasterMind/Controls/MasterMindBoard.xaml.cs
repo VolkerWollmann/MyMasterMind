@@ -38,9 +38,10 @@ namespace MyMasterMind.Controls
             for (int j = 0; j < MyMasterMindConstants.Columns; j++ )
                  Code.SetColor(j, colors[j]);
 		}
-		public void SetGuessColor(int row, int column, MyMasterMindCodeColors color)
+		public void SetGuessColors(int row, MyMasterMindCodeColors[] colors)
 		{
-			GuessCells[row].SetColor(column, color);
+			for( int j = 0;j < MyMasterMindConstants.Columns; j++)
+			    GuessCells[row].SetColor(j, colors[j]);
 		}
 
 		public void SetGuessEvaluation(int row, int black, int white)
@@ -70,9 +71,7 @@ namespace MyMasterMind.Controls
 
             for (int i = 0; i < MyMasterMindConstants.Rows; i++)
             {
-                for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-                    SetGuessColor(i, j, MyMasterMindCodeColors.None);
-
+                SetGuessColors(i, emptyColorsArray);
                 SetGuessEvaluation(i, 0, 0);
                 MarkGuessCell(i, CellMark.None);
             }

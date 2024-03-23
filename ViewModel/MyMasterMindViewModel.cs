@@ -78,10 +78,8 @@ namespace MyMasterMind.ViewModel
 			if (guess != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow();
-				for (int j = 0; j < MyMasterMindConstants.Columns; j++)
-				{
-					MasterMindBoard.SetGuessColor(currentGuessRow, j, guess.GetCode().Colors[j]);
-				}
+                MasterMindBoard.SetGuessColors(currentGuessRow, guess.GetCode().Colors);
+				
 				if (guess.GetEvaluation() != null )
 					MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
 			}

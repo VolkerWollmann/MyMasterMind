@@ -4,7 +4,7 @@
 	{
 		void SetCode(MyMasterMindCodeColors[] colors);
 
-		void SetGuessColor(int row, int column, MyMasterMindCodeColors color);
+		void SetGuessColors(int row, MyMasterMindCodeColors[] color);
 
 		MyMasterMindCodeColors GetGuessColor(int row, int column);
 
