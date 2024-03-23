@@ -220,12 +220,11 @@ namespace MyMasterMind.ViewModel
 		private void CheckCheckCommand(object sender, EventArgs e)
         {
 			bool state = UserPlaying;
-			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
 
-			if (Game != null)
+            if (Game != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow() + 1;
-                code = MasterMindBoard.GetGuessColors(currentGuessRow);
+                var code = MasterMindBoard.GetGuessColors(currentGuessRow);
 				state = state && (code.All(c => c != MyMasterMindCodeColors.None));
 			}
 
@@ -234,14 +233,9 @@ namespace MyMasterMind.ViewModel
 
 		private void CheckCommand(object sender, EventArgs e)
 		{
-			MyMasterMindCodeColors[] code = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
-		
-			int currentGuessRow = Game.GetCurrentGuessRow()+1;
-			for (int i = 0; i < MyMasterMindConstants.Columns; i++ )
-			{
-				code = MasterMindBoard.GetGuessColors(currentGuessRow);
-			}
-
+            int currentGuessRow = Game.GetCurrentGuessRow()+1;
+            var code = MasterMindBoard.GetGuessColors(currentGuessRow);
+            
 			IMasterMindGuessModel guess = Game.SetGuess(currentGuessRow, code);
 			MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
 
