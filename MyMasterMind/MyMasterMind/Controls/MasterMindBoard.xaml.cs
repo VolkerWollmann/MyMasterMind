@@ -55,10 +55,15 @@ namespace MyMasterMind.Controls
 			GuessCells[row].Mark(mark);
 		}
 
-		public MyMasterMindCodeColors GetGuessColor(int row, int column)
-		{
-			return GuessCells[row].GetColor(column);
-		}
+		public MyMasterMindCodeColors[] GetGuessColors(int row)
+        {
+            MyMasterMindCodeColors[] guessColors = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
+            for (int j = 0; j < MyMasterMindConstants.Columns; j++)
+                guessColors[j] = GuessCells[row].GetColor(j);
+
+            return guessColors;
+
+        }
 
         public void Clear()
         {

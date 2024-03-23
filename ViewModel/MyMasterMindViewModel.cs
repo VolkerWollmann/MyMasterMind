@@ -225,11 +225,7 @@ namespace MyMasterMind.ViewModel
 			if (Game != null)
 			{
 				int currentGuessRow = Game.GetCurrentGuessRow() + 1;
-				for (int i = 0; i < MyMasterMindConstants.Columns; i++)
-				{
-					code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
-				}
-
+                code = MasterMindBoard.GetGuessColors(currentGuessRow);
 				state = state && (code.All(c => c != MyMasterMindCodeColors.None));
 			}
 
@@ -243,7 +239,7 @@ namespace MyMasterMind.ViewModel
 			int currentGuessRow = Game.GetCurrentGuessRow()+1;
 			for (int i = 0; i < MyMasterMindConstants.Columns; i++ )
 			{
-				code[i] = MasterMindBoard.GetGuessColor(currentGuessRow, i);
+				code = MasterMindBoard.GetGuessColors(currentGuessRow);
 			}
 
 			IMasterMindGuessModel guess = Game.SetGuess(currentGuessRow, code);

@@ -6,7 +6,7 @@
 
 		void SetGuessColors(int row, MyMasterMindCodeColors[] color);
 
-		MyMasterMindCodeColors GetGuessColor(int row, int column);
+		MyMasterMindCodeColors[] GetGuessColors(int row);
 
 		void SetGuessEvaluation(int row, int black, int white);
 
