@@ -42,7 +42,7 @@ namespace MyMasterMind.ViewModel
 		{
 			MasterMindBoard = masterMindBoard;
 
-			((ISetCheckCheckCommandEventHandler)MasterMindBoard).SetCheckCheckCommandEventHandler(CheckCheckCommand);
+			((ISetEnableCheckCommandEventHandler)MasterMindBoard).SetEnableCheckCommandEventHandler(EnableCheckCommand);
 
 			MasterMindCommands = masterMindCommands;
 
@@ -217,7 +217,7 @@ namespace MyMasterMind.ViewModel
 			UserPlaying = true;
 		}
 
-		private void CheckCheckCommand(object sender, EventArgs e)
+		private void EnableCheckCommand(object sender, EventArgs e)
         {
 			bool state = UserPlaying;
 

@@ -11,11 +11,11 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for CodeField.xaml
 	/// </summary>
-	public partial class CodeField : INotifyPropertyChanged, ISetCheckCheckCommandEventHandler
+	public partial class CodeField : INotifyPropertyChanged, ISetEnableCheckCommandEventHandler
 	{
 		private MyMasterMindCodeColors Color;
 
-		EventHandler CheckCheckCommandEventHandler;
+		EventHandler EnableCheckCommandEventHandler;
 
 		private Brush _ColorBrush = DisplayColors.GetCodeBrush(MyMasterMindCodeColors.None);
 		public Brush ColorBrush
@@ -58,7 +58,7 @@ namespace MyMasterMind.Controls
 			Color = color;
 			ColorBrush = DisplayColors.GetCodeBrush(Color);
 
-            CheckCheckCommandEventHandler?.Invoke(this, null);
+            EnableCheckCommandEventHandler?.Invoke(this, null);
         }
 
 		public MyMasterMindCodeColors GetColor()
@@ -85,9 +85,9 @@ namespace MyMasterMind.Controls
         }
 
 		#region ISetCheckCheckCommandEventHandler
-		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+		public void SetEnableCheckCommandEventHandler(EventHandler enableCheckCommandEventHandler)
         {
-			CheckCheckCommandEventHandler = checkCheckCommandEventHandler;
+			EnableCheckCommandEventHandler = enableCheckCommandEventHandler;
 
 		}
 		#endregion

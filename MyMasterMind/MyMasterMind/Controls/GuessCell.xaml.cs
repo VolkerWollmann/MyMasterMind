@@ -10,7 +10,7 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for GuessCell.xaml
 	/// </summary>
-	public partial class GuessCell : ISetCheckCheckCommandEventHandler
+	public partial class GuessCell : ISetEnableCheckCommandEventHandler
 	{
 		private readonly Rectangle[] Evaluation;
 		private readonly CodeField[] Field;
@@ -110,9 +110,9 @@ namespace MyMasterMind.Controls
 		}
 
 		#region ISetCheckCheckCommandEventHandler
-		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+		public void SetEnableCheckCommandEventHandler(EventHandler enableCheckCommandEventHandler)
         {
-			Field.ToList().ForEach(f => {f.SetCheckCheckCommandEventHandler(checkCheckCommandEventHandler); } );
+			Field.ToList().ForEach(f => {f.SetEnableCheckCommandEventHandler(enableCheckCommandEventHandler); } );
 		}
 		#endregion
 	}

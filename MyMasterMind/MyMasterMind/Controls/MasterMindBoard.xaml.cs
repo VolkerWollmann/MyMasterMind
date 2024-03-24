@@ -8,7 +8,7 @@ namespace MyMasterMind.Controls
 	/// <summary>
 	/// Interaction logic for MasterMindBoard.xaml
 	/// </summary>
-	public partial class MasterMindBoard : IMasterMindBoardView, ISetCheckCheckCommandEventHandler
+	public partial class MasterMindBoard : IMasterMindBoardView, ISetEnableCheckCommandEventHandler
 	{
 		private readonly GuessCell Code;
 		private readonly GuessCell[] GuessCells = new GuessCell[MyMasterMindConstants.Rows];
@@ -83,9 +83,9 @@ namespace MyMasterMind.Controls
         }
 		
 		#region ISetCheckCheckCommandEventHandler
-		public void SetCheckCheckCommandEventHandler(EventHandler checkCheckCommandEventHandler)
+		public void SetEnableCheckCommandEventHandler(EventHandler enableCheckCommandEventHandler)
         {
-			GuessCells.ToList().ForEach(gc => { gc.SetCheckCheckCommandEventHandler(checkCheckCommandEventHandler); });
+			GuessCells.ToList().ForEach(gc => { gc.SetEnableCheckCommandEventHandler(enableCheckCommandEventHandler); });
 		}
 		#endregion
 	}

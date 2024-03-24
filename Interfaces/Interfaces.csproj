@@ -45,7 +45,7 @@
     <Compile Include="IMasterMindBoardView.cs" />
     <Compile Include="IMasterMindCommandView.cs" />
     <Compile Include="IMasterMindModel.cs" />
-    <Compile Include="ISetCheckCheckCommandEventHandler.cs" />
+    <Compile Include="ISetEnableCheckCommandEventHandler.cs" />
     <Compile Include="MasterBoradViewConstants.cs" />
     <Compile Include="MasterMindConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
