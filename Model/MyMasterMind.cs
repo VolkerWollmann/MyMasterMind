@@ -107,7 +107,7 @@ namespace MyMasterMind.Model
 
 		public int GetFirstBadEvaluation()
 		{
-			for(int i=0; i < CurrentGuessIndex; i++ )
+			for(int i= CurrentGuessIndex-1; i >= 0; i-- )
 			{
 				if (!Guesses[i].Compare(CurrentGuess))
 					return i;

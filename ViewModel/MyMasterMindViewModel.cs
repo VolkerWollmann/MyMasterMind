@@ -112,10 +112,10 @@ namespace MyMasterMind.ViewModel
 						Game.Increment();
 						firstBadEvaluation = Game.GetFirstBadEvaluation();
 
-						// show evaluations
-						int jMax = (firstBadEvaluation > -1) ? Math.Min(firstBadEvaluation, Game.GetCurrentGuessRow()) : Game.GetCurrentGuessRow();
+						// show evaluations descending
+						int jMax = Game.GetCurrentGuessRow();
 
-						for (int j = 0; j < jMax; j++)
+						for (int j = jMax-1; j > firstBadEvaluation; j--)
 						{
 							// show the good evaluation
 							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
