@@ -44,17 +44,38 @@ namespace MyMasterMind.Model
 		{
 			Evaluation evaluation = new Evaluation();
 
+			foreach (MyMasterMindComparisonDetail detail in CompareDetails(other))
+			{
+				if (detail.Contribution == MyMasterMindEvaluationColors.Black)
+					evaluation.Black++;
+				else if (detail.Contribution == MyMasterMindEvaluationColors.White)
+					evaluation.White++;
+			}
+
+			return evaluation;
+		}
+
+		/// <summary>
+		/// For each column of this code: whether it counts as a black or a white
+		/// evaluation against the other code (including the matched column of the
+		/// other code), or does not contribute (None).
+		/// </summary>
+		public MyMasterMindComparisonDetail[] CompareDetails(Code other)
+		{
+			MyMasterMindComparisonDetail[] details = new MyMasterMindComparisonDetail[MyMasterMindConstants.Columns];
+
 			Code otherCopy = other.Copy();
 			Code myCopy = this.Copy();
 
 			for(int i =0; i < MyMasterMindConstants.Columns; i++)
 			{
-				if ( myCopy[i] == otherCopy[i] ) 
+				details[i] = new MyMasterMindComparisonDetail(MyMasterMindEvaluationColors.None, -1);
+				if ( (myCopy[i] == otherCopy[i]) && (myCopy[i] != MyMasterMindCodeColors.None) )
 				{
-					evaluation.Black++;
+					details[i] = new MyMasterMindComparisonDetail(MyMasterMindEvaluationColors.Black, i);
 					otherCopy[i] = MyMasterMindCodeColors.None;
 					myCopy[i] = MyMasterMindCodeColors.None;
-					
+
 				}
 			}
 
@@ -62,16 +83,16 @@ namespace MyMasterMind.Model
 			{
 				for (int j = 0; j < MyMasterMindConstants.Columns; j++)
 				{
-					if ((i != j ) && (myCopy[i] == otherCopy[j]) && ( otherCopy[j] != MyMasterMindCodeColors.None))
+					if ((myCopy[i] == otherCopy[j]) && ( otherCopy[j] != MyMasterMindCodeColors.None))
 					{
-						evaluation.White++;
+						details[i] = new MyMasterMindComparisonDetail(MyMasterMindEvaluationColors.White, j);
 						otherCopy[j] = MyMasterMindCodeColors.None;
 						myCopy[i] = MyMasterMindCodeColors.None;
 					}
 				}
 			}
 
-			return evaluation;
+			return details;
 		}
 
 		

@@ -11,6 +11,26 @@
 		int White { get; }
 	}
 
+	/// <summary>
+	/// Contribution of a single field of a guess to a comparison with another code:
+	/// black or white evaluation (or none) and the matched column in the other code.
+	/// </summary>
+	public class MyMasterMindComparisonDetail
+	{
+		public MyMasterMindEvaluationColors Contribution { get; }
+
+		/// <summary>
+		/// Column of the other code this field is matched with, -1 if it does not contribute.
+		/// </summary>
+		public int OtherColumn { get; }
+
+		public MyMasterMindComparisonDetail(MyMasterMindEvaluationColors contribution, int otherColumn)
+		{
+			Contribution = contribution;
+			OtherColumn = otherColumn;
+		}
+	}
+
 	public interface IMasterMindGuessModel
 	{
 		IMasterMindCodeModel GetCode();
@@ -59,6 +79,14 @@
 		/// </summary>
 		/// <returns></returns>
 		int GetFirstBadEvaluation();
+
+		/// <summary>
+		/// For each field of the current (unevaluated) guess: whether it would count as
+		/// a black or a white evaluation against the guess in the given row (including
+		/// the matched column of that row), or does not contribute (None).
+		/// </summary>
+		/// <returns></returns>
+		MyMasterMindComparisonDetail[] GetComparisonDetails(int row);
 		#endregion
 
 	}

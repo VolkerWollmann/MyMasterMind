@@ -7,9 +7,39 @@ using System.Linq;
 
 namespace MyMasterMind.ViewModel
 {
-	using ComputerPlayInformation = Tuple<int, CellMark>;
 	public class MyMasterMindViewModel
 	{
+		private enum ComputerPlayAction
+		{
+			MarkRow,        // mark a whole guess row (green/red flash)
+			MarkField,      // mark a single field of the current guess with its contribution
+			UnmarkField,    // remove the mark from a single field of the current guess
+			ShowEvaluation, // show black/white counts in the current guess row
+		}
+
+		private class ComputerPlayInformation
+		{
+			public ComputerPlayAction Action { get; private set; }
+			public int Row { get; private set; }
+			public CellMark Mark { get; private set; }
+			public int Column { get; private set; }
+			public MyMasterMindEvaluationColors Contribution { get; private set; }
+			public int Black { get; private set; }
+			public int White { get; private set; }
+
+			public static ComputerPlayInformation MarkRow(int row, CellMark mark)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.MarkRow, Row = row, Mark = mark };
+
+			public static ComputerPlayInformation MarkField(int row, int column, MyMasterMindEvaluationColors contribution)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.MarkField, Row = row, Column = column, Contribution = contribution };
+
+			public static ComputerPlayInformation UnmarkField(int row, int column)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.UnmarkField, Row = row, Column = column };
+
+			public static ComputerPlayInformation ShowEvaluation(int black, int white)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.ShowEvaluation, Black = black, White = white };
+		}
+
         readonly IMasterMindBoardView MasterMindBoard;
         readonly IMasterMindCommandView MasterMindCommands;
 		IMasterMindGameModel Game;
@@ -75,19 +105,35 @@ namespace MyMasterMind.ViewModel
 		{
 
 			IMasterMindGuessModel guess = Game.GetCurrentGuess();
+			int currentGuessRow = Game.GetCurrentGuessRow();
 			if (guess != null)
 			{
-				int currentGuessRow = Game.GetCurrentGuessRow();
                 MasterMindBoard.SetGuessColors(currentGuessRow, guess.GetCode().Colors);
-				
-				if (guess.GetEvaluation() != null )
+
+				if (e.UserState == null && guess.GetEvaluation() != null )
 					MasterMindBoard.SetGuessEvaluation(currentGuessRow, guess.GetEvaluation().Black, guess.GetEvaluation().White);
 			}
 
-			if (e.UserState != null)
+			if (e.UserState is ComputerPlayInformation computerPlayInformation)
 			{
-				ComputerPlayInformation computerPlayInformation = (ComputerPlayInformation)e.UserState;
-				MasterMindBoard.MarkGuessCell(computerPlayInformation.Item1, computerPlayInformation.Item2);
+				switch (computerPlayInformation.Action)
+				{
+					case ComputerPlayAction.MarkRow:
+						MasterMindBoard.MarkGuessCell(computerPlayInformation.Row, computerPlayInformation.Mark);
+						break;
+
+					case ComputerPlayAction.MarkField:
+						MasterMindBoard.MarkGuessField(computerPlayInformation.Row, computerPlayInformation.Column, computerPlayInformation.Contribution);
+						break;
+
+					case ComputerPlayAction.UnmarkField:
+						MasterMindBoard.UnmarkGuessField(computerPlayInformation.Row, computerPlayInformation.Column);
+						break;
+
+					case ComputerPlayAction.ShowEvaluation:
+						MasterMindBoard.SetGuessEvaluation(currentGuessRow, computerPlayInformation.Black, computerPlayInformation.White);
+						break;
+				}
 			}
 		}
 
@@ -118,19 +164,54 @@ namespace MyMasterMind.ViewModel
 						for (int j = jMax-1; j > firstBadEvaluation; j--)
 						{
 							// show the good evaluation
-							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.CompareTrue));
-							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
-							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(j, CellMark.None));
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkRow(j, CellMark.CompareTrue));
 							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
 
+							// step through the fields of the current guess and show which one
+							// counts as a black evaluation, which one as a white evaluation
+							// and which one does not contribute against the green row;
+							// mark the matched field of the green row at the same time
+							MyMasterMindComparisonDetail[] comparisonDetails = Game.GetComparisonDetails(j);
+							int black = 0;
+							int white = 0;
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowEvaluation(black, white));
+							for (int k = 0; k < MyMasterMindConstants.Columns; k++)
+							{
+								MyMasterMindComparisonDetail detail = comparisonDetails[k];
+
+								if (detail.Contribution == MyMasterMindEvaluationColors.Black)
+									black++;
+								else if (detail.Contribution == MyMasterMindEvaluationColors.White)
+									white++;
+
+								BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkField(jMax, k, detail.Contribution));
+								if (detail.OtherColumn >= 0)
+									BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkField(j, detail.OtherColumn, detail.Contribution));
+								BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowEvaluation(black, white));
+								System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
+								BackgroundWorker.ReportProgress(0, ComputerPlayInformation.UnmarkField(jMax, k));
+								if (detail.OtherColumn >= 0)
+									BackgroundWorker.ReportProgress(0, ComputerPlayInformation.UnmarkField(j, detail.OtherColumn));
+
+								if (BackgroundWorker.CancellationPending)
+								{
+									BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkRow(j, CellMark.None));
+									return;
+								}
+							}
+
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkRow(j, CellMark.None));
+							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GoodGuessDisplayTime);
 						}
 
 						if (firstBadEvaluation > -1)
 						{
-							// show the first bad evaluation
-							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.CompareFalse));
+							// show the first bad evaluation and clear the black and white
+							// counts shown for the rejected guess
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkRow(firstBadEvaluation, CellMark.CompareFalse));
 							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.BadGuessDisplayTime);
-							BackgroundWorker.ReportProgress(0, new ComputerPlayInformation(firstBadEvaluation, CellMark.None));
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkRow(firstBadEvaluation, CellMark.None));
+							BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowEvaluation(0, 0));
 							System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.BadGuessDisplayTime);
 						}
 

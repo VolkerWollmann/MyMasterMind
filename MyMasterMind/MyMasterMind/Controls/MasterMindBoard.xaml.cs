@@ -55,6 +55,16 @@ namespace MyMasterMind.Controls
 			GuessCells[row].Mark(mark);
 		}
 
+		public void MarkGuessField(int row, int column, MyMasterMindEvaluationColors contribution)
+		{
+			GuessCells[row].MarkField(column, contribution);
+		}
+
+		public void UnmarkGuessField(int row, int column)
+		{
+			GuessCells[row].UnmarkField(column);
+		}
+
 		public MyMasterMindCodeColors[] GetGuessColors(int row)
         {
             MyMasterMindCodeColors[] guessColors = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
@@ -79,6 +89,8 @@ namespace MyMasterMind.Controls
                 SetGuessColors(i, emptyColorsArray);
                 SetGuessEvaluation(i, 0, 0);
                 MarkGuessCell(i, CellMark.None);
+                for (int j = 0; j < MyMasterMindConstants.Columns; j++)
+                    UnmarkGuessField(i, j);
             }
         }
 		

@@ -66,6 +66,20 @@ namespace MyMasterMind.Controls
 			return Color;
 		}
 
+		public void MarkContribution(MyMasterMindEvaluationColors contribution)
+		{
+			CodeFieldStackPanel.Background = new SolidColorBrush(Colors.LightGreen);
+			CodeFieldRectangle.Stroke = DisplayColors.GetEvaluationBrush(contribution);
+			CodeFieldRectangle.StrokeThickness = 4;
+		}
+
+		public void UnmarkContribution()
+		{
+			CodeFieldStackPanel.Background = null;
+			CodeFieldRectangle.Stroke = new SolidColorBrush(Colors.DarkMagenta);
+			CodeFieldRectangle.StrokeThickness = 2;
+		}
+
 		public void EnableMenu()
 		{
             if (CodeFieldStackPanel.ContextMenu != null)

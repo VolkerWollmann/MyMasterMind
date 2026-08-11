@@ -105,6 +105,11 @@ namespace MyMasterMind.Model
 			CurrentGuess.Increment();
 		}
 
+		public MyMasterMindComparisonDetail[] GetComparisonDetails(int row)
+		{
+			return CurrentGuess.Code.CompareDetails(Guesses[row].Code);
+		}
+
 		public int GetFirstBadEvaluation()
 		{
 			for(int i= CurrentGuessIndex-1; i >= 0; i-- )

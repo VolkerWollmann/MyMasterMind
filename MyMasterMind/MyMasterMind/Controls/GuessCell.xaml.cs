@@ -62,6 +62,16 @@ namespace MyMasterMind.Controls
 			}
 		}
 
+		internal void MarkField(int column, MyMasterMindEvaluationColors contribution)
+		{
+			Field[column].MarkContribution(contribution);
+		}
+
+		internal void UnmarkField(int column)
+		{
+			Field[column].UnmarkContribution();
+		}
+
 		internal void HideEvaluation()
 		{
 			Evaluation.ToList().ForEach(r => { r.Visibility = Visibility.Hidden; });
