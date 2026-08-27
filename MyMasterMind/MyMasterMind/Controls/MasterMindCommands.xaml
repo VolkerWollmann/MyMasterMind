@@ -10,11 +10,19 @@
             <Button Name="ButtonCommandClear"  IsEnabled="True" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Clear</Bold></TextBlock>
             </Button>
+            <TextBlock Margin="10,5,10,0"><Bold>Strategy</Bold></TextBlock>
+            <ComboBox Name="ComboBoxStrategy" Margin="10,5,10,10" SelectedIndex="0">
+                <ComboBoxItem Content="Enumeration"/>
+                <ComboBoxItem Content="Genetic"/>
+            </ComboBox>
             <Button Name="ButtonCommandComputerFast" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold> Computer (fast)</Bold></TextBlock>
             </Button>
             <Button Name="ButtonCommandComputerSlow" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold> Computer (slow)</Bold></TextBlock>
+            </Button>
+            <Button Name="ButtonCommandComputerStep" Height="50" Margin="10,10,10,10" >
+                <TextBlock><Bold> Computer (step)</Bold></TextBlock>
             </Button>
             <Button Name="ButtonCommandCancel" IsEnabled="True"  Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Cancel</Bold></TextBlock>
@@ -25,6 +33,7 @@
             <Button Name="ButtonCommandCheck" Height="50" Margin="10,10,10,10" >
                 <TextBlock><Bold>Check</Bold></TextBlock>
             </Button>
+            <TextBlock Name="TextBlockStatus" Margin="10,5,10,10" TextWrapping="Wrap"/>
         </StackPanel>
     </Border>
 </UserControl>

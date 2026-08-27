@@ -23,6 +23,13 @@
 		/// </summary>
 		void UnmarkGuessField(int row, int column);
 
+		/// <summary>
+		/// Mark a single field of a guess row with the origin of its gene in the
+		/// genetic search: first parent, second parent or mutation.
+		/// UnmarkGuessField removes the mark.
+		/// </summary>
+		void MarkGuessFieldOrigin(int row, int column, GeneticGeneOrigin origin);
+
         void Clear();
     }
 }

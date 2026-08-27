@@ -73,11 +73,37 @@ namespace MyMasterMind.Controls
 			CodeFieldRectangle.StrokeThickness = 4;
 		}
 
+		public void MarkOrigin(GeneticGeneOrigin origin)
+		{
+			switch (origin)
+			{
+				case GeneticGeneOrigin.FirstParent:
+					CodeFieldRectangle.Stroke = new SolidColorBrush(Colors.DodgerBlue);
+					break;
+
+				case GeneticGeneOrigin.SecondParent:
+					CodeFieldRectangle.Stroke = new SolidColorBrush(Colors.DarkOrange);
+					break;
+
+				case GeneticGeneOrigin.Mutation:
+					CodeFieldRectangle.Stroke = new SolidColorBrush(Colors.Red);
+					CodeFieldRectangle.StrokeDashArray = new DoubleCollection { 2, 1 };
+					break;
+
+				default:
+					UnmarkContribution();
+					return;
+			}
+
+			CodeFieldRectangle.StrokeThickness = 4;
+		}
+
 		public void UnmarkContribution()
 		{
 			CodeFieldStackPanel.Background = null;
 			CodeFieldRectangle.Stroke = new SolidColorBrush(Colors.DarkMagenta);
 			CodeFieldRectangle.StrokeThickness = 2;
+			CodeFieldRectangle.StrokeDashArray = null;
 		}
 
 		public void EnableMenu()

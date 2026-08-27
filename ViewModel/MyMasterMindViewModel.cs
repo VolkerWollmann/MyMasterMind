@@ -15,6 +15,8 @@ namespace MyMasterMind.ViewModel
 			MarkField,      // mark a single field of the current guess with its contribution
 			UnmarkField,    // remove the mark from a single field of the current guess
 			ShowEvaluation, // show black/white counts in the current guess row
+			ShowStatus,     // show a status text in the command panel
+			MarkOrigin,     // mark a single field of the current guess with its gene origin
 		}
 
 		private class ComputerPlayInformation
@@ -26,6 +28,8 @@ namespace MyMasterMind.ViewModel
 			public MyMasterMindEvaluationColors Contribution { get; private set; }
 			public int Black { get; private set; }
 			public int White { get; private set; }
+			public string Status { get; private set; }
+			public GeneticGeneOrigin Origin { get; private set; }
 
 			public static ComputerPlayInformation MarkRow(int row, CellMark mark)
 				=> new ComputerPlayInformation { Action = ComputerPlayAction.MarkRow, Row = row, Mark = mark };
@@ -38,6 +42,12 @@ namespace MyMasterMind.ViewModel
 
 			public static ComputerPlayInformation ShowEvaluation(int black, int white)
 				=> new ComputerPlayInformation { Action = ComputerPlayAction.ShowEvaluation, Black = black, White = white };
+
+			public static ComputerPlayInformation ShowStatus(string status)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.ShowStatus, Status = status };
+
+			public static ComputerPlayInformation MarkOrigin(int row, int column, GeneticGeneOrigin origin)
+				=> new ComputerPlayInformation { Action = ComputerPlayAction.MarkOrigin, Row = row, Column = column, Origin = origin };
 		}
 
         readonly IMasterMindBoardView MasterMindBoard;
@@ -80,6 +90,7 @@ namespace MyMasterMind.ViewModel
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Clear,        ClearCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerSlow, ComputerSlowCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerFast, ComputerFastCommand);
+			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.ComputerStep, ComputerStepCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Cancel,       CancelCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.User,         UserCommand);
 			MasterMindCommands.SetCommandEventHandler(MyMasterMindCommands.Check,        CheckCommand);
@@ -93,13 +104,33 @@ namespace MyMasterMind.ViewModel
 		private void ClearCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
+			MasterMindCommands.SetStatusText(string.Empty);
 			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel});
-			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.ComputerStep, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 		}
 
 		#region Computer Command
 		MyMasterMindCommands ComputerCommand;
+		MyMasterMindStrategy Strategy;
 		BackgroundWorker BackgroundWorker;
+
+		// signaled by the step button while a single-step run is in progress
+		readonly System.Threading.AutoResetEvent StepEvent = new System.Threading.AutoResetEvent(false);
+
+		/// <summary>
+		/// Block the worker until the user clicks the step button.
+		/// Returns false when the run was cancelled instead.
+		/// </summary>
+		private bool WaitForStep()
+		{
+			while (!StepEvent.WaitOne(100))
+			{
+				if (BackgroundWorker.CancellationPending)
+					return false;
+			}
+
+			return true;
+		}
 
 		private void BackgroundWorkerComputerProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
@@ -133,6 +164,14 @@ namespace MyMasterMind.ViewModel
 					case ComputerPlayAction.ShowEvaluation:
 						MasterMindBoard.SetGuessEvaluation(currentGuessRow, computerPlayInformation.Black, computerPlayInformation.White);
 						break;
+
+					case ComputerPlayAction.ShowStatus:
+						MasterMindCommands.SetStatusText(computerPlayInformation.Status);
+						break;
+
+					case ComputerPlayAction.MarkOrigin:
+						MasterMindBoard.MarkGuessFieldOrigin(computerPlayInformation.Row, computerPlayInformation.Column, computerPlayInformation.Origin);
+						break;
 				}
 			}
 		}
@@ -143,7 +182,12 @@ namespace MyMasterMind.ViewModel
 
 			for (int i = 0; i < MyMasterMindConstants.Rows; i++)
 			{
-				if (ComputerCommand == MyMasterMindCommands.ComputerSlow)
+				if (Strategy == MyMasterMindStrategy.Genetic)
+				{
+					if (!PlayGeneticRow())
+						return;
+				}
+				else if (ComputerCommand == MyMasterMindCommands.ComputerSlow || ComputerCommand == MyMasterMindCommands.ComputerStep)
 				{
 					int firstBadEvaluation;
 
@@ -218,6 +262,13 @@ namespace MyMasterMind.ViewModel
 						if (BackgroundWorker.CancellationPending)
 							return;
 
+						// single step: wait for the next click before trying the next candidate
+						if (ComputerCommand == MyMasterMindCommands.ComputerStep && firstBadEvaluation > -1)
+						{
+							if (!WaitForStep())
+								return;
+						}
+
 					} while (firstBadEvaluation > -1);
 				}
 				else
@@ -234,24 +285,144 @@ namespace MyMasterMind.ViewModel
 				if (Game.Finished())
 					break;
 			}
+
+			if (Strategy == MyMasterMindStrategy.Genetic)
+			{
+				BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowStatus(Game.Finished()
+					? $"Solved in row {Game.GetCurrentGuessRow() + 1}."
+					: $"Failed: code not found within {MyMasterMindConstants.Rows} rows."));
+			}
+		}
+
+		/// <summary>
+		/// Play one row with the genetic strategy. In slow mode the best individual
+		/// of every generation is shown in the current row together with a status
+		/// text. Returns false when the user cancelled.
+		/// </summary>
+		private bool PlayGeneticRow()
+		{
+			Game.StartGeneticGuess();
+			int row = Game.GetCurrentGuessRow();
+
+			bool finished;
+			do
+			{
+				finished = Game.GeneticStep();
+
+				if (ComputerCommand == MyMasterMindCommands.ComputerSlow || ComputerCommand == MyMasterMindCommands.ComputerStep)
+				{
+					IGeneticGenerationInfo info = Game.GetGeneticGenerationInfo();
+					BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowStatus(
+						$"Row {row + 1}: generation {info.Generation}, best fitness {info.BestFitness}"
+						+ DescribeRecombination(info)));
+
+					bool marked = MarkBestOrigins(row, info);
+
+					// single step: keep the generation on display until the next click
+					bool cancelled = false;
+					if (ComputerCommand == MyMasterMindCommands.ComputerStep)
+						cancelled = !WaitForStep();
+					else
+						System.Threading.Thread.Sleep(MyMasterMindBoarViewConstants.GenerationDisplayTime);
+
+					if (marked)
+						UnmarkAllFields(row);
+					if (cancelled)
+						return false;
+				}
+
+				if (BackgroundWorker.CancellationPending)
+					return false;
+
+			} while (!finished);
+
+			Game.CommitGeneticGuess();
+
+			IGeneticGenerationInfo result = Game.GetGeneticGenerationInfo();
+			if (!result.Consistent)
+			{
+				BackgroundWorker.ReportProgress(0, ComputerPlayInformation.ShowStatus(
+					$"Row {Game.GetCurrentGuessRow() + 1}: no consistent code within {result.Generation} generations, playing best individual."));
+			}
+
+			if (ComputerCommand == MyMasterMindCommands.ComputerFast)
+				System.Threading.Thread.Sleep(500);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Textual description of how the best individual was created, matching the
+		/// field marks: blue = first parent, orange = second parent, red = mutation.
+		/// </summary>
+		private static string DescribeRecombination(IGeneticGenerationInfo info)
+		{
+			if (info.BestCrossoverPoint == 0)
+			{
+				return info.BestOrigins[0] == GeneticGeneOrigin.Carried
+					? "\nbest carried over unchanged"
+					: "\nrandom start individual";
+			}
+
+			string text = $"\ncrossover after position {info.BestCrossoverPoint} (blue | orange)";
+
+			List<int> mutations = new List<int>();
+			for (int i = 0; i < MyMasterMindConstants.Columns; i++)
+			{
+				if (info.BestOrigins[i] == GeneticGeneOrigin.Mutation)
+					mutations.Add(i + 1);
+			}
+			if (mutations.Count > 0)
+				text += $", mutation at {string.Join(",", mutations)} (red)";
+
+			return text;
+		}
+
+		/// <summary>
+		/// Mark the fields of the best individual with the origin of their genes.
+		/// Only bred individuals are marked; returns whether marks were set.
+		/// </summary>
+		private bool MarkBestOrigins(int row, IGeneticGenerationInfo info)
+		{
+			if (info.BestCrossoverPoint == 0)
+				return false;
+
+			for (int column = 0; column < MyMasterMindConstants.Columns; column++)
+				BackgroundWorker.ReportProgress(0, ComputerPlayInformation.MarkOrigin(row, column, info.BestOrigins[column]));
+
+			return true;
+		}
+
+		private void UnmarkAllFields(int row)
+		{
+			for (int column = 0; column < MyMasterMindConstants.Columns; column++)
+				BackgroundWorker.ReportProgress(0, ComputerPlayInformation.UnmarkField(row, column));
 		}
 
 		private void BackGroundComputerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
-			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
+			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.ComputerStep, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 		}
 
 
 		private void ExecuteComputerCommand(MyMasterMindCommands command)
 		{
             ComputerCommand = command;
+			Strategy = MasterMindCommands.GetSelectedStrategy();
+			MasterMindCommands.SetStatusText(string.Empty);
+			StepEvent.Reset();
 			ClearBoard();
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Cancel });
-			DisableCommands(new List<MyMasterMindCommands>() { 
-				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, 
-				MyMasterMindCommands.User,         MyMasterMindCommands.Clear, 
+			DisableCommands(new List<MyMasterMindCommands>() {
+				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast,
+				MyMasterMindCommands.ComputerStep,
+				MyMasterMindCommands.User,         MyMasterMindCommands.Clear,
 				MyMasterMindCommands.Check });
+
+			// in single-step mode the step button stays enabled: it advances the run
+			if (command == MyMasterMindCommands.ComputerStep)
+				EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerStep });
 
 			Game = new MyMasterMindGame();
             BackgroundWorker = new BackgroundWorker {WorkerReportsProgress = true};
@@ -273,6 +444,19 @@ namespace MyMasterMind.ViewModel
 			UserPlaying = false;
             ExecuteComputerCommand(MyMasterMindCommands.ComputerFast);
 		}
+
+		private void ComputerStepCommand(object sender, EventArgs e)
+		{
+			// while a single-step run is in progress the button advances it by one step
+			if (BackgroundWorker != null && BackgroundWorker.IsBusy && ComputerCommand == MyMasterMindCommands.ComputerStep)
+			{
+				StepEvent.Set();
+				return;
+			}
+
+			UserPlaying = false;
+			ExecuteComputerCommand(MyMasterMindCommands.ComputerStep);
+		}
 		#endregion
 
 		private void CancelCommand(object sender, EventArgs e)
@@ -284,10 +468,12 @@ namespace MyMasterMind.ViewModel
 		private void UserCommand(object sender, EventArgs e)
 		{
 			ClearBoard();
+			MasterMindCommands.SetStatusText(string.Empty);
 
 			EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Clear });
-			DisableCommands(new List<MyMasterMindCommands>() { 
-				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, 
+			DisableCommands(new List<MyMasterMindCommands>() {
+				MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast,
+				MyMasterMindCommands.ComputerStep,
 				MyMasterMindCommands.User,         MyMasterMindCommands.Cancel,
 			    MyMasterMindCommands.Check});
 
@@ -326,7 +512,7 @@ namespace MyMasterMind.ViewModel
 			{
 				ShowCode();
 				DisableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.Check, MyMasterMindCommands.Cancel });
-				EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
+				EnableCommands(new List<MyMasterMindCommands>() { MyMasterMindCommands.ComputerSlow, MyMasterMindCommands.ComputerFast, MyMasterMindCommands.ComputerStep, MyMasterMindCommands.User, MyMasterMindCommands.Clear });
 				return;
 			}
 			MasterMindBoard.MarkGuessCell(currentGuessRow, CellMark.ForInput );

@@ -123,5 +123,37 @@ namespace MyMasterMind.Model
 			return -1;
 		}
 		#endregion
+
+		#region Computer plays with genetic strategy
+		private GeneticEngine GeneticEngine;
+
+		public bool StartGeneticGuess()
+		{
+			CurrentGuessIndex++;
+			GeneticEngine = new GeneticEngine(GetGuessesSoFarAsList());
+
+			return true;
+		}
+
+		public bool GeneticStep()
+		{
+			bool finished = GeneticEngine.NextGeneration();
+			CurrentGuess = new Guess(GeneticEngine.Best.Colors);
+
+			return finished;
+		}
+
+		public IGeneticGenerationInfo GetGeneticGenerationInfo()
+		{
+			return GeneticEngine;
+		}
+
+		public IMasterMindGuessModel CommitGeneticGuess()
+		{
+			CurrentGuess.Evaluate(Code);
+
+			return CurrentGuess;
+		}
+		#endregion
 	}
 }

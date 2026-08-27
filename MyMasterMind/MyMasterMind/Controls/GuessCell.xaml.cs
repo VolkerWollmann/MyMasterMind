@@ -67,6 +67,11 @@ namespace MyMasterMind.Controls
 			Field[column].MarkContribution(contribution);
 		}
 
+		internal void MarkFieldOrigin(int column, GeneticGeneOrigin origin)
+		{
+			Field[column].MarkOrigin(origin);
+		}
+
 		internal void UnmarkField(int column)
 		{
 			Field[column].UnmarkContribution();

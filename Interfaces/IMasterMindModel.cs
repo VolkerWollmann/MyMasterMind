@@ -38,6 +38,49 @@
 		IMasterMindEvaluationModel GetEvaluation();
 	}
 
+	/// <summary>
+	/// How a single gene (column) of an individual of the genetic search came to be:
+	/// from the initial random population, carried over unchanged as an elite, taken
+	/// from the first or second parent by crossover, or created by mutation.
+	/// </summary>
+	public enum GeneticGeneOrigin
+	{
+		Random = 0,
+		Carried,
+		FirstParent,
+		SecondParent,
+		Mutation,
+	}
+
+	/// <summary>
+	/// State of the genetic search for the guess of the current row.
+	/// </summary>
+	public interface IGeneticGenerationInfo
+	{
+		int Generation { get; }
+
+		/// <summary>
+		/// Fitness of the best individual: total deviation of its comparison against
+		/// the guesses so far from their recorded evaluations. 0 means consistent.
+		/// </summary>
+		int BestFitness { get; }
+
+		bool Consistent { get; }
+
+		/// <summary>
+		/// Origin of each gene of the best individual, so the recombination that
+		/// created it can be visualized.
+		/// </summary>
+		GeneticGeneOrigin[] BestOrigins { get; }
+
+		/// <summary>
+		/// Crossover point of the best individual: genes before it come from the
+		/// first parent, genes from it on from the second. 0 if the best individual
+		/// was not bred (random start individual or carried-over elite).
+		/// </summary>
+		int BestCrossoverPoint { get; }
+	}
+
 	public interface  IMasterMindGameModel
 	{
 		IMasterMindCodeModel GetCode();
@@ -89,5 +132,30 @@
 		MyMasterMindComparisonDetail[] GetComparisonDetails(int row);
 		#endregion
 
+		#region Computer plays with genetic strategy
+		/// <summary>
+		/// Start the genetic search for the guess of the next row: advances to the
+		/// next row and creates a fresh random population.
+		/// </summary>
+		bool StartGeneticGuess();
+
+		/// <summary>
+		/// Evolve the population by one generation and make the best individual the
+		/// current (unevaluated) guess. Returns true when the search is finished:
+		/// either the best individual is consistent with all guesses so far, or the
+		/// generation limit is reached — the genetic strategy is allowed to fail.
+		/// </summary>
+		bool GeneticStep();
+
+		/// <summary>
+		/// State of the genetic search started with StartGeneticGuess.
+		/// </summary>
+		IGeneticGenerationInfo GetGeneticGenerationInfo();
+
+		/// <summary>
+		/// Play the best individual found: evaluate the current guess against the code.
+		/// </summary>
+		IMasterMindGuessModel CommitGeneticGuess();
+		#endregion
 	}
 }

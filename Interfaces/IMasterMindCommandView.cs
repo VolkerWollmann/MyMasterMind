@@ -12,5 +12,14 @@ namespace MyMasterMind.Interfaces
 
 		bool GetButtonState(MyMasterMindCommands command);
 
+		/// <summary>
+		/// Strategy the computer shall use for its guesses, as selected by the user.
+		/// </summary>
+		MyMasterMindStrategy GetSelectedStrategy();
+
+		/// <summary>
+		/// Show a status text, e.g. the progress of the genetic search.
+		/// </summary>
+		void SetStatusText(string text);
 	}
 }

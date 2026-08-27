@@ -11,7 +11,7 @@ namespace MyMasterMind.Controls
 	public partial class MasterMindCommands : IMasterMindCommandView
 	{
 		private readonly Dictionary<MyMasterMindCommands, EventHandler> EventHandler;
-		private readonly bool[] State = new bool[6];
+		private readonly bool[] State = new bool[Enum.GetNames(typeof(MyMasterMindCommands)).Length];
 		public MasterMindCommands()
 		{
 			InitializeComponent();
@@ -22,6 +22,7 @@ namespace MyMasterMind.Controls
 			this.ButtonCommandClear.Command = new ButtonCommand(this, MyMasterMindCommands.Clear);
 			this.ButtonCommandComputerFast.Command = new ButtonCommand(this, MyMasterMindCommands.ComputerFast);
 			this.ButtonCommandComputerSlow.Command = new ButtonCommand(this, MyMasterMindCommands.ComputerSlow);
+			this.ButtonCommandComputerStep.Command = new ButtonCommand(this, MyMasterMindCommands.ComputerStep);
 			this.ButtonCommandUser.Command = new ButtonCommand(this, MyMasterMindCommands.User);
 		}
 
@@ -63,6 +64,10 @@ namespace MyMasterMind.Controls
 					ButtonCommandComputerSlow.IsEnabled = state;
 					break;
 
+				case MyMasterMindCommands.ComputerStep:
+					ButtonCommandComputerStep.IsEnabled = state;
+					break;
+
 				case MyMasterMindCommands.User:
 					ButtonCommandUser.IsEnabled = state;
 					break;
@@ -85,6 +90,16 @@ namespace MyMasterMind.Controls
 		public void SetButtonState(MyMasterMindCommands command, bool state)
 		{
 			SetButton(command, state);
+		}
+
+		public MyMasterMindStrategy GetSelectedStrategy()
+		{
+			return ComboBoxStrategy.SelectedIndex == 1 ? MyMasterMindStrategy.Genetic : MyMasterMindStrategy.Enumeration;
+		}
+
+		public void SetStatusText(string text)
+		{
+			TextBlockStatus.Text = text;
 		}
 
         #endregion

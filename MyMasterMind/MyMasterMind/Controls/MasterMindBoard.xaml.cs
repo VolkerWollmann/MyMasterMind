@@ -65,6 +65,11 @@ namespace MyMasterMind.Controls
 			GuessCells[row].UnmarkField(column);
 		}
 
+		public void MarkGuessFieldOrigin(int row, int column, GeneticGeneOrigin origin)
+		{
+			GuessCells[row].MarkFieldOrigin(column, origin);
+		}
+
 		public MyMasterMindCodeColors[] GetGuessColors(int row)
         {
             MyMasterMindCodeColors[] guessColors = new MyMasterMindCodeColors[MyMasterMindConstants.Columns];
